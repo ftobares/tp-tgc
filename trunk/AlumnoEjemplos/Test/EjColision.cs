@@ -40,15 +40,11 @@ namespace Examples.Collision.SphereCollision
     {
         PersonajeController personajeController;
         List<TgcBoundingBox> objetosColisionables = new List<TgcBoundingBox>();
-        TgcBoundingSphere characterSphere;
-        TgcArrow directionArrow;
-        TgcScene escenario;
-        SphereCollisionManager collisionManager;
+        TgcScene escenario;        
         List<TgcMesh> objectsBehind = new List<TgcMesh>();
         List<TgcMesh> objectsInFront = new List<TgcMesh>();
         TgcSkyBox skyBox;        
 
-        bool renderDirectionArrow;
         bool verLasEsferas;
 
         public override string getCategory()
@@ -69,7 +65,6 @@ namespace Examples.Collision.SphereCollision
         private void setConfigVars()
         {
             verLasEsferas = false; //ver las esferas amarillas
-            renderDirectionArrow = false; //ver la linea de direccion
         }
 
         public override void init()
@@ -83,11 +78,7 @@ namespace Examples.Collision.SphereCollision
             escenario = loader.loadSceneFromFile(GuiController.Instance.ExamplesDir + "\\Collision\\SphereCollision\\PatioDeJuegos\\PatioDeJuegos-TgcScene.xml");
 
             personajeController = new PersonajeController();
-
-            //BoundingSphere que va a usar el personaje
-            characterSphere = new TgcBoundingSphere(personajeController.getPersonaje().BoundingBox.calculateBoxCenter(), personajeController.getPersonaje().BoundingBox.calculateBoxRadius());
-
-
+                        
             //Almacenar volumenes de colision del escenario
             objetosColisionables.Clear();
             foreach (TgcMesh mesh in escenario.Meshes)
@@ -95,20 +86,9 @@ namespace Examples.Collision.SphereCollision
                 objetosColisionables.Add(mesh.BoundingBox);
             }
 
+            personajeController.setObjetosColisionables(objetosColisionables);
 
-            //Crear linea para mostrar la direccion del movimiento del personaje
-            directionArrow = new TgcArrow();
-            directionArrow.BodyColor = Color.Red;
-            directionArrow.HeadColor = Color.Green;
-            directionArrow.Thickness = 1;
-            directionArrow.HeadSize = new Vector2(10, 20);
-
-            //Crear manejador de colisiones
-            collisionManager = new SphereCollisionManager();
-            collisionManager.GravityEnabled = true;
-
-
-            //Configurar camara en Tercer Persona
+             //Configurar camara en Tercer Persona
             GuiController.Instance.ThirdPersonCamera.Enable = true;
             GuiController.Instance.ThirdPersonCamera.setCamera(personajeController.getPersonaje().Position, 100, -400);
             GuiController.Instance.ThirdPersonCamera.TargetDisplacement = new Vector3(0, 100, 0);
@@ -153,128 +133,12 @@ namespace Examples.Collision.SphereCollision
             float velocidadRotacion = (float)GuiController.Instance.Modifiers.getValue("VelocidadRotacion");
 
 
-            //Calcular proxima posicion de personaje segun Input
-            float moveForward = 0f;
-            float rotate = 0;
-            float jump = 0;
             TgcD3dInput d3dInput = GuiController.Instance.D3dInput;
-            bool moving = false;
-            bool rotating = false;
-            bool running = false;                        
-            string animationAction = "StandBy";
-
-            TgcSkeletalMesh personaje = personajeController.getPersonaje();
-
-            //Adelante
-            if (d3dInput.keyDown(Key.W))
-            {
-                moveForward = -velocidadCaminar;
-                moving = true;
-            }
-
-            //Atras
-            if (d3dInput.keyDown(Key.S))
-            {
-                moveForward = velocidadCaminar;
-                moving = true;
-            }
-
-            //Derecha
-            if (d3dInput.keyDown(Key.D))
-            {
-                rotate = velocidadRotacion;
-                rotating = true;
-            }
-
-            //Izquierda
-            if (d3dInput.keyDown(Key.A))
-            {
-                rotate = -velocidadRotacion;
-                rotating = true;
-            }
-
-            //Jump
-            if (d3dInput.keyDown(Key.Space))
-            {
-                jump = 30;
-                moving = true;
-            }
-            //Run
-            if (d3dInput.keyDown(Key.LeftShift))
-            {
-                running = true;
-                moveForward *= 1.5f;
-            }
-
-            if (d3dInput.keyDown(Key.E))
-            {
-                animationAction = "Talk";
-            }
-
-            //Si hubo rotacion
-            if (rotating)
-            {
-                //Rotar personaje y la camara, hay que multiplicarlo por el tiempo transcurrido para no atarse a la velocidad el hardware
-                float rotAngle = Geometry.DegreeToRadian(rotate * elapsedTime);
-                personaje.rotateY(rotAngle);
-                GuiController.Instance.ThirdPersonCamera.rotateY(rotAngle);
-            }
-
-            //Si hubo desplazamiento
-            if (moving)
-            {
-                //Activar animacion de caminando
-                if (running)
-                    personaje.playAnimation("Run", true);
-                else
-                    personaje.playAnimation("Walk", true);
-            }
-
-            //Si no se esta moviendo, activar animationAction
-            else
-            {
-                personaje.playAnimation(animationAction, true);
-            }
-
-
-
-            //Vector de movimiento
-            Vector3 movementVector = Vector3.Empty;
-            if (moving)
-            {
-                //Aplicar movimiento, desplazarse en base a la rotacion actual del personaje
-                movementVector = new Vector3(
-                    FastMath.Sin(personaje.Rotation.Y) * moveForward,
-                    jump,
-                    FastMath.Cos(personaje.Rotation.Y) * moveForward
-                    );
-            }
-
-
-            //Actualizar valores de gravedad
-            collisionManager.GravityEnabled = (bool)GuiController.Instance.Modifiers["HabilitarGravedad"];
-            collisionManager.GravityForce = (Vector3)GuiController.Instance.Modifiers["Gravedad"];
-            collisionManager.SlideFactor = (float)GuiController.Instance.Modifiers["SlideFactor"];
-
-
-            //Mover personaje con detección de colisiones, sliding y gravedad
-            Vector3 realMovement = collisionManager.moveCharacter(characterSphere, movementVector, objetosColisionables);
-            personaje.move(realMovement);
+              
+            personajeController.render(elapsedTime);
 
              //Hacer que la camara siga al personaje en su nueva posicion
-            GuiController.Instance.ThirdPersonCamera.Target = personaje.Position;
-
-
-            //Actualizar valores de la linea de movimiento
-            directionArrow.PStart = characterSphere.Center;
-            directionArrow.PEnd = characterSphere.Center + Vector3.Multiply(movementVector, 50);
-            directionArrow.updateValues();
-
-            //Cargar desplazamiento realizar en UserVar
-            GuiController.Instance.UserVars.setValue("Movement", TgcParserUtils.printVector3(realMovement));
-
-
-
+            GuiController.Instance.ThirdPersonCamera.Target = personajeController.getPersonaje().Position;
 
             //Ver cual de las mallas se interponen en la visión de la cámara en 3ra persona.
             objectsBehind.Clear();
@@ -310,17 +174,6 @@ namespace Examples.Collision.SphereCollision
             }
 
 
-
-            //Render personaje
-            personaje.animateAndRender();
-            if (showBB)
-            {
-                characterSphere.render();
-            }
-
-            //Render linea
-            if(renderDirectionArrow)
-                directionArrow.render();
 
             //Render SkyBox
             skyBox.render();
