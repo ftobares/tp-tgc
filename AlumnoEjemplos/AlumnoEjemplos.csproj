@@ -69,6 +69,8 @@
   <ItemGroup>
     <Compile Include="MiGrupo\EjemploAlumno.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Test\EjColision.cs" />
+    <Compile Include="Test\PersonajeController.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TgcViewer\TgcViewer.csproj">
