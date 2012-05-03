@@ -67,11 +67,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Kamikaze3D\EjemploAlumno.cs" />
+    <Compile Include="Kamikaze3D\VOID\DaylightSystem.cs" />
+    <Compile Include="Kamikaze3D\VOID\Render\TgcDefaultRenderQueue.cs" />
+    <Compile Include="Kamikaze3D\VOID\Render\TgcRenderQueue.cs" />
+    <Compile Include="Kamikaze3D\VOID\VoidShader.cs" />
+    <Compile Include="Kamikaze3D\VOID\VoidWorld.cs" />
     <Compile Include="MiGrupo\EjemploAlumno.cs" />
-    <Compile Include="MiGrupo\SphereCollisionManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Test\EjColision.cs" />
     <Compile Include="Test\PersonajeController.cs" />
+    <Compile Include="Test\SphereCollisionManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TgcViewer\TgcViewer.csproj">
