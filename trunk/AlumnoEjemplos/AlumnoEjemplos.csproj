@@ -75,8 +75,9 @@
     <Compile Include="Kamikaze3D\VOID\VoidWorld.cs" />
     <Compile Include="MiGrupo\EjemploAlumno.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Test\Camara.cs" />
     <Compile Include="Test\EjColision.cs" />
-    <Compile Include="Test\PersonajeController.cs" />
+    <Compile Include="Test\MovimientoController.cs" />
     <Compile Include="Test\SphereCollisionManager.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -84,6 +85,28 @@
       <Project>{990E714F-7FF2-4A87-86B1-E5FC8D4C2F4C}</Project>
       <Name>TgcViewer</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AlumnoMedia\Kamikaze3D\Block\Block-TgcScene.xml" />
+    <Content Include="AlumnoMedia\Kamikaze3D\Block\Textures\Concrete-rough.jpg" />
+    <Content Include="AlumnoMedia\Kamikaze3D\Block\Textures\Door Rusty.jpg" />
+    <Content Include="AlumnoMedia\Kamikaze3D\Block\Textures\Floor.jpg" />
+    <Content Include="AlumnoMedia\Kamikaze3D\Block\Textures\GlassPattern.jpg" />
+    <Content Include="AlumnoMedia\Kamikaze3D\Block\Textures\Grass.jpg" />
+    <Content Include="AlumnoMedia\Kamikaze3D\Block\Textures\Grey Bricks.jpg" />
+    <Content Include="AlumnoMedia\Kamikaze3D\Block\Textures\Marble.jpg" />
+    <Content Include="AlumnoMedia\Kamikaze3D\Block\Textures\Metal Pattern.jpg" />
+    <Content Include="AlumnoMedia\Kamikaze3D\Block\Textures\Path.jpg" />
+    <Content Include="AlumnoMedia\Kamikaze3D\Block\Textures\Red Bricks.jpg" />
+    <Content Include="AlumnoMedia\Kamikaze3D\Block\Textures\Road Union.jpg" />
+    <Content Include="AlumnoMedia\Kamikaze3D\Block\Textures\Road.jpg" />
+    <Content Include="AlumnoMedia\Kamikaze3D\Block\Textures\Traffic Light.jpg" />
+    <Content Include="AlumnoMedia\Kamikaze3D\Block\Textures\White Wall.JPG" />
+    <Content Include="AlumnoMedia\Kamikaze3D\Block\Textures\Yellow Painted.jpg" />
+    <Content Include="AlumnoMedia\Kamikaze3D\mira.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
