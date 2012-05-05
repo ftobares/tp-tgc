@@ -38,13 +38,13 @@ namespace Examples.Collision.SphereCollision
     /// </summary>
     public class SphereCollision : TgcExample
     {
-        PersonajeController personajeController;
+        MovimientoController movimientoController;
         List<TgcBoundingBox> objetosColisionables = new List<TgcBoundingBox>();
         TgcScene escenario;        
         List<TgcMesh> objectsBehind = new List<TgcMesh>();
         List<TgcMesh> objectsInFront = new List<TgcMesh>();
-        TgcSkyBox skyBox;        
-
+        TgcSkyBox skyBox;
+        Camara camara;
         bool verLasEsferas;
 
         public override string getCategory()
@@ -76,9 +76,17 @@ namespace Examples.Collision.SphereCollision
             //Cargar escenario específico para este ejemplo
             TgcSceneLoader loader = new TgcSceneLoader();
             escenario = loader.loadSceneFromFile(GuiController.Instance.ExamplesDir + "\\Collision\\SphereCollision\\PatioDeJuegos\\PatioDeJuegos-TgcScene.xml");
+ 
+             //Configurar camara en Tercer Persona
+            camara = new Camara();
+            camara.Enable = true;
+            
+            camara.TargetDisplacement = new Vector3(0, 100, 0);
 
-            personajeController = new PersonajeController();
-                        
+            movimientoController = new MovimientoController(camara);
+
+            camara.setCamera(movimientoController.getPersonaje().Position, 100, -400);
+
             //Almacenar volumenes de colision del escenario
             objetosColisionables.Clear();
             foreach (TgcMesh mesh in escenario.Meshes)
@@ -86,12 +94,7 @@ namespace Examples.Collision.SphereCollision
                 objetosColisionables.Add(mesh.BoundingBox);
             }
 
-            personajeController.setObjetosColisionables(objetosColisionables);
-
-             //Configurar camara en Tercer Persona
-            GuiController.Instance.ThirdPersonCamera.Enable = true;
-            GuiController.Instance.ThirdPersonCamera.setCamera(personajeController.getPersonaje().Position, 100, -400);
-            GuiController.Instance.ThirdPersonCamera.TargetDisplacement = new Vector3(0, 100, 0);
+            movimientoController.setObjetosColisionables(objetosColisionables);
 
             //Crear SkyBox
             skyBox = new TgcSkyBox();
@@ -135,15 +138,15 @@ namespace Examples.Collision.SphereCollision
 
             TgcD3dInput d3dInput = GuiController.Instance.D3dInput;
               
-            personajeController.render(elapsedTime);
+            movimientoController.render(elapsedTime);
 
              //Hacer que la camara siga al personaje en su nueva posicion
-            GuiController.Instance.ThirdPersonCamera.Target = personajeController.getPersonaje().Position;
+            camara.Target = movimientoController.getPersonaje().Position;
 
             //Ver cual de las mallas se interponen en la visión de la cámara en 3ra persona.
             objectsBehind.Clear();
             objectsInFront.Clear();
-            TgcThirdPersonCamera camera = GuiController.Instance.ThirdPersonCamera;
+            Camara camera = camara;
             foreach (TgcMesh mesh in escenario.Meshes)
             {
                 Vector3 q;
