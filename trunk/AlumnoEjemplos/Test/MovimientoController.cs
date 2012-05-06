@@ -19,6 +19,7 @@ namespace AlumnoEjemplos.Test
     class MovimientoController
     {
         TgcSkeletalMesh personaje;
+        Weapon weapon;
         SphereCollisionManager collisionManager;
         TgcBoundingSphere characterSphere;
         TgcArrow directionArrow;
@@ -72,6 +73,9 @@ namespace AlumnoEjemplos.Test
             Cursor.Hide();
 
             camara = camaraParametro;
+
+            weapon = new Weapon(personaje.Position);
+            weapon.visible = false;
            
         }
 
@@ -221,6 +225,7 @@ namespace AlumnoEjemplos.Test
                     
                     float rotAngleY = Geometry.DegreeToRadian(rotateY * elapsedTime);
                     personaje.rotateY(rotAngleY);
+                    weapon.rotateY(rotAngleY);
                     camara.rotateY(rotAngleY);
                 }
                   if (rotatingX)
@@ -277,6 +282,7 @@ namespace AlumnoEjemplos.Test
             //Mover personaje con detección de colisiones, sliding y gravedad
             Vector3 realMovement = collisionManager.moveCharacter(characterSphere, movementVector, objetosColisionables);
             personaje.move(realMovement);
+            weapon.move(realMovement);
 
             //Actualizar valores de la linea de movimiento
             directionArrow.PStart = characterSphere.Center;
@@ -293,7 +299,7 @@ namespace AlumnoEjemplos.Test
 
             //Render personaje
             personaje.animateAndRender();
-
+            weapon.render();
 
            /* //Iniciar dibujado de todos los Sprites de la escena (en este caso es solo uno)
             GuiController.Instance.Drawer2D.beginDrawSprite();
