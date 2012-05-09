@@ -19,12 +19,12 @@ namespace AlumnoEjemplos.Kamikaze3D
     public class Cuadra
     {
 
-        #region Variables Globales
-        TgcScene scene;
-        TgcFrustum frustum;
-        int sceneSize = 2000;
-        #endregion
-
+        private TgcScene scene;
+        private TgcFrustum frustum;
+        private VoidMeshShader[] objects = new VoidMeshShader[23];
+        private Color ambientColor = Color.Black;
+        private Color diffuseColor = Color.FromArgb(160, 160, 88);
+        
         public Cuadra()
         {
             this.frustum = GuiController.Instance.Frustum;
@@ -46,20 +46,113 @@ namespace AlumnoEjemplos.Kamikaze3D
             //Carga el archivo del bloque
             this.scene = loader.loadSceneFromFile(GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\Block\\Block-TgcScene.xml");
 
+            this.loadObjects();
         }
 
         /// <summary>
         /// Método que posiciona las cuadras una al lado de la otra
         /// </summary>
         /// <param name="index">Número de cuadra</param>
-        public void position(int index)
+        public void position(float x, float y, float z)
         {
             //Primer cuadra, no mover
-            if(index == 0)
+            if(x == 0 && y == 0 && z == 0)
                 return ;
 
             foreach(TgcMesh mesh in this.scene.Meshes)
-                mesh.move(this.sceneSize * index+1, 0, 0);
+                mesh.move(x, y, z);
+        }
+
+
+        /// <summary>
+        /// Accede a los distintos objetos de la cuadra para poder aplicarles shaders posteriormente
+        /// </summary>
+        private void loadObjects()
+        {
+            int numeroObjeto = 0;
+
+            //Cargo el bloque de la cuadra del scene
+            this.objects[numeroObjeto] = (VoidMeshShader)this.scene.getMeshByName("Bloque");
+            numeroObjeto++;
+
+            //Cargo la calle o vereda del scene
+            this.objects[numeroObjeto] = (VoidMeshShader)this.scene.getMeshByName("Vereda");
+            numeroObjeto++;
+
+            //Cargo los semaforos del scene
+            foreach (TgcMesh edificio in this.scene.Meshes)
+            {
+                if (String.Compare(edificio.Name, 0, "Semaforo", 0, 8) == 0)
+                {
+                    this.objects[numeroObjeto] = (VoidMeshShader)edificio;
+                    numeroObjeto++;
+                }
+            }
+
+            //Cargo los objetos edificios del scene
+            foreach (TgcMesh edificio in this.scene.Meshes)
+            {
+                if (String.Compare(edificio.Name, 0, "Estructura", 0, 9) == 0)
+                {
+                    this.objects[numeroObjeto] = (VoidMeshShader)edificio;
+                    numeroObjeto++;
+                }
+            }
+
+            this.loadShader();
+
+        }
+
+        /// <summary>
+        /// Carga el shader para cada objeto de la cuadra e inicializa sus valores estaticos
+        /// </summary>
+        private void loadShader()
+        {
+            Microsoft.DirectX.Direct3D.Device d3dDevice = GuiController.Instance.D3dDevice;
+
+            string compilationErrors;
+
+            //Carga el shader
+            foreach (VoidMeshShader obj in this.objects)
+            {
+                obj.Effect = Microsoft.DirectX.Direct3D.Effect.FromFile(d3dDevice, GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\Shader\\VoidShader3.2.fx", null, null, ShaderFlags.None, null, out compilationErrors);
+                if (obj.Effect == null)
+                {
+                    throw new Exception("Error al cargar shader. Errores: " + compilationErrors);
+                }
+
+                //Definir tecnica por default
+                obj.Effect.Technique = "VoidFullTransformationTechnique";
+
+                //Colorea las zonas por defecto del Modelo
+                obj.setColor(Color.White);
+
+                //Cargar variables constantes del shader
+                obj.Effect.SetValue("fvAmbient", ColorValue.FromColor(this.ambientColor));
+                obj.Effect.SetValue("fvDiffuse", ColorValue.FromColor(this.diffuseColor));
+                obj.Effect.SetValue("fvSpecular", ColorValue.FromColor(Color.FromArgb(190, 190, 190)));
+                if (obj.Name == "Bloque")
+                    obj.Effect.SetValue("fvSpecularIntensity", 0.28f);
+                else
+                    obj.Effect.SetValue("fvSpecularIntensity", 0.95f);
+            }
+        }
+
+        /// <summary>
+        /// Establece los valores dinamicos del shader
+        /// </summary>
+        public void updateShader(Vector3 lightPosition, Vector3 camaraPosition)
+        {
+            Microsoft.DirectX.Direct3D.Device d3dDevice = GuiController.Instance.D3dDevice;
+
+            foreach (VoidMeshShader obj in this.objects)
+            {
+                obj.Effect.SetValue("fvLightPosition", TgcParserUtils.vector3ToFloat3Array(lightPosition));
+                obj.Effect.SetValue("fvEyePosition", TgcParserUtils.vector3ToFloat3Array(camaraPosition));
+                obj.Effect.SetValue("matView", d3dDevice.Transform.View);
+                obj.Effect.SetValue("matProjection", d3dDevice.Transform.Projection);
+                obj.Effect.SetValue("matWorld", obj.Transform);
+            }
         }
 
         /// <summary>
@@ -70,8 +163,6 @@ namespace AlumnoEjemplos.Kamikaze3D
         public void render(float elapsedTime)
         {
 
-            int render = 0;
-            int noRender = 0;
             foreach (TgcMesh mesh in this.scene.Meshes)
             {
                 //Nos ocupamos solo de las mallas habilitadas
@@ -80,14 +171,7 @@ namespace AlumnoEjemplos.Kamikaze3D
                     //Solo mostrar la malla si colisiona contra el Frustum
                     TgcCollisionUtils.FrustumResult r = TgcCollisionUtils.classifyFrustumAABB(this.frustum, mesh.BoundingBox);
                     if (r != TgcCollisionUtils.FrustumResult.OUTSIDE)
-                    {
                         mesh.render();
-                        render++;
-                    }
-                    else
-                    {
-                        noRender++;
-                    }
                 }
             }
 
