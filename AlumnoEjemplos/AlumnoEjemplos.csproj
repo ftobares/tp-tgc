@@ -71,8 +71,12 @@
     <Compile Include="Kamikaze3D\EjemploAlumno.cs" />
     <Compile Include="Kamikaze3D\Escenario.cs" />
     <Compile Include="Kamikaze3D\VOID\DaylightSystem.cs" />
-    <Compile Include="Kamikaze3D\VOID\Render\TgcDefaultRenderQueue.cs" />
-    <Compile Include="Kamikaze3D\VOID\Render\TgcRenderQueue.cs" />
+    <Compile Include="Kamikaze3D\VOID\Render\TgcDefaultRenderQueue.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Kamikaze3D\VOID\Render\TgcRenderQueue.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Kamikaze3D\VOID\VoidShader.cs" />
     <Compile Include="Kamikaze3D\VOID\VoidWorld.cs" />
     <Compile Include="MiGrupo\EjemploAlumno.cs" />

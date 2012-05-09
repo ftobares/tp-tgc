@@ -19,12 +19,15 @@ namespace AlumnoEjemplos.Kamikaze3D
     public class Escenario
     {
 
-        #region Variables Globales
-        Cuadra[] cuadras = new Cuadra[4];
-        #endregion
-
+        private int cuadraTamanno = 2000;
+        private int cuadrasCantidad = 4;
+        private Cuadra[] cuadras;
+        private Vector3 lightPosition = new Vector3(0, 0, 0);
+        private Vector3 camaraPosition = new Vector3(0, 0, 0);
+        
         public Escenario()
         {
+            this.cuadras = new Cuadra[this.cuadrasCantidad];
         }
 
         /// <summary>
@@ -33,17 +36,47 @@ namespace AlumnoEjemplos.Kamikaze3D
         /// </summary>
         public void init()
         {
+            GuiController.Instance.BackgroundColor = Color.Black;
+
             GuiController.Instance.FpsCamera.Enable = true;
             GuiController.Instance.FpsCamera.setCamera(new Vector3(-140f, 40f, -50f), new Vector3(-140f, 40f, -120f));
             GuiController.Instance.FpsCamera.MovementSpeed = 200f;
             GuiController.Instance.FpsCamera.JumpSpeed = 200f;
-            
+
+            this.crearCuadras();
+
+        }
+
+        /// <summary>
+        /// Método que crea y posiciona todas las cuadras del mapa
+        /// </summary>
+        public void crearCuadras()
+        {
+
+            //Inicializar cuadras
             for (int i = 0; i < this.cuadras.Length; i++)
             {
                 this.cuadras[i] = new Cuadra();
                 this.cuadras[i].init();
-                this.cuadras[i].position(i);
             }
+
+            double max = Math.Sqrt(this.cuadrasCantidad);
+            int cuadra = 0;
+
+            //posicionar cuadras en forma de cuadrilátero
+            for(int i = 0; i < max; i++)
+                for (int j = 0; j < max; j++)
+                {
+                    if (cuadra < this.cuadrasCantidad)
+                    {
+                        this.cuadras[cuadra].position(i * this.cuadraTamanno, 0, j * this.cuadraTamanno);
+                    }
+
+                    this.cuadras[cuadra].updateShader(this.lightPosition, this.camaraPosition);
+                    cuadra++;
+                }
+
+
         }
 
 
@@ -54,8 +87,11 @@ namespace AlumnoEjemplos.Kamikaze3D
         /// <param name="elapsedTime">Tiempo en segundos transcurridos desde el último frame</param>
         public void render(float elapsedTime)
         {
-            for (int i = 0; i < this.cuadras.Length; i++ )
+            for (int i = 0; i < this.cuadras.Length; i++)
+            {
+                this.cuadras[i].updateShader(this.lightPosition, this.camaraPosition);
                 this.cuadras[i].render(elapsedTime);
+            }
         }
 
         /// <summary>
