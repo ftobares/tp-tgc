@@ -46,6 +46,7 @@ namespace AlumnoEjemplos.Test
                     GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "Run-TgcSkeletalAnim.xml",
                     GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "HighKick-TgcSkeletalAnim.xml",                    
                     GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "Talk-TgcSkeletalAnim.xml",                                        
+                    GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\Animations\\WeaponPos-TgcSkeletalAnim.xml",
                 });
             //Configurar animacion inicial
             personaje.playAnimation("StandBy", true);
@@ -75,7 +76,8 @@ namespace AlumnoEjemplos.Test
             camara = camaraParametro;
 
             weapon = new Weapon(personaje.Position);
-            weapon.visible = false;
+            //Agregar el arma al personaje
+            Personaje.addWeapon(personaje, weapon);
            
         }
 
@@ -213,7 +215,7 @@ namespace AlumnoEjemplos.Test
 
             if (d3dInput.keyDown(Key.E))
             {
-                animationAction = "Talk";
+                animationAction = "WeaponPos";
             }
 
             //Si hubo rotacion
@@ -225,7 +227,6 @@ namespace AlumnoEjemplos.Test
                     
                     float rotAngleY = Geometry.DegreeToRadian(rotateY * elapsedTime);
                     personaje.rotateY(rotAngleY);
-                    weapon.rotateY(rotAngleY);
                     camara.rotateY(rotAngleY);
                 }
                   if (rotatingX)
@@ -282,7 +283,6 @@ namespace AlumnoEjemplos.Test
             //Mover personaje con detección de colisiones, sliding y gravedad
             Vector3 realMovement = collisionManager.moveCharacter(characterSphere, movementVector, objetosColisionables);
             personaje.move(realMovement);
-            weapon.move(realMovement);
 
             //Actualizar valores de la linea de movimiento
             directionArrow.PStart = characterSphere.Center;
@@ -299,7 +299,6 @@ namespace AlumnoEjemplos.Test
 
             //Render personaje
             personaje.animateAndRender();
-            weapon.render();
 
            /* //Iniciar dibujado de todos los Sprites de la escena (en este caso es solo uno)
             GuiController.Instance.Drawer2D.beginDrawSprite();

@@ -84,6 +84,7 @@
     <Compile Include="Test\Camara.cs" />
     <Compile Include="Test\EjColision.cs" />
     <Compile Include="Test\MovimientoController.cs" />
+    <Compile Include="Test\Personaje.cs" />
     <Compile Include="Test\SphereCollisionManager.cs" />
     <Compile Include="Test\Weapon.cs" />
   </ItemGroup>
