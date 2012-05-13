@@ -64,6 +64,53 @@ namespace AlumnoEjemplos.VOID
                 }
             }
 
+            //Cargar los autos
+            //structure[numeroObjeto] = (VoidMeshShader)scene.getMeshByName("taxi1");
+            //numeroObjeto++;
+
+            //structure[numeroObjeto] = (VoidMeshShader)scene.getMeshByName("taxi2");
+            //numeroObjeto++;
+
+            //structure[numeroObjeto] = (VoidMeshShader)scene.getMeshByName("autoVioleta");
+            //numeroObjeto++;
+
+            //structure[numeroObjeto] = (VoidMeshShader)scene.getMeshByName("audi");
+            //numeroObjeto++;
+
+            //structure[numeroObjeto] = (VoidMeshShader)scene.getMeshByName("autoSport");
+            //numeroObjeto++;
+
+            //structure[numeroObjeto] = (VoidMeshShader)scene.getMeshByName("autoPolicia");
+            //numeroObjeto++;
+
+            //structure[numeroObjeto] = (VoidMeshShader)scene.getMeshByName("camioneta");
+            //numeroObjeto++;
+
+            //Cargar los puestos de diarios
+            //structure[numeroObjeto] = (VoidMeshShader)scene.getMeshByName("diarios1");
+            //numeroObjeto++;
+
+            //structure[numeroObjeto] = (VoidMeshShader)scene.getMeshByName("diarios2");
+            //numeroObjeto++;
+
+            //Cargar los parquimetros
+            //structure[numeroObjeto] = (VoidMeshShader)scene.getMeshByName("pkmeter");
+            //numeroObjeto++;
+
+            //structure[numeroObjeto] = (VoidMeshShader)scene.getMeshByName("pkmeter2");
+            //numeroObjeto++;
+
+            //Cargar Hidrante para Bomberos
+            //structure[numeroObjeto] = (VoidMeshShader)scene.getMeshByName("hidrante1");
+            //numeroObjeto++;
+
+            //structure[numeroObjeto] = (VoidMeshShader)scene.getMeshByName("hidrante2");
+            //numeroObjeto++;
+
+            //Cargo la fuente
+            structure[numeroObjeto] = (VoidMeshShader)scene.getMeshByName("fuente");
+            numeroObjeto++;
+
             #endregion
 
             #region Array structureBB[]
