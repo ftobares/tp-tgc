@@ -349,5 +349,10 @@ namespace AlumnoEjemplos.Kamikaze3D
             hitCantTextX.render();
 
         }
+
+        public void close()
+        {
+            this.personaje.dispose();
+        }
     }
 }

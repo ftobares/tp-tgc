@@ -77,7 +77,7 @@ namespace AlumnoEjemplos.Test
 
             weapon = new Weapon(personaje.Position);
             //Agregar el arma al personaje
-            Personaje.addWeapon(personaje, weapon);
+            //Personaje.addWeapon(personaje, weapon);
            
         }
 

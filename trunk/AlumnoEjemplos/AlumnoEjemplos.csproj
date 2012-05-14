@@ -67,25 +67,46 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Kamikaze3D\Camara.cs" />
     <Compile Include="Kamikaze3D\Cuadra.cs" />
     <Compile Include="Kamikaze3D\EjemploAlumno.cs" />
     <Compile Include="Kamikaze3D\Escenario.cs" />
-    <Compile Include="Kamikaze3D\VOID\DaylightSystem.cs" />
+    <Compile Include="Kamikaze3D\SphereCollisionManager.cs" />
+    <Compile Include="Kamikaze3D\VOID\DaylightSystem.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Kamikaze3D\VOID\Render\TgcDefaultRenderQueue.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Kamikaze3D\VOID\Render\TgcRenderQueue.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Kamikaze3D\VOID\VoidShader.cs" />
-    <Compile Include="Kamikaze3D\VOID\VoidWorld.cs" />
+    <Compile Include="Kamikaze3D\VOID\VoidShader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Kamikaze3D\VOID\VoidWorld.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="MiGrupo\EjemploAlumno.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Test\Camara.cs" />
-    <Compile Include="Test\EjColision.cs" />
-    <Compile Include="Test\MovimientoController.cs" />
-    <Compile Include="Test\Personaje.cs" />
+    <Compile Include="Kamikaze3D\Personaje.cs" />
+    <Compile Include="Test\Camara.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Test\EjColision.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Test\MovimientoController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Test\Personaje.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Test\PersonajeController.cs" />
     <Compile Include="Test\SphereCollisionManager.cs" />
+    <Compile Include="Kamikaze3D\Weapon.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Test\Weapon.cs" />
   </ItemGroup>
   <ItemGroup>

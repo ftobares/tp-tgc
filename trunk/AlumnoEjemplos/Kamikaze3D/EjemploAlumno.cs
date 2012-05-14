@@ -94,6 +94,7 @@ namespace AlumnoEjemplos.Kamikaze3D
         public override void close()
         {
             this.escenario.close();
+            this.personaje.close();
         }
 
     }
