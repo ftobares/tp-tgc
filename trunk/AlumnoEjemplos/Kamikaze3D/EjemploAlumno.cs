@@ -9,6 +9,7 @@ using Microsoft.DirectX;
 using TgcViewer.Utils.Modifiers;
 using TgcViewer.Utils.TgcGeometry;
 using TgcViewer.Utils.TgcSceneLoader;
+using TgcViewer.Utils.Input;
 using AlumnoEjemplos.VOID;
 
 namespace AlumnoEjemplos.Kamikaze3D
@@ -49,11 +50,15 @@ namespace AlumnoEjemplos.Kamikaze3D
 
         #region Variables Globales
         Escenario escenario;
+        Personaje personaje;
+        Camara camara;
         #endregion
 
         public EjemploAlumno()
         {
             this.escenario = new Escenario();
+            this.camara = new Camara();
+            this.personaje = new Personaje(this.camara);
         }
 
         /// <summary>
@@ -62,7 +67,12 @@ namespace AlumnoEjemplos.Kamikaze3D
         /// </summary>
         public override void init()
         {
+            this.camara.Enable = true;
+            this.camara.setCamera(this.personaje.getPersonaje().Position, 100, -400);
+
             this.escenario.init();
+            this.personaje.init();
+            this.personaje.setObjetosColisionables(this.escenario.getObjetosColisionables());
         }
 
         /// <summary>
@@ -72,7 +82,9 @@ namespace AlumnoEjemplos.Kamikaze3D
         /// <param name="elapsedTime">Tiempo en segundos transcurridos desde el último frame</param>
         public override void render(float elapsedTime)
         {
-            this.escenario.render(elapsedTime);
+            this.camara.Target = this.personaje.getPersonaje().Position;
+            this.escenario.render(elapsedTime, this.camara);
+            this.personaje.render(elapsedTime);
         }
 
         /// <summary>
