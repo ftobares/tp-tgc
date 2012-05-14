@@ -104,6 +104,14 @@ namespace AlumnoEjemplos.Kamikaze3D
         }
 
         /// <summary>
+        /// Accede a los meshes de la cuadra
+        /// </summary>
+        public List<TgcMesh> getMeshes()
+        {
+            return this.scene.Meshes;
+        }
+
+        /// <summary>
         /// Carga el shader para cada objeto de la cuadra e inicializa sus valores estaticos
         /// </summary>
         private void loadShader()
@@ -160,10 +168,27 @@ namespace AlumnoEjemplos.Kamikaze3D
         /// Escribir aquí todo el código referido al renderizado.
         /// </summary>
         /// <param name="elapsedTime">Tiempo en segundos transcurridos desde el último frame</param>
-        public void render(float elapsedTime)
+        public void render(float elapsedTime, Camara camara)
         {
 
+            //Ver cual de las mallas se interponen en la visión de la cámara en 3ra persona.
+            List<TgcMesh> objectsInFront = new List<TgcMesh>();
+
             foreach (TgcMesh mesh in this.scene.Meshes)
+            {
+                Vector3 q;
+                if (mesh.Name == "Vereda" || mesh.Name == "Bloque") //Vereda y calle siempre visible
+                    objectsInFront.Add(mesh);
+                else if (!TgcCollisionUtils.intersectSegmentAABB(camara.Position, camara.Target, mesh.BoundingBox, out q))
+                    if (String.Compare(mesh.Name, 0, "Box", 0, 3) != 0) //No renderizar bloques azules
+                        objectsInFront.Add(mesh);
+            }
+
+            //Render mallas que no se interponen
+            foreach (TgcMesh mesh in objectsInFront)
+                mesh.render();
+
+            /*foreach (TgcMesh mesh in this.scene.Meshes)
             {
                 //Nos ocupamos solo de las mallas habilitadas
                 if (mesh.Enabled)
@@ -173,7 +198,7 @@ namespace AlumnoEjemplos.Kamikaze3D
                     if (r != TgcCollisionUtils.FrustumResult.OUTSIDE)
                         mesh.render();
                 }
-            }
+            }*/
 
         }
 

@@ -38,10 +38,10 @@ namespace AlumnoEjemplos.Kamikaze3D
         {
             GuiController.Instance.BackgroundColor = Color.Black;
 
-            GuiController.Instance.FpsCamera.Enable = true;
+            /*GuiController.Instance.FpsCamera.Enable = true;
             GuiController.Instance.FpsCamera.setCamera(new Vector3(-140f, 40f, -50f), new Vector3(-140f, 40f, -120f));
             GuiController.Instance.FpsCamera.MovementSpeed = 200f;
-            GuiController.Instance.FpsCamera.JumpSpeed = 200f;
+            GuiController.Instance.FpsCamera.JumpSpeed = 200f;*/
 
             //Agregar Valores para la Niebla
             GuiController.Instance.Modifiers.addBoolean("Enabled", "Enabled", true);
@@ -92,12 +92,12 @@ namespace AlumnoEjemplos.Kamikaze3D
         /// Escribir aquí todo el código referido al renderizado.
         /// </summary>
         /// <param name="elapsedTime">Tiempo en segundos transcurridos desde el último frame</param>
-        public void render(float elapsedTime)
+        public void render(float elapsedTime, Camara camara)
         {
             for (int i = 0; i < this.cuadras.Length; i++)
             {
                 this.cuadras[i].updateShader(this.lightPosition, this.camaraPosition);
-                this.cuadras[i].render(elapsedTime);
+                this.cuadras[i].render(elapsedTime, camara);
             }
 
             //Cargar los valores de la Niebla
@@ -109,6 +109,29 @@ namespace AlumnoEjemplos.Kamikaze3D
 
             //Actualizar valores de la Niebla
             GuiController.Instance.Fog.updateValues();
+        }
+
+        /// <summary>
+        /// Devuelve un listado de BoundingBox de los objetos del escenario
+        /// </summary>
+        public List<TgcBoundingBox> getObjetosColisionables()
+        {
+            List<TgcBoundingBox> lista = new List<TgcBoundingBox> { };
+
+            for (int i = 0; i < this.cuadras.Length; i++)
+                foreach (TgcMesh mesh in this.cuadras[i].getMeshes())
+                {
+                    if (
+                            String.Compare(mesh.Name, 0, "Estructura", 0, 9) == 0 ||
+                            String.Compare(mesh.Name, 0, "Semaforo", 0, 8) == 0 ||
+                            String.Compare(mesh.Name, 0, "fuente", 0, 6) == 0
+                        )
+                    lista.Add(mesh.BoundingBox);
+                   
+                }
+
+            return lista;
+
         }
 
         /// <summary>
