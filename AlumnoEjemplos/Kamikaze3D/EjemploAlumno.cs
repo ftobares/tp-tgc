@@ -52,6 +52,7 @@ namespace AlumnoEjemplos.Kamikaze3D
         Escenario escenario;
         Personaje personaje;
         Camara camara;
+        Vector3 llegada;
         #endregion
 
         public EjemploAlumno()
@@ -59,6 +60,7 @@ namespace AlumnoEjemplos.Kamikaze3D
             this.escenario = new Escenario();
             this.camara = new Camara();
             this.personaje = new Personaje(this.camara);
+            this.llegada = new Vector3();
         }
 
         /// <summary>
@@ -68,7 +70,7 @@ namespace AlumnoEjemplos.Kamikaze3D
         public override void init()
         {
             this.camara.Enable = true;
-            this.camara.setCamera(this.personaje.getPersonaje().Position, 100, -400);
+            this.camara.setCamera(this.personaje.getPersonaje().Position, 50, -200);
 
             this.escenario.init();
             this.personaje.init();

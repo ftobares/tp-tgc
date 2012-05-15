@@ -201,11 +201,12 @@ namespace AlumnoEjemplos.Test
             }
 
             //Jump
-            if (d3dInput.keyDown(Key.Space))
+           /* if (d3dInput.keyDown(Key.Space))
             {
                 jump = 30;                
                 moving = true;                
-            }
+            }*/
+
             //Run
             if (d3dInput.keyDown(Key.LeftShift))
             {
