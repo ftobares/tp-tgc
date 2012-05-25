@@ -6,3 +6,11 @@ D:\TgcViewer\AlumnoEjemplos\AlumnoEjemplos.pdb
 D:\TgcViewer\AlumnoEjemplos\TgcViewer.exe
 D:\TgcViewer\AlumnoEjemplos\Ionic.Zip.dll
 D:\TgcViewer\AlumnoEjemplos\TgcViewer.pdb
+H:\Users\federico\Desktop\UTN\TGC\TP\TgcViewer-2012-1C\TgcViewer\AlumnoEjemplos\obj\Debug\ResolveAssemblyReference.cache
+H:\Users\federico\Desktop\UTN\TGC\TP\TgcViewer-2012-1C\TgcViewer\AlumnoEjemplos\obj\Debug\AlumnoEjemplos.dll
+H:\Users\federico\Desktop\UTN\TGC\TP\TgcViewer-2012-1C\TgcViewer\AlumnoEjemplos\obj\Debug\AlumnoEjemplos.pdb
+H:\Users\federico\Desktop\UTN\TGC\TP\TgcViewer-2012-1C\TgcViewer\AlumnoEjemplos\AlumnoEjemplos.dll
+H:\Users\federico\Desktop\UTN\TGC\TP\TgcViewer-2012-1C\TgcViewer\AlumnoEjemplos\AlumnoEjemplos.pdb
+H:\Users\federico\Desktop\UTN\TGC\TP\TgcViewer-2012-1C\TgcViewer\AlumnoEjemplos\TgcViewer.exe
+H:\Users\federico\Desktop\UTN\TGC\TP\TgcViewer-2012-1C\TgcViewer\AlumnoEjemplos\Ionic.Zip.dll
+H:\Users\federico\Desktop\UTN\TGC\TP\TgcViewer-2012-1C\TgcViewer\AlumnoEjemplos\TgcViewer.pdb

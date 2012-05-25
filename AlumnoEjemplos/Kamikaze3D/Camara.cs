@@ -14,8 +14,8 @@ namespace AlumnoEjemplos.Kamikaze3D
     {
 
         static readonly Vector3 UP_VECTOR = new Vector3(0, 1, 0);
-        float xMin = -0.1f;
-        float xMax = 0.45f;
+        float xMin = -0.25f;
+        float xMax = 0.55f;
 
         float offsetHeight;
         /// <summary>

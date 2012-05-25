@@ -70,7 +70,7 @@ namespace AlumnoEjemplos.Kamikaze3D
         public override void init()
         {
             this.camara.Enable = true;
-            this.camara.setCamera(this.personaje.getPersonaje().Position, 50, -200);
+            this.camara.setCamera(this.personaje.getPersonaje().Position, 50, -100);
 
             this.escenario.init();
             this.personaje.init();
