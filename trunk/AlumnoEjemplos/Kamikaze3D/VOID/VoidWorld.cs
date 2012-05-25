@@ -108,8 +108,8 @@ namespace AlumnoEjemplos.VOID
             //numeroObjeto++;
 
             //Cargo la fuente
-            structure[numeroObjeto] = (VoidMeshShader)scene.getMeshByName("fuente");
-            numeroObjeto++;
+            //structure[numeroObjeto] = (VoidMeshShader)scene.getMeshByName("fuente");
+            //numeroObjeto++;
 
             #endregion
 

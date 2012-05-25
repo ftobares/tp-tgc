@@ -54,8 +54,8 @@ namespace AlumnoEjemplos.Kamikaze3D
             this.personaje.playAnimation("StandBy", true);
             
             //Escalarlo y posicionarlo
-            this.personaje.Position = new Vector3(-100f, 5f, -340f);
-            this.personaje.Scale = new Vector3(0.5f, 0.5f, 0.5f);
+            this.personaje.Position = new Vector3(-100f, 3.5f, -340f);
+            this.personaje.Scale = new Vector3(0.7f, 0.7f, 0.7f);
 
             //Rotarlo 180° porque esta mirando para el otro lado
             this.personaje.rotateY(Geometry.DegreeToRadian(180f));
@@ -87,7 +87,7 @@ namespace AlumnoEjemplos.Kamikaze3D
         {   
             //Modifiers para desplazamiento del personaje
             GuiController.Instance.Modifiers.addFloat("VelocidadCaminar", 0, 3f, 1.5f);
-            //GuiController.Instance.Modifiers.addFloat("VelocidadRotacion", 40f, 100f, 70f);
+            GuiController.Instance.Modifiers.addFloat("VelocidadRotacion", 40f, 100f, 70f);
             //GuiController.Instance.Modifiers.addBoolean("HabilitarGravedad", "Habilitar Gravedad", true);
             //GuiController.Instance.Modifiers.addVertex3f("Gravedad", new Vector3(-50, -50, -50), new Vector3(50, 50, 50), new Vector3(0, -10, 0));
             GuiController.Instance.Modifiers.addFloat("SlideFactor", 0f, 2f, 0.5f);
@@ -137,7 +137,6 @@ namespace AlumnoEjemplos.Kamikaze3D
             float moveSide = 0f;
             float rotateY = 0;
             float rotateX = 0;
-            float rotatedAngleX = 0;
             float jump = 0;
             bool moving = false;
             bool rotating = false;
@@ -167,18 +166,18 @@ namespace AlumnoEjemplos.Kamikaze3D
 
             //obtener velocidades de Modifiers
             float velocidadCaminar = (float)GuiController.Instance.Modifiers["VelocidadCaminar"];
-           // float velocidadRotacion = (float)GuiController.Instance.Modifiers.getValue("VelocidadRotacion");
-            float velocidadRotacion = 70f;
+            float velocidadRotacion = (float)GuiController.Instance.Modifiers.getValue("VelocidadRotacion");
+
             //Adelante
             if (d3dInput.keyDown(Key.W))
             {
                 if (!moving)
                 {
-                    moveForward = -velocidadCaminar ;
+                    moveForward = -velocidadCaminar;
                 }
-                else 
+                else
                 {
-                    moveForward = -velocidadCaminar / 2; 
+                    moveForward = -velocidadCaminar / 2;
                 }
                 moving = true;
             }
@@ -189,7 +188,7 @@ namespace AlumnoEjemplos.Kamikaze3D
             {
                 if (!moving)
                 {
-                    moveForward = velocidadCaminar ;
+                    moveForward = velocidadCaminar;
                 }
                 else
                 {
@@ -199,19 +198,21 @@ namespace AlumnoEjemplos.Kamikaze3D
             }
 
             //Derecha
-            if (d3dInput.YposRelative < 0)
+            if (d3dInput.buttonDown(TgcD3dInput.MouseButtons.BUTTON_LEFT) && d3dInput.XposRelative > 0)
             {
-                rotateY = velocidadRotacion;
-                rotating = true;
-                rotatingY = true;
+                if (camara.RotationY < (Math.PI))
+                {
+                    rotateY = velocidadRotacion;
+                    rotating = true;
+                    rotatingY = true;
+                }
             }
-
             //Mover Derecha
-            if (d3dInput.buttonDown(TgcD3dInput.MouseButtons.BUTTON_RIGHT) && d3dInput.keyDown(Key.D))
+            if (d3dInput.keyDown(Key.D))
             {
                 if (!moving)
                 {
-                    moveSide = -velocidadCaminar ;
+                    moveSide = -velocidadCaminar;
                 }
                 else
                 {
@@ -219,21 +220,24 @@ namespace AlumnoEjemplos.Kamikaze3D
                 }
                 moving = true;
             }
-
+            
             //Izquierda
-            if (d3dInput.YposRelative > 0)
+            if (d3dInput.buttonDown(TgcD3dInput.MouseButtons.BUTTON_LEFT) && d3dInput.XposRelative < 0)
             {
-                rotateY = -velocidadRotacion;
-                rotating = true;
-                rotatingY = true;
+                if (camara.RotationY > -(Math.PI))
+                {
+                    rotateY = -velocidadRotacion;
+                    rotating = true;
+                    rotatingY = true;
+                }
             }
 
             //Mover Izquierda
-            if (d3dInput.buttonDown(TgcD3dInput.MouseButtons.BUTTON_RIGHT) && d3dInput.keyDown(Key.A))
+            if (d3dInput.keyDown(Key.A))
             {
                 if (!moving)
                 {
-                    moveSide = velocidadCaminar ;
+                    moveSide = velocidadCaminar;
                 }
                 else
                 {
@@ -243,30 +247,29 @@ namespace AlumnoEjemplos.Kamikaze3D
             }
 
             //Arriba
-            if (d3dInput.buttonDown(TgcD3dInput.MouseButtons.BUTTON_RIGHT) && d3dInput.XposRelative < 0)
+            if (d3dInput.buttonDown(TgcD3dInput.MouseButtons.BUTTON_LEFT) && d3dInput.YposRelative < 0)
             {
-                if (camara.RotationX > -(Math.PI / 4))
-                {
+                //if (camara.RotationX > -(Math.PI / 3))
+                //{
                     rotateX = -velocidadRotacion;
                     rotating = true;
                     rotatingX = true;
-                }
+                //}
             }
 
             //Abajo
-            if (d3dInput.buttonDown(TgcD3dInput.MouseButtons.BUTTON_RIGHT) && d3dInput.XposRelative > 0)
+            if (d3dInput.buttonDown(TgcD3dInput.MouseButtons.BUTTON_LEFT) && d3dInput.YposRelative > 0)
             {
-                if (camara.RotationX < (Math.PI / 4))
-                {
+                //if (camara.RotationX < (Math.PI / 3))
+                //{
                     rotateX = velocidadRotacion;
                     rotating = true;
                     rotatingX = true;
-                }
+                //}
             }
-            
 
             //Jump
-           /* if (d3dInput.keyDown(Key.Space))
+            /*if (d3dInput.keyDown(Key.Space))
             {
                 jump = 30;                
                 moving = true;                
@@ -276,11 +279,10 @@ namespace AlumnoEjemplos.Kamikaze3D
             if (d3dInput.keyDown(Key.LeftShift))
             {
                 running = true;
-                moveForward *= 2.0f;
-                moveSide *= 2.0f;
+                moveForward *= 1.5f;
             }
 
-            if (d3dInput.buttonDown(TgcD3dInput.MouseButtons.BUTTON_RIGHT))
+            if (/*d3dInput.keyDown(Key.E)*/d3dInput.buttonDown(TgcD3dInput.MouseButtons.BUTTON_RIGHT))
             {
                 animationAction = "WeaponPos";
             }
@@ -291,7 +293,7 @@ namespace AlumnoEjemplos.Kamikaze3D
                   if (rotatingY)
                 {
                     //Rotar personaje y la camara, hay que multiplicarlo por el tiempo transcurrido para no atarse a la velocidad el hardware
-                  
+                    
                     float rotAngleY = Geometry.DegreeToRadian(rotateY * elapsedTime);
                     this.personaje.rotateY(rotAngleY);
                     this.camara.rotateY(rotAngleY);
@@ -300,14 +302,9 @@ namespace AlumnoEjemplos.Kamikaze3D
                 {
                     //Rotar personaje y la camara, hay que multiplicarlo por el tiempo transcurrido para no atarse a la velocidad el hardware
                     float rotAngleX = Geometry.DegreeToRadian(rotateX * elapsedTime);
-                    rotatedAngleX += rotAngleX;
                     this.camara.rotateX(rotAngleX);
                     
-                } else 
-                  {
-                      //Llevar la camara a su posición original respecto 
-                      this.camara.rotateX(rotatedAngleX);
-                  }
+                }
                 
             }
 
@@ -355,7 +352,7 @@ namespace AlumnoEjemplos.Kamikaze3D
             this.directionArrow.PEnd = characterSphere.Center + Vector3.Multiply(movementVector, 50);
             this.directionArrow.updateValues();
 
-            //Cargar desplazamiento realizar en UserVar
+            //Caargar desplazamiento realizar en UserVar
             GuiController.Instance.UserVars.setValue("Movement", TgcParserUtils.printVector3(realMovement));
             
             //Render linea
@@ -377,9 +374,9 @@ namespace AlumnoEjemplos.Kamikaze3D
 
             hitCantTextY.Text = "Y: " + camara.RotationY;
             hitCantTextX.Text = "X: " + camara.RotationX;
-
             hitCantTextY.render();
             hitCantTextX.render();
+
         }
 
         public void close()

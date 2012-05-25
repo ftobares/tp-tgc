@@ -45,6 +45,7 @@ namespace AlumnoEjemplos.Kamikaze3D
 
             //Carga el archivo del bloque
             this.scene = loader.loadSceneFromFile(GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\Block\\Block-TgcScene.xml");
+            //this.scene = loader.loadSceneFromFile(GuiController.Instance.AlumnoEjemplosMediaDir + "_Scene Completa Mesh Unidos\\Block-TgcScene.xml");
 
             this.loadObjects();
         }
