@@ -93,6 +93,7 @@
     <Compile Include="Test\EjColision.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Test\EjPersonajes.cs" />
     <Compile Include="Test\MovimientoController.cs">
       <SubType>Code</SubType>
     </Compile>
