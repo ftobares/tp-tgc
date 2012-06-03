@@ -31,6 +31,9 @@ namespace Examples.SkeletalAnimation
     public class EjPersonajes : TgcExample
     {
         TgcBox suelo;
+        TgcBox box1;
+        TgcBox box2;
+        TgcBox box3;
         TgcSkeletalMesh original;
         List<TgcSkeletalMesh> instances;
         Camara camara;
@@ -65,7 +68,9 @@ namespace Examples.SkeletalAnimation
             //Crear suelo
             TgcTexture pisoTexture = TgcTexture.createTexture(d3dDevice, GuiController.Instance.ExamplesMediaDir + "Texturas\\Quake\\TexturePack2\\rock_floor1.jpg");
             suelo = TgcBox.fromSize(new Vector3(500, 0, 500), new Vector3(4000, 0, 4000), pisoTexture);
-
+            box1 = TgcBox.fromSize(new Vector3(500, 0, 500), new Vector3(550, 550, 550), pisoTexture);
+            box2 = TgcBox.fromSize(new Vector3(100, 0, 100), new Vector3(550, 550, 550), pisoTexture);
+            box3 = TgcBox.fromSize(new Vector3(100, 0, 900), new Vector3(550, 550, 550), pisoTexture);
 
             //Cargar malla original
             TgcSkeletalLoader loader = new TgcSkeletalLoader();
@@ -89,7 +94,7 @@ namespace Examples.SkeletalAnimation
 
             //Crear 9 instancias mas de este modelo, pero sin volver a cargar el modelo entero cada vez
             float offset = 200;
-            int cantInstancias = 150;
+            int cantInstancias = 15;
             instances = new List<TgcSkeletalMesh>();
             for (int i = 0; i < cantInstancias; i++)
 			{
@@ -132,6 +137,10 @@ namespace Examples.SkeletalAnimation
             {
                 instance.animateAndRender();
             }
+            //Renderizar cajas
+            box1.render();
+            box2.render();
+            box3.render();
 
         }
 
