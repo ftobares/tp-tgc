@@ -13,6 +13,7 @@ using System.Drawing;
 using TgcViewer.Utils.TgcSceneLoader;
 using System.Windows.Forms;
 using TgcViewer.Utils._2D;
+using AlumnoEjemplos.Kamikaze3D;
 
 namespace AlumnoEjemplos.Test
 {

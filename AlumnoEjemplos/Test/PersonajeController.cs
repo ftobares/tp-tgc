@@ -12,6 +12,7 @@ using TgcViewer.Utils.TgcGeometry;
 using System.Drawing;
 using TgcViewer.Utils.TgcSceneLoader;
 using System.Windows.Forms;
+using AlumnoEjemplos.Kamikaze3D;
 
 namespace AlumnoEjemplos.Test
 {

@@ -14,6 +14,7 @@ using Microsoft.DirectX.DirectInput;
 using TgcViewer.Utils.TgcSkeletalAnimation;
 using TgcViewer.Utils.Terrain;
 using AlumnoEjemplos.Test;
+using AlumnoEjemplos.Kamikaze3D;
 
 namespace Examples.Collision.SphereCollision
 {
