@@ -9,7 +9,6 @@ using Microsoft.DirectX;
 using TgcViewer.Utils.Modifiers;
 using TgcViewer.Utils.TgcGeometry;
 using TgcViewer.Utils.TgcSceneLoader;
-using AlumnoEjemplos.VOID;
 
 namespace AlumnoEjemplos.Kamikaze3D
 {
@@ -79,7 +78,7 @@ namespace AlumnoEjemplos.Kamikaze3D
                         this.cuadras[cuadra].position(i * this.cuadraTamanno, 0, j * this.cuadraTamanno);
                     }
 
-                    this.cuadras[cuadra].updateShader(this.lightPosition, this.camaraPosition);
+                    //this.cuadras[cuadra].updateShader(this.lightPosition, this.camaraPosition);
                     cuadra++;
                 }
 
@@ -92,16 +91,18 @@ namespace AlumnoEjemplos.Kamikaze3D
         /// Escribir aquí todo el código referido al renderizado.
         /// </summary>
         /// <param name="elapsedTime">Tiempo en segundos transcurridos desde el último frame</param>
-        public void render(float elapsedTime, Camara camara)
+        public void render(float elapsedTime, Camara camara, Explosion explosion)
         {
             for (int i = 0; i < this.cuadras.Length; i++)
             {
-                this.cuadras[i].updateShader(this.lightPosition, this.camaraPosition);
                 this.cuadras[i].render(elapsedTime, camara);
             }
 
             //Cargar los valores de la Niebla
-            GuiController.Instance.Fog.Enabled = (bool)GuiController.Instance.Modifiers["Enabled"];
+            if (explosion.estaEjecutandose())
+                GuiController.Instance.Fog.Enabled = false;
+            else
+                GuiController.Instance.Fog.Enabled = (bool)GuiController.Instance.Modifiers["Enabled"];
             GuiController.Instance.Fog.StartDistance = (float)GuiController.Instance.Modifiers["startDistance"];
             GuiController.Instance.Fog.EndDistance = (float)GuiController.Instance.Modifiers["endDistance"];
             GuiController.Instance.Fog.Density = (float)GuiController.Instance.Modifiers["density"];
@@ -122,9 +123,10 @@ namespace AlumnoEjemplos.Kamikaze3D
                 foreach (TgcMesh mesh in this.cuadras[i].getMeshes())
                 {
                     if (
-                            String.Compare(mesh.Name, 0, "Estructura", 0, 9) == 0 ||
-                            String.Compare(mesh.Name, 0, "Semaforo", 0, 8) == 0 ||
-                            String.Compare(mesh.Name, 0, "fuente", 0, 6) == 0
+                            //String.Compare(mesh.Name, 0, "Estructura", 0, 9) == 0 ||
+                            //String.Compare(mesh.Name, 0, "Semaforo", 0, 8) == 0 ||
+                            //String.Compare(mesh.Name, 0, "fuente", 0, 6) == 0
+                            String.Compare(mesh.Name, 0, "Box", 0, 3) == 0
                         )
                     lista.Add(mesh.BoundingBox);
                    

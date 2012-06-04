@@ -24,6 +24,7 @@ namespace AlumnoEjemplos.Kamikaze3D
         TgcArrow directionArrow;
         List<TgcBoundingBox> objetosColisionables = new List<TgcBoundingBox>();
         Camara camara;
+        Explosion explosion;
 
         //variables de pruebas
         bool renderDirectionArrow = false;
@@ -32,7 +33,7 @@ namespace AlumnoEjemplos.Kamikaze3D
             this.objetosColisionables = aList;
         }
 
-        public Personaje(Camara camaraParametro)
+        public Personaje(Camara camaraParametro, Explosion explosion)
         {
 
             //Crear personaje
@@ -80,6 +81,8 @@ namespace AlumnoEjemplos.Kamikaze3D
             
             //Agregar el arma al personaje
             this.addWeapon(personaje, weapon);
+
+            this.explosion = explosion;
            
         }
 
@@ -167,6 +170,10 @@ namespace AlumnoEjemplos.Kamikaze3D
             //obtener velocidades de Modifiers
             float velocidadCaminar = (float)GuiController.Instance.Modifiers["VelocidadCaminar"];
             float velocidadRotacion = (float)GuiController.Instance.Modifiers.getValue("VelocidadRotacion");
+
+            //Detonar
+            if (d3dInput.keyDown(Key.Return))
+                this.explosion.detonar();
 
             //Adelante
             if (d3dInput.keyDown(Key.W))
