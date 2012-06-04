@@ -10,7 +10,6 @@ using TgcViewer.Utils.Modifiers;
 using TgcViewer.Utils.TgcGeometry;
 using TgcViewer.Utils.TgcSceneLoader;
 using TgcViewer.Utils.Input;
-using AlumnoEjemplos.VOID;
 
 namespace AlumnoEjemplos.Kamikaze3D
 {
@@ -53,14 +52,16 @@ namespace AlumnoEjemplos.Kamikaze3D
         Personaje personaje;
         Camara camara;
         Vector3 llegada;
+        Explosion explosion;
         #endregion
 
         public EjemploAlumno()
         {
             this.escenario = new Escenario();
             this.camara = new Camara();
-            this.personaje = new Personaje(this.camara);
             this.llegada = new Vector3();
+            this.explosion = new Explosion();
+            this.personaje = new Personaje(this.camara, this.explosion);
         }
 
         /// <summary>
@@ -75,6 +76,7 @@ namespace AlumnoEjemplos.Kamikaze3D
             this.escenario.init();
             this.personaje.init();
             this.personaje.setObjetosColisionables(this.escenario.getObjetosColisionables());
+            this.explosion.init(this.camara);
         }
 
         /// <summary>
@@ -85,8 +87,9 @@ namespace AlumnoEjemplos.Kamikaze3D
         public override void render(float elapsedTime)
         {
             this.camara.Target = this.personaje.getPersonaje().Position;
-            this.escenario.render(elapsedTime, this.camara);
+            this.escenario.render(elapsedTime, this.camara, this.explosion);
             this.personaje.render(elapsedTime);
+            this.explosion.render(elapsedTime);
         }
 
         /// <summary>
@@ -97,6 +100,7 @@ namespace AlumnoEjemplos.Kamikaze3D
         {
             this.escenario.close();
             this.personaje.close();
+            this.explosion.close();
         }
 
     }

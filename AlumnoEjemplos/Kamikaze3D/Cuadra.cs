@@ -9,7 +9,6 @@ using Microsoft.DirectX;
 using TgcViewer.Utils.Modifiers;
 using TgcViewer.Utils.TgcGeometry;
 using TgcViewer.Utils.TgcSceneLoader;
-using AlumnoEjemplos.VOID;
 
 namespace AlumnoEjemplos.Kamikaze3D
 {
@@ -21,7 +20,7 @@ namespace AlumnoEjemplos.Kamikaze3D
 
         private TgcScene scene;
         private TgcFrustum frustum;
-        private VoidMeshShader[] objects = new VoidMeshShader[23];
+        private TgcMesh[] objects = new TgcMesh[23];
         private Color ambientColor = Color.Black;
         private Color diffuseColor = Color.FromArgb(160, 160, 88);
         
@@ -39,9 +38,6 @@ namespace AlumnoEjemplos.Kamikaze3D
 
             //Crear loader
             TgcSceneLoader loader = new TgcSceneLoader();
-
-            //Configurar MeshFactory customizado
-            loader.MeshFactory = new MyCustomMeshFactory();
 
             //Carga el archivo del bloque
             this.scene = loader.loadSceneFromFile(GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\Block\\Block-TgcScene.xml");
@@ -73,11 +69,11 @@ namespace AlumnoEjemplos.Kamikaze3D
             int numeroObjeto = 0;
 
             //Cargo el bloque de la cuadra del scene
-            this.objects[numeroObjeto] = (VoidMeshShader)this.scene.getMeshByName("Bloque");
+            this.objects[numeroObjeto] = (TgcMesh)this.scene.getMeshByName("Bloque");
             numeroObjeto++;
 
             //Cargo la calle o vereda del scene
-            this.objects[numeroObjeto] = (VoidMeshShader)this.scene.getMeshByName("Vereda");
+            this.objects[numeroObjeto] = (TgcMesh)this.scene.getMeshByName("Vereda");
             numeroObjeto++;
 
             //Cargo los semaforos del scene
@@ -85,7 +81,7 @@ namespace AlumnoEjemplos.Kamikaze3D
             {
                 if (String.Compare(edificio.Name, 0, "Semaforo", 0, 8) == 0)
                 {
-                    this.objects[numeroObjeto] = (VoidMeshShader)edificio;
+                    this.objects[numeroObjeto] = (TgcMesh)edificio;
                     numeroObjeto++;
                 }
             }
@@ -95,12 +91,12 @@ namespace AlumnoEjemplos.Kamikaze3D
             {
                 if (String.Compare(edificio.Name, 0, "Estructura", 0, 9) == 0)
                 {
-                    this.objects[numeroObjeto] = (VoidMeshShader)edificio;
+                    this.objects[numeroObjeto] = (TgcMesh)edificio;
                     numeroObjeto++;
                 }
             }
 
-            this.loadShader();
+            //this.loadShader();
 
         }
 
@@ -115,7 +111,7 @@ namespace AlumnoEjemplos.Kamikaze3D
         /// <summary>
         /// Carga el shader para cada objeto de la cuadra e inicializa sus valores estaticos
         /// </summary>
-        private void loadShader()
+        /*private void loadShader()
         {
             Microsoft.DirectX.Direct3D.Device d3dDevice = GuiController.Instance.D3dDevice;
 
@@ -145,12 +141,12 @@ namespace AlumnoEjemplos.Kamikaze3D
                 else
                     obj.Effect.SetValue("fvSpecularIntensity", 0.95f);
             }
-        }
+        }*/
 
         /// <summary>
         /// Establece los valores dinamicos del shader
         /// </summary>
-        public void updateShader(Vector3 lightPosition, Vector3 camaraPosition)
+        /*public void updateShader(Vector3 lightPosition, Vector3 camaraPosition)
         {
             Microsoft.DirectX.Direct3D.Device d3dDevice = GuiController.Instance.D3dDevice;
 
@@ -162,7 +158,7 @@ namespace AlumnoEjemplos.Kamikaze3D
                 obj.Effect.SetValue("matProjection", d3dDevice.Transform.Projection);
                 obj.Effect.SetValue("matWorld", obj.Transform);
             }
-        }
+        }*/
 
         /// <summary>
         /// Método que se llama cada vez que hay que refrescar la pantalla.

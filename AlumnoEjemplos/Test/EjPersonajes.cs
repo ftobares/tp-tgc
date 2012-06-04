@@ -57,7 +57,7 @@ namespace Examples.SkeletalAnimation
         public override void init()
         {
             camara = new Camara();
-            personaje = new Personaje(camara);
+            personaje = new Personaje(camara, new Explosion());
 
             this.camara.Enable = true;
             this.camara.setCamera(this.personaje.getPersonaje().Position, 50, -100);
