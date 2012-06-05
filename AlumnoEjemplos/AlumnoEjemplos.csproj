@@ -74,6 +74,7 @@
     <Compile Include="Kamikaze3D\Escenario.cs" />
     <Compile Include="Kamikaze3D\Explosion.cs" />
     <Compile Include="Kamikaze3D\Fireball.cs" />
+    <Compile Include="Kamikaze3D\MyMesh.cs" />
     <Compile Include="Kamikaze3D\SphereCollisionManager.cs" />
     <Compile Include="Kamikaze3D\TgcMeshShader.cs" />
     <Compile Include="MiGrupo\EjemploAlumno.cs" />
@@ -122,6 +123,7 @@
     <Content Include="AlumnoMedia\Kamikaze3D\Patrulla\Textures\WOOD_P.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="AlumnoMedia\Kamikaze3D\Shaders\Explosion.fx" />
     <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
