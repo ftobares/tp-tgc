@@ -70,10 +70,12 @@
     <Compile Include="Kamikaze3D\Camara.cs" />
     <Compile Include="Kamikaze3D\Cuadra.cs" />
     <Compile Include="Kamikaze3D\EjemploAlumno.cs" />
+    <Compile Include="Kamikaze3D\PhongShadingPatrulla.cs" />
     <Compile Include="Kamikaze3D\Escenario.cs" />
     <Compile Include="Kamikaze3D\Explosion.cs" />
     <Compile Include="Kamikaze3D\Fireball.cs" />
     <Compile Include="Kamikaze3D\SphereCollisionManager.cs" />
+    <Compile Include="Kamikaze3D\TgcMeshShader.cs" />
     <Compile Include="MiGrupo\EjemploAlumno.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Kamikaze3D\Personaje.cs" />
@@ -113,6 +115,11 @@
     <Content Include="AlumnoMedia\Kamikaze3D\Block\Textures\White Wall.JPG" />
     <Content Include="AlumnoMedia\Kamikaze3D\Block\Textures\Yellow Painted.jpg" />
     <Content Include="AlumnoMedia\Kamikaze3D\mira.png" />
+    <Content Include="AlumnoMedia\Kamikaze3D\Patrulla\autoPoliciaEnEscenario-TgcScene.xml" />
+    <Content Include="AlumnoMedia\Kamikaze3D\Patrulla\Textures\concrete2_4.jpg" />
+    <Content Include="AlumnoMedia\Kamikaze3D\Patrulla\Textures\floor1.jpg" />
+    <Content Include="AlumnoMedia\Kamikaze3D\Patrulla\Textures\policecar.jpg" />
+    <Content Include="AlumnoMedia\Kamikaze3D\Patrulla\Textures\WOOD_P.jpg" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
