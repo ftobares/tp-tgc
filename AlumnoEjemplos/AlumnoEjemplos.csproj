@@ -70,6 +70,9 @@
     <Compile Include="Kamikaze3D\Camara.cs" />
     <Compile Include="Kamikaze3D\Cuadra.cs" />
     <Compile Include="Kamikaze3D\EjemploAlumno.cs" />
+    <Compile Include="Kamikaze3D\Octree.cs" />
+    <Compile Include="Kamikaze3D\OctreeBuilder.cs" />
+    <Compile Include="Kamikaze3D\OctreeNode.cs" />
     <Compile Include="Kamikaze3D\PhongShadingPatrulla.cs" />
     <Compile Include="Kamikaze3D\Escenario.cs" />
     <Compile Include="Kamikaze3D\Explosion.cs" />
