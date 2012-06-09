@@ -38,6 +38,7 @@ namespace Examples.SkeletalAnimation
         List<TgcSkeletalMesh> instances;
         Camara camara;
         Personaje personaje;
+        Octree octree; 
 
         public override string getCategory()
         {
@@ -70,7 +71,7 @@ namespace Examples.SkeletalAnimation
             suelo = TgcBox.fromSize(new Vector3(500, 0, 500), new Vector3(4000, 0, 4000), pisoTexture);
             box1 = TgcBox.fromSize(new Vector3(500, 0, 500), new Vector3(550, 550, 550), pisoTexture);
             box2 = TgcBox.fromSize(new Vector3(100, 0, 100), new Vector3(550, 550, 550), pisoTexture);
-            box3 = TgcBox.fromSize(new Vector3(100, 0, 900), new Vector3(550, 550, 550), pisoTexture);
+            box3 = TgcBox.fromSize(new Vector3(1400, 0, 900), new Vector3(550, 550, 550), pisoTexture);
 
             //Cargar malla original
             TgcSkeletalLoader loader = new TgcSkeletalLoader();
@@ -94,7 +95,7 @@ namespace Examples.SkeletalAnimation
 
             //Crear 9 instancias mas de este modelo, pero sin volver a cargar el modelo entero cada vez
             float offset = 200;
-            int cantInstancias = 15;
+            int cantInstancias = 150;
             instances = new List<TgcSkeletalMesh>();
             for (int i = 0; i < cantInstancias; i++)
 			{
@@ -111,6 +112,15 @@ namespace Examples.SkeletalAnimation
             {
                 instance.playAnimation("HighKick");
             }
+
+            //Crear Octree
+            octree = new Octree();
+            //como el bounding box del suelo no tiene altura se la agrego
+            Vector3 Pmax = suelo.BoundingBox.PMax;
+            Pmax.Y = Pmax.Y + 500;
+            TgcBoundingBox bb = new TgcBoundingBox(suelo.BoundingBox.PMin, Pmax);
+            octree.create(instances, bb);
+            octree.createDebugOctreeMeshes();
 
             return;
             //Camara en primera persona
@@ -133,10 +143,12 @@ namespace Examples.SkeletalAnimation
 
             //Renderizar original e instancias
             original.animateAndRender();
-            foreach (TgcSkeletalMesh instance in instances)
-            {
-                instance.animateAndRender();
-            }
+            //Renderizar el octree que tiene las instancias 
+            octree.render(GuiController.Instance.Frustum, false);
+            //foreach (TgcSkeletalMesh instance in instances)
+            //{
+            //    instance.animateAndRender();
+            //}
             //Renderizar cajas
             box1.render();
             box2.render();
