@@ -10,6 +10,7 @@ using TgcViewer.Utils.Modifiers;
 using TgcViewer.Utils.TgcGeometry;
 using TgcViewer.Utils.TgcSceneLoader;
 using TgcViewer.Utils.Input;
+using TgcViewer.Utils.TgcSkeletalAnimation;
 
 namespace AlumnoEjemplos.Kamikaze3D
 {
@@ -55,13 +56,24 @@ namespace AlumnoEjemplos.Kamikaze3D
         Explosion explosion;
         #endregion
 
+        private Police police;
+        private Octree octree;
+
         public EjemploAlumno()
         {
             this.escenario = new Escenario();
             this.camara = new Camara();
             this.llegada = new Vector3();
             this.explosion = new Explosion();
-            this.personaje = new Personaje(this.camara, this.explosion);
+            this.personaje = new Personaje(this.camara, this.explosion);                      
+        }
+
+        private void createOctree()
+        {
+            octree = new Octree();
+            
+            octree.create(this.police.getInstances(), escenario.getBoundingBox());
+            //octree.createDebugOctreeMeshes();
         }
 
         /// <summary>
@@ -75,8 +87,16 @@ namespace AlumnoEjemplos.Kamikaze3D
 
             this.escenario.init();
             this.personaje.init();
-            this.personaje.setObjetosColisionables(this.escenario.getObjetosColisionables());
+            this.personaje.setObjetosColisionables(this.escenario.getObjetosColisionables());            
             this.explosion.init(this.camara);
+            this.police = new Police(300, this.escenario.getObjetosColisionables(), escenario.getBoundingBox());
+            List<Vector3> personajesColisionables = new List<Vector3>();
+            foreach (TgcSkeletalMesh skm in this.police.getInstances())
+            {
+                personajesColisionables.Add(skm.Position);
+            }
+            this.personaje.setPersonajesColisionables(personajesColisionables);
+            this.createOctree();
         }
 
         /// <summary>
@@ -90,6 +110,7 @@ namespace AlumnoEjemplos.Kamikaze3D
             this.escenario.render(elapsedTime, this.camara, this.explosion);
             this.personaje.render(elapsedTime);
             this.explosion.render(elapsedTime);
+            this.octree.render(GuiController.Instance.Frustum, this.personaje, false);
         }
 
         /// <summary>

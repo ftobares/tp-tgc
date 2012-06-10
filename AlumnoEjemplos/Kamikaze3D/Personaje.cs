@@ -15,7 +15,7 @@ using TgcViewer.Utils._2D;
 
 namespace AlumnoEjemplos.Kamikaze3D
 {
-    class Personaje
+    public class Personaje
     {
         TgcSkeletalMesh personaje;
         Weapon weapon;
@@ -23,6 +23,7 @@ namespace AlumnoEjemplos.Kamikaze3D
         TgcBoundingSphere characterSphere;
         TgcArrow directionArrow;
         List<TgcBoundingBox> objetosColisionables = new List<TgcBoundingBox>();
+        List<Vector3> personajesColisionables = new List<Vector3>();
         Camara camara;
         Explosion explosion;
 
@@ -31,6 +32,11 @@ namespace AlumnoEjemplos.Kamikaze3D
 
         public void setObjetosColisionables(List<TgcBoundingBox> aList) {
             this.objetosColisionables = aList;
+        }
+
+        public void setPersonajesColisionables(List<Vector3> aList)
+        {
+            this.personajesColisionables = aList;
         }
 
         public Personaje(Camara camaraParametro, Explosion explosion)
@@ -49,6 +55,8 @@ namespace AlumnoEjemplos.Kamikaze3D
                     GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "HighKick-TgcSkeletalAnim.xml",                    
                     GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\Animations\\" + "Talk-TgcSkeletalAnim.xml",                                        
                     GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\Animations\\WeaponPos-TgcSkeletalAnim.xml",
+                    GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\Animations\\Muerte-TgcSkeletalAnim.xml",
+
                 });
 
             //Configurar animacion inicial
@@ -351,7 +359,11 @@ namespace AlumnoEjemplos.Kamikaze3D
 
 
            //Mover personaje con detección de colisiones, sliding y gravedad
-            Vector3 realMovement = collisionManager.moveCharacter(this.characterSphere, movementVector, this.objetosColisionables);
+            Vector3 realMovement;
+            if (collisionWithCharacters(movementVector))
+                realMovement = Vector3.Empty;
+            else    
+                realMovement = collisionManager.moveCharacter(this.characterSphere, movementVector, this.objetosColisionables);
             this.personaje.move(realMovement);
 
             //Actualizar valores de la linea de movimiento
@@ -384,6 +396,20 @@ namespace AlumnoEjemplos.Kamikaze3D
             hitCantTextY.render();
             hitCantTextX.render();
 
+        }
+
+        private bool collisionWithCharacters(Vector3 movVector)
+        {
+            float collisionDistance = 200;
+            float posX = this.personaje.Position.X + movVector.X;
+            float posZ = this.personaje.Position.Z + movVector.Z;
+
+            foreach (Vector3 posicion in personajesColisionables)
+                if(FastMath.Pow2(posicion.X - posX) +
+                   FastMath.Pow2(posicion.Z - posZ) 
+                    < collisionDistance)
+                    return true;
+            return false;
         }
 
         public void close()
