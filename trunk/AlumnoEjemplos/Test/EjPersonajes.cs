@@ -61,6 +61,7 @@ namespace Examples.SkeletalAnimation
             personaje = new Personaje(camara, new Explosion());
 
             this.camara.Enable = true;
+            this.personaje.getPersonaje().Position = new Vector3(100,0,100);
             this.camara.setCamera(this.personaje.getPersonaje().Position, 50, -100);
             this.personaje.init();
 
@@ -79,17 +80,26 @@ namespace Examples.SkeletalAnimation
             string mediaPath = GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\";
             original = loader.loadMeshFromFile(pathMesh, mediaPath);
 
+            string posicionStr = "Disparar";
             //Agregar animación a original
-            loader.loadAnimationFromFile(original, mediaPath + "Animations\\HighKick-TgcSkeletalAnim.xml");
+            loader.loadAnimationFromFile(original, GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\Animations\\" + posicionStr + "-TgcSkeletalAnim.xml");
+            //loader.loadAnimationFromFile(original, mediaPath + "Animations\\" + posicionStr + "-TgcSkeletalAnim.xml");
 
             //Agregar attachment a original
             TgcSkeletalBoneAttach attachment = new TgcSkeletalBoneAttach();
-            TgcBox attachmentBox = TgcBox.fromSize(new Vector3(3, 60, 3), Color.Green);
+            TgcBox attachmentBox = TgcBox.fromSize(new Vector3(1, 10, 1), Color.Black);
+            
+            Matrix offsetMatrix = Matrix.RotationY(Geometry.DegreeToRadian(190));
+            offsetMatrix = Matrix.Multiply(offsetMatrix, Matrix.RotationZ(Geometry.DegreeToRadian(80)));
+            offsetMatrix = Matrix.Multiply(offsetMatrix, Matrix.Translation(10, 0, 0));
+            offsetMatrix = Matrix.Multiply(offsetMatrix, Matrix.RotationX(Geometry.DegreeToRadian(300)));
+            offsetMatrix = Matrix.Multiply(offsetMatrix, Matrix.Translation(-2.5f, -1.5f, 0));
+
             attachment.Mesh = attachmentBox.toMesh("attachment");
             attachment.Bone = original.getBoneByName("Bip01 L Hand");
-            attachment.Offset = Matrix.Translation(10, -40, 0);
+            attachment.Offset = offsetMatrix; 
             attachment.updateValues();
-            original.Scale = new Vector3(0.8f, 0.8f, 0.8f);
+            original.Scale = new Vector3(0.7f, 0.7f, 0.7f);
             original.Attachments.Add(attachment);
 
 
@@ -107,10 +117,10 @@ namespace Examples.SkeletalAnimation
 
 
             //Especificar la animación actual para todos los modelos
-            original.playAnimation("HighKick");
+            original.playAnimation(posicionStr);
             foreach (TgcSkeletalMesh instance in instances)
             {
-                instance.playAnimation("HighKick");
+                instance.playAnimation(posicionStr);
             }
 
             //Crear Octree
@@ -144,7 +154,7 @@ namespace Examples.SkeletalAnimation
             //Renderizar original e instancias
             original.animateAndRender();
             //Renderizar el octree que tiene las instancias 
-            octree.render(GuiController.Instance.Frustum, false);
+            octree.render(GuiController.Instance.Frustum, this.personaje, false);
             //foreach (TgcSkeletalMesh instance in instances)
             //{
             //    instance.animateAndRender();

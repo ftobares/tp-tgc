@@ -56,19 +56,23 @@ namespace AlumnoEjemplos.Kamikaze3D
         /// <summary>
         /// Renderizar en forma optimizado utilizando el Octree para hacer FrustumCulling
         /// </summary>
-        public void render(TgcFrustum frustum, bool debugEnabled)
+        public void render(TgcFrustum frustum, Personaje mainPJ, bool debugEnabled)
         {
             Vector3 pMax = sceneBounds.PMax;
             Vector3 pMin = sceneBounds.PMin;
-            findVisibleMeshes(frustum, octreeRootNode, 
-                pMin.X, pMin.Y, pMin.Z,
-                pMax.X, pMax.Y, pMax.Z);
+            findVisibleMeshes(frustum, octreeRootNode,
+                pMin.X, pMin.Y, mainPJ.getPersonaje().Position.Z - 100,
+                pMax.X, pMax.Y, mainPJ.getPersonaje().Position.Z + 300);
 
             //Renderizar
             foreach (TgcSkeletalMesh mesh in modelos)
             {
                 if (mesh.Enabled)
                 {
+                    Vector3 vec = mesh.Position - mainPJ.getPersonaje().Position;
+                    double anguloFinal = Math.Atan2(vec.X, vec.Z);
+                    mesh.rotateY(-mesh.Rotation.Y);
+                    mesh.rotateY((float)anguloFinal);
                     mesh.render();
                     mesh.Enabled = false;
                 }

@@ -1,0 +1,91 @@
+<tgcSkeletalAnim>
+	<animation name='Disparar' bonesCount='22' framesCount='16' frameRate='30' startFrame='0' endFrame='15'>
+		<boundingBox min='[-6.60629,-0.717894,-20.8998]' max='[6.96942,48.9932,5.63445]'/>
+		<bone id='0' name='Bip01' keyFramesCount='1'>
+			<frame n='0' pos='[0.212447,26.2833,1.14834]' rotQuat='[0.0,0.707106,0.0,0.707107]' />
+		</bone>
+		<bone id='1' name='Bip01 Pelvis' keyFramesCount='1'>
+			<frame n='0' pos='[0,0,0]' rotQuat='[0.499999,0.5,0.5,0.500001]' />
+		</bone>
+		<bone id='2' name='Bip01 Spine' keyFramesCount='3'>
+			<frame n='0' pos='[2.74009,0,-0.00493252]' rotQuat='[0.0,-0.000398159,0.0,1.0]' />
+			<frame n='7' pos='[2.74009,0,-0.00493252]' rotQuat='[0.0,-0.000398159,0.0,1.0]' />
+			<frame n='15' pos='[2.74009,0,-0.00493252]' rotQuat='[0.0,-0.000398159,0.0,1.0]' />
+		</bone>
+		<bone id='3' name='Bip01 Spine1' keyFramesCount='3'>
+			<frame n='0' pos='[6.19498,0,-0.00343716]' rotQuat='[0.0,0.000322947,0.0,1.0]' />
+			<frame n='7' pos='[6.19443,0,-0.00339234]' rotQuat='[0.0,0.0804805,0.0,0.996756]' />
+			<frame n='15' pos='[6.19498,0,-0.00343716]' rotQuat='[0.0,0.000659003,0.0,1.0]' />
+		</bone>
+		<bone id='4' name='Bip01 Neck' keyFramesCount='1'>
+			<frame n='0' pos='[6.41606,0.0869015,-0.00350106]' rotQuat='[0.0,0.0269928,0.0,0.999636]' />
+		</bone>
+		<bone id='5' name='Bip01 Head' keyFramesCount='1'>
+			<frame n='0' pos='[2.30036,0,0]' rotQuat='[0.0,0.0,0.0,1.0]' />
+		</bone>
+		<bone id='6' name='Bip01 L Clavicle' keyFramesCount='3'>
+			<frame n='0' pos='[-2.09664,0.747039,-0.109809]' rotQuat='[-0.706857,-0.706857,-0.0188044,-0.0188064]' />
+			<frame n='7' pos='[-2.09664,0.747039,-0.109808]' rotQuat='[-0.706857,-0.706857,-0.0188044,-0.0188064]' />
+			<frame n='15' pos='[-2.09664,0.747039,-0.109809]' rotQuat='[-0.706857,-0.706857,-0.0188044,-0.0188064]' />
+		</bone>
+		<bone id='7' name='Bip01 L UpperArm' keyFramesCount='3'>
+			<frame n='0' pos='[4.14776,0,0]' rotQuat='[-0.358887,-0.613229,0.510014,-0.484805]' />
+			<frame n='7' pos='[4.14776,0,0]' rotQuat='[0.313073,0.538597,-0.55937,0.546812]' />
+			<frame n='15' pos='[4.14776,0,0]' rotQuat='[-0.358884,-0.612905,0.510107,-0.485119]' />
+		</bone>
+		<bone id='8' name='Bip01 L Forearm' keyFramesCount='3'>
+			<frame n='0' pos='[9.01669,0,0]' rotQuat='[0.0,0.0249778,0.0,0.999688]' />
+			<frame n='7' pos='[9.01669,0,0]' rotQuat='[0.0,0.307172,0.0,0.951654]' />
+			<frame n='15' pos='[9.01669,0,0]' rotQuat='[0.0,0.0249778,0.0,0.999688]' />
+		</bone>
+		<bone id='9' name='Bip01 L Hand' keyFramesCount='3'>
+			<frame n='0' pos='[8.40197,0,0]' rotQuat='[0.744807,0.0557166,0.0727773,0.660956]' />
+			<frame n='7' pos='[8.40198,0,0]' rotQuat='[0.744807,0.0557166,0.0727773,0.660956]' />
+			<frame n='15' pos='[8.40198,0,0]' rotQuat='[0.744807,0.0557166,0.0727773,0.660956]' />
+		</bone>
+		<bone id='10' name='Bip01 R Clavicle' keyFramesCount='3'>
+			<frame n='0' pos='[-2.09664,-0.920842,-0.109804]' rotQuat='[-0.706857,0.706857,-0.0188064,0.0188044]' />
+			<frame n='7' pos='[-2.09664,-0.920842,-0.109804]' rotQuat='[-0.706857,0.706857,-0.0188064,0.0188044]' />
+			<frame n='15' pos='[-2.09664,-0.920842,-0.109804]' rotQuat='[-0.706857,0.706857,-0.0188064,0.0188044]' />
+		</bone>
+		<bone id='11' name='Bip01 R UpperArm' keyFramesCount='3'>
+			<frame n='0' pos='[4.14776,0,0]' rotQuat='[0.367041,-0.605726,-0.500249,-0.498124]' />
+			<frame n='7' pos='[4.14776,0,0]' rotQuat='[-0.322823,0.537093,0.548675,0.553419]' />
+			<frame n='15' pos='[4.14776,0,0]' rotQuat='[0.367166,-0.605267,-0.500238,-0.498602]' />
+		</bone>
+		<bone id='12' name='Bip01 R Forearm' keyFramesCount='3'>
+			<frame n='0' pos='[8.50615,0,0]' rotQuat='[0.0,0.0159018,0.0,0.999874]' />
+			<frame n='7' pos='[8.50615,0,0]' rotQuat='[0.0,0.279467,0.0,0.960155]' />
+			<frame n='15' pos='[8.50615,0,0]' rotQuat='[0.0,0.0159019,0.0,0.999874]' />
+		</bone>
+		<bone id='13' name='Bip01 R Hand' keyFramesCount='3'>
+			<frame n='0' pos='[8.54264,0,0]' rotQuat='[-0.785301,0.0754496,-0.103404,0.605737]' />
+			<frame n='7' pos='[8.54264,0,0]' rotQuat='[-0.785301,0.0754496,-0.103404,0.605737]' />
+			<frame n='15' pos='[8.54264,0,0]' rotQuat='[-0.785301,0.0754496,-0.103404,0.605737]' />
+		</bone>
+		<bone id='14' name='Bip01 L Thigh' keyFramesCount='1'>
+			<frame n='0' pos='[0,3.89689,0]' rotQuat='[-0.0384515,0.00429694,-0.999237,0.00525347]' />
+		</bone>
+		<bone id='15' name='Bip01 L Calf' keyFramesCount='1'>
+			<frame n='0' pos='[11.9134,0,0]' rotQuat='[0.0,0.0998334,0.0,0.995004]' />
+		</bone>
+		<bone id='16' name='Bip01 L Foot' keyFramesCount='1'>
+			<frame n='0' pos='[11.9134,0,0]' rotQuat='[0.00479921,-0.0614979,-0.00479759,0.998084]' />
+		</bone>
+		<bone id='17' name='Bip01 L Toe0' keyFramesCount='1'>
+			<frame n='0' pos='[2.74009,0,3.52638]' rotQuat='[0.0,-0.707107,0.0,0.707107]' />
+		</bone>
+		<bone id='18' name='Bip01 R Thigh' keyFramesCount='1'>
+			<frame n='0' pos='[0,-3.89689,0]' rotQuat='[-0.0260033,-0.00747599,-0.99957,0.0113259]' />
+		</bone>
+		<bone id='19' name='Bip01 R Calf' keyFramesCount='1'>
+			<frame n='0' pos='[11.9134,0,0]' rotQuat='[0.0,0.0998335,0.0,0.995004]' />
+		</bone>
+		<bone id='20' name='Bip01 R Foot' keyFramesCount='1'>
+			<frame n='0' pos='[11.9134,0,0]' rotQuat='[-0.00630868,-0.0739171,-0.0120151,0.997172]' />
+		</bone>
+		<bone id='21' name='Bip01 R Toe0' keyFramesCount='1'>
+			<frame n='0' pos='[2.74009,0,3.52638]' rotQuat='[0.0,-0.707107,0.0,0.707107]' />
+		</bone>
+	</animation>
+</tgcSkeletalAnim>

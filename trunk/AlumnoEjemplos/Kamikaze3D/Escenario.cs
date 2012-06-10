@@ -146,5 +146,28 @@ namespace AlumnoEjemplos.Kamikaze3D
                 this.cuadras[i].close();
         }
 
+        public TgcBoundingBox getBoundingBox()
+        {
+            Vector3 pMin = cuadras[0].getScene().BoundingBox.PMin;
+            Vector3 pMax = cuadras[0].getScene().BoundingBox.PMax;
+
+            for (int i = 0; i < this.cuadras.Length; i++)
+            {
+                foreach (TgcMesh mesh in cuadras[i].getMeshes())
+                {
+                    if (mesh.BoundingBox.PMin.X < pMin.X &&
+                        mesh.BoundingBox.PMin.Y < pMin.Y &&
+                        mesh.BoundingBox.PMin.Z < pMin.Z)
+                        pMin = mesh.BoundingBox.PMin;
+
+                    if (mesh.BoundingBox.PMax.X > pMax.X &&
+                        mesh.BoundingBox.PMax.Y > pMax.Y &&
+                        mesh.BoundingBox.PMax.Z > pMax.Z)
+                        pMax = mesh.BoundingBox.PMax;
+                }
+            }
+            return new TgcBoundingBox(pMin, pMax);
+        }
+
     }
 }

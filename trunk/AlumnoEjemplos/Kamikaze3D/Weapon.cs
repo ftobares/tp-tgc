@@ -8,7 +8,7 @@ using Microsoft.DirectX.Direct3D;
 
 namespace AlumnoEjemplos.Kamikaze3D
 {
-    class Weapon
+    public class Weapon
     {
         private List<TgcMesh> listMesh;
         public bool visible;
