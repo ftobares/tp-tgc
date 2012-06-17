@@ -9,24 +9,24 @@ using TgcViewer.Utils.TgcSkeletalAnimation;
 namespace AlumnoEjemplos.Kamikaze3D
 {
     /// <summary>
-    /// Herramienta para crear y utilizar un Octree para renderizar por Frustum Culling
+    /// Herramienta para crear y utilizar un Quadtree para renderizar por Frustum Culling
     /// </summary>
-    public class Octree
+    public class Quadtree
     {
 
-        OctreeNode octreeRootNode;
+        QuadtreeNode quadtreeRootNode;
         List<TgcSkeletalMesh> modelos;
         TgcBoundingBox sceneBounds;
-        OctreeBuilder builder;
-        List<TgcDebugBox> debugOctreeBoxes;
+        QuadtreeBuilder builder;
+        List<TgcDebugBox> debugQuadtreeBoxes;
 
-        public Octree()
+        public Quadtree()
         {
-            builder = new OctreeBuilder();
+            builder = new QuadtreeBuilder();
         }
 
         /// <summary>
-        /// Crear nuevo Octree
+        /// Crear nuevo Quadtree
         /// </summary>
         /// <param name="modelos">Modelos a optimizar</param>
         /// <param name="sceneBounds">Límites del escenario</param>
@@ -35,8 +35,8 @@ namespace AlumnoEjemplos.Kamikaze3D
             this.modelos = modelos;
             this.sceneBounds = sceneBounds;
 
-            //Crear Octree
-            this.octreeRootNode = builder.crearOctree(modelos, sceneBounds);
+            //Crear Quadtree
+            this.quadtreeRootNode = builder.crearQuadtree(modelos, sceneBounds);
 
             //Deshabilitar todos los mesh inicialmente
             foreach (TgcSkeletalMesh mesh in modelos)
@@ -48,26 +48,28 @@ namespace AlumnoEjemplos.Kamikaze3D
         /// <summary>
         /// Crear meshes para debug
         /// </summary>
-        public void createDebugOctreeMeshes()
+        public void createDebugQuadtreeMeshes()
         {
-            debugOctreeBoxes = builder.createDebugOctreeMeshes(octreeRootNode, sceneBounds);
+            debugQuadtreeBoxes = builder.createDebugQuadtreeMeshes(quadtreeRootNode, sceneBounds);
         }
 
         /// <summary>
-        /// Renderizar en forma optimizado utilizando el Octree para hacer FrustumCulling
+        /// Renderizar en forma optimizado utilizando el Quadtree para hacer FrustumCulling
         /// </summary>
         public void render(TgcFrustum frustum, Personaje mainPJ, bool debugEnabled)
         {
             Vector3 pMax = sceneBounds.PMax;
             Vector3 pMin = sceneBounds.PMin;
-            findVisibleMeshes(frustum, octreeRootNode,
-                pMin.X, pMin.Y, mainPJ.getPersonaje().Position.Z - 100,
-                pMax.X, pMax.Y, mainPJ.getPersonaje().Position.Z + 300);
+            findVisibleMeshes(frustum, quadtreeRootNode,
+                pMin.X, pMin.Y, pMin.Z,
+                pMax.X, pMax.Y, pMax.Z);
 
             //Renderizar
+            float pjX = mainPJ.getPersonaje().Position.X;
+            float pjZ = mainPJ.getPersonaje().Position.Z;
             foreach (TgcSkeletalMesh mesh in modelos)
             {
-                if (mesh.Enabled)
+                if (mesh.Enabled && FastMath.Abs(mesh.Position.X - pjX) < 1000 && FastMath.Abs(mesh.Position.Z - pjZ) < 1000)
                 {
                     Vector3 vec = mesh.Position - mainPJ.getPersonaje().Position;
                     double anguloFinal = Math.Atan2(vec.X, vec.Z);
@@ -80,21 +82,22 @@ namespace AlumnoEjemplos.Kamikaze3D
 
             if (debugEnabled)
             {
-                foreach (TgcDebugBox debugBox in debugOctreeBoxes)
+                foreach (TgcDebugBox debugBox in debugQuadtreeBoxes)
                 {
                     debugBox.render();
                 }
             }
         }
 
+
         /// <summary>
-        /// Recorrer recursivamente el Octree para encontrar los nodos visibles
+        /// Recorrer recursivamente el Quadtree para encontrar los nodos visibles
         /// </summary>
-        private void findVisibleMeshes(TgcFrustum frustum, OctreeNode node, 
-            float boxLowerX, float boxLowerY, float boxLowerZ, 
-            float boxUpperX, float boxUpperY, float boxUpperZ) 
+        private void findVisibleMeshes(TgcFrustum frustum, QuadtreeNode node,
+            float boxLowerX, float boxLowerY, float boxLowerZ,
+            float boxUpperX, float boxUpperY, float boxUpperZ)
         {
-            OctreeNode[] children = node.children;
+            QuadtreeNode[] children = node.children;
 
             //es hoja, cargar todos los meshes
             if (children == null)
@@ -106,28 +109,21 @@ namespace AlumnoEjemplos.Kamikaze3D
             else
             {
                 float midX = FastMath.Abs((boxUpperX - boxLowerX) / 2);
-                float midY = FastMath.Abs((boxUpperY - boxLowerY) / 2);
                 float midZ = FastMath.Abs((boxUpperZ - boxLowerZ) / 2);
 
-                //000
-                testChildVisibility(frustum, children[0], boxLowerX + midX, boxLowerY + midY, boxLowerZ + midZ, boxUpperX, boxUpperY, boxUpperZ);
-                //001
-                testChildVisibility(frustum, children[1], boxLowerX + midX, boxLowerY + midY, boxLowerZ, boxUpperX, boxUpperY, boxUpperZ - midZ);
+                //00
+                testChildVisibility(frustum, children[0], boxLowerX + midX, boxLowerY, boxLowerZ + midZ, boxUpperX, boxUpperY, boxUpperZ);
 
-                //010
-                testChildVisibility(frustum, children[2], boxLowerX + midX, boxLowerY, boxLowerZ + midZ, boxUpperX, boxUpperY - midY, boxUpperZ);
-                //011
-                testChildVisibility(frustum, children[3], boxLowerX + midX, boxLowerY, boxLowerZ, boxUpperX, boxUpperY - midY, boxUpperZ - midZ);
+                //01
+                testChildVisibility(frustum, children[1], boxLowerX + midX, boxLowerY, boxLowerZ, boxUpperX, boxUpperY, boxUpperZ - midZ);
 
-                //100
-                testChildVisibility(frustum, children[4], boxLowerX, boxLowerY + midY, boxLowerZ + midZ, boxUpperX - midX, boxUpperY, boxUpperZ);
-                //101
-                testChildVisibility(frustum, children[5], boxLowerX, boxLowerY + midY, boxLowerZ, boxUpperX - midX, boxUpperY, boxUpperZ - midZ);
+                //10
+                testChildVisibility(frustum, children[2], boxLowerX, boxLowerY, boxLowerZ + midZ, boxUpperX - midX, boxUpperY, boxUpperZ);
+                
+                //11
+                testChildVisibility(frustum, children[3], boxLowerX, boxLowerY, boxLowerZ, boxUpperX - midX, boxUpperY, boxUpperZ - midZ);
 
-                //110
-                testChildVisibility(frustum, children[6], boxLowerX, boxLowerY, boxLowerZ + midZ, boxUpperX - midX, boxUpperY - midY, boxUpperZ);
-                //111
-                testChildVisibility(frustum, children[7], boxLowerX, boxLowerY, boxLowerZ, boxUpperX - midX, boxUpperY - midY, boxUpperZ - midZ);
+
             }
         }
 
@@ -135,17 +131,13 @@ namespace AlumnoEjemplos.Kamikaze3D
         /// <summary>
         /// Hacer visible las meshes de un nodo si es visible por el Frustum
         /// </summary>
-        private void testChildVisibility(TgcFrustum frustum, OctreeNode childNode,
+        private void testChildVisibility(TgcFrustum frustum, QuadtreeNode childNode,
                 float boxLowerX, float boxLowerY, float boxLowerZ, float boxUpperX, float boxUpperY, float boxUpperZ)
         {
-            if (childNode == null)
-            {
-                return;
-            }
 
             //test frustum-box intersection
             TgcBoundingBox caja = new TgcBoundingBox(
-                new Vector3(boxLowerX, boxLowerY, boxLowerZ), 
+                new Vector3(boxLowerX, boxLowerY, boxLowerZ),
                 new Vector3(boxUpperX, boxUpperY, boxUpperZ));
             TgcCollisionUtils.FrustumResult c = TgcCollisionUtils.classifyFrustumAABB(frustum, caja);
 
@@ -165,43 +157,38 @@ namespace AlumnoEjemplos.Kamikaze3D
         /// <summary>
         /// Hacer visibles todas las meshes de un nodo, buscando recursivamente sus hojas
         /// </summary>
-	    private void addAllLeafMeshes(OctreeNode node) {
-            if (node == null)
+        private void addAllLeafMeshes(QuadtreeNode node)
+        {
+            QuadtreeNode[] children = node.children;
+
+            //es hoja, cargar todos los meshes
+            if (children == null)
             {
-                return;
+                selectLeafMeshes(node);
             }
-
-            OctreeNode[] children = node.children;
-
-		    //es hoja, cargar todos los meshes
-		    if( children == null ) 
+            //pedir hojas a hijos
+            else
             {
-			    selectLeafMeshes(node);
-
-		    //pedir hojas a hijos
-		    } 
-            else 
-            {
-			    for (int i = 0; i < children.Length; i++) 
+                for (int i = 0; i < children.Length; i++)
                 {
-				    addAllLeafMeshes(children[i]);
-			    }
-		    }
-	    }
+                    addAllLeafMeshes(children[i]);
+                }
+            }
+        }
 
 
         /// <summary>
         /// Hacer visibles todas las meshes de un nodo
         /// </summary>
-        private void selectLeafMeshes(OctreeNode node)
+        private void selectLeafMeshes(QuadtreeNode node)
         {
             TgcSkeletalMesh[] models = node.models;
             foreach (TgcSkeletalMesh m in models)
-	        {
-        		 m.Enabled = true;
-	        }
+            {
+                m.Enabled = true;
+            }
         }
-         
+
 
 
 

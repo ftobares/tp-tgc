@@ -38,7 +38,7 @@ namespace Examples.SkeletalAnimation
         List<TgcSkeletalMesh> instances;
         Camara camara;
         Personaje personaje;
-        Octree octree; 
+        Quadtree quadtree; 
 
         public override string getCategory()
         {
@@ -123,14 +123,14 @@ namespace Examples.SkeletalAnimation
                 instance.playAnimation(posicionStr);
             }
 
-            //Crear Octree
-            octree = new Octree();
+            //Crear quadtree
+            quadtree = new Quadtree();
             //como el bounding box del suelo no tiene altura se la agrego
             Vector3 Pmax = suelo.BoundingBox.PMax;
             Pmax.Y = Pmax.Y + 500;
             TgcBoundingBox bb = new TgcBoundingBox(suelo.BoundingBox.PMin, Pmax);
-            octree.create(instances, bb);
-            octree.createDebugOctreeMeshes();
+            quadtree.create(instances, bb);
+            quadtree.createDebugQuadtreeMeshes();
 
             return;
             //Camara en primera persona
@@ -153,8 +153,8 @@ namespace Examples.SkeletalAnimation
 
             //Renderizar original e instancias
             original.animateAndRender();
-            //Renderizar el octree que tiene las instancias 
-            octree.render(GuiController.Instance.Frustum, this.personaje, false);
+            //Renderizar el quadtree que tiene las instancias 
+            quadtree.render(GuiController.Instance.Frustum, this.personaje, false);
             //foreach (TgcSkeletalMesh instance in instances)
             //{
             //    instance.animateAndRender();

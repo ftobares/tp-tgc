@@ -11,6 +11,7 @@ using TgcViewer.Utils.TgcGeometry;
 using TgcViewer.Utils.TgcSceneLoader;
 using TgcViewer.Utils.Input;
 using TgcViewer.Utils.TgcSkeletalAnimation;
+using TgcViewer.Utils._2D;
 
 namespace AlumnoEjemplos.Kamikaze3D
 {
@@ -57,23 +58,35 @@ namespace AlumnoEjemplos.Kamikaze3D
         #endregion
 
         private Police police;
-        private Octree octree;
+        private TgcText2d distanceTargetText;
+        private TgcText2d onTargetPosition;
+        private Quadtree quadtree;
+        private const int MIN_DISTANCE_TO_EXPLODE = 100;
 
         public EjemploAlumno()
         {
             this.escenario = new Escenario();
             this.camara = new Camara();
-            this.llegada = new Vector3();
+            this.llegada = new Vector3(1800,0,1700);
             this.explosion = new Explosion();
-            this.personaje = new Personaje(this.camara, this.explosion);                      
+            this.personaje = new Personaje(this.camara, this.explosion);
+
+            distanceTargetText = new TgcText2d();            
+            distanceTargetText.Position = new Point(0, 40);
+            distanceTargetText.Color = Color.White;
+            onTargetPosition = new TgcText2d();
+            onTargetPosition.Position = new Point(0, 60);
+            onTargetPosition.Color = Color.Red;
+            onTargetPosition.Text = "Presione la tecla K";
         }
 
-        private void createOctree()
+        private void optimizar()
         {
-            octree = new Octree();
-            
-            octree.create(this.police.getInstances(), escenario.getBoundingBox());
-            //octree.createDebugOctreeMeshes();
+            //Crear Quadtree
+            quadtree = new Quadtree();
+            quadtree.create(this.police.getInstances(), escenario.getBoundingBox());
+            //quadtree.createDebugQuadtreeMeshes();
+            return;
         }
 
         /// <summary>
@@ -88,15 +101,27 @@ namespace AlumnoEjemplos.Kamikaze3D
             this.escenario.init();
             this.personaje.init();
             this.personaje.setObjetosColisionables(this.escenario.getObjetosColisionables());            
-            this.explosion.init(this.camara);
-            this.police = new Police(300, this.escenario.getObjetosColisionables(), escenario.getBoundingBox());
+            this.explosion.init(this.camara);          
+            this.police = new Police(300/*300*/, this.escenario.getObjetosColisionables(), escenario.getBoundingBox());
             List<Vector3> personajesColisionables = new List<Vector3>();
             foreach (TgcSkeletalMesh skm in this.police.getInstances())
             {
                 personajesColisionables.Add(skm.Position);
             }
             this.personaje.setPersonajesColisionables(personajesColisionables);
-            this.createOctree();
+            this.optimizar();
+        }
+
+        public int getDistanceToTarget()
+        {
+            float distance = FastMath.Pow2(this.personaje.getPersonaje().Position.X - llegada.X) +
+                             FastMath.Pow2(this.personaje.getPersonaje().Position.Z - llegada.Z);
+            distance = FastMath.Sqrt(distance);
+            if (distance < MIN_DISTANCE_TO_EXPLODE)
+                distanceTargetText.Color = Color.Red;
+            else
+                distanceTargetText.Color = Color.White;
+            return Convert.ToInt32(distance);
         }
 
         /// <summary>
@@ -110,7 +135,15 @@ namespace AlumnoEjemplos.Kamikaze3D
             this.escenario.render(elapsedTime, this.camara, this.explosion);
             this.personaje.render(elapsedTime);
             this.explosion.render(elapsedTime);
-            this.octree.render(GuiController.Instance.Frustum, this.personaje, false);
+            this.quadtree.render(GuiController.Instance.Frustum, this.personaje, false);
+            int distance = getDistanceToTarget();
+            this.personaje.canExplode = false;
+            if(distance < MIN_DISTANCE_TO_EXPLODE) {
+                onTargetPosition.render();
+                this.personaje.canExplode = true;
+            }
+            distanceTargetText.Text = "Distancia a objetivo: " + Convert.ToString(distance);
+            distanceTargetText.render();
         }
 
         /// <summary>

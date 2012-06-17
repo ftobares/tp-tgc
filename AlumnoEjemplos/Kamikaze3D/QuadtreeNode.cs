@@ -7,17 +7,16 @@ using TgcViewer.Utils.TgcSkeletalAnimation;
 namespace AlumnoEjemplos.Kamikaze3D
 {
     /// <summary>
-    /// Nodo del árbol Octree
+    /// Nodo del árbol Quadtree
     /// </summary>
-    class OctreeNode
+    class QuadtreeNode
     {
-        public OctreeNode[] children;
+        public QuadtreeNode[] children;
         public TgcSkeletalMesh[] models;
 
         public bool isLeaf()
         {
             return children == null;
         }
-
     }
 }

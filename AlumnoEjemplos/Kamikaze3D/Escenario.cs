@@ -155,6 +155,7 @@ namespace AlumnoEjemplos.Kamikaze3D
             {
                 foreach (TgcMesh mesh in cuadras[i].getMeshes())
                 {
+                    /*
                     if (mesh.BoundingBox.PMin.X < pMin.X &&
                         mesh.BoundingBox.PMin.Y < pMin.Y &&
                         mesh.BoundingBox.PMin.Z < pMin.Z)
@@ -164,6 +165,20 @@ namespace AlumnoEjemplos.Kamikaze3D
                         mesh.BoundingBox.PMax.Y > pMax.Y &&
                         mesh.BoundingBox.PMax.Z > pMax.Z)
                         pMax = mesh.BoundingBox.PMax;
+                    */
+                    if (mesh.BoundingBox.PMin.X < pMin.X)
+                        pMin.X = mesh.BoundingBox.PMin.X;
+                    if (mesh.BoundingBox.PMin.Y < pMin.Y)
+                        pMin.Y = mesh.BoundingBox.PMin.Y;
+                    if (mesh.BoundingBox.PMin.Z < pMin.Z)
+                        pMin.Z = mesh.BoundingBox.PMin.Z;
+
+                    if (mesh.BoundingBox.PMax.X > pMax.X)
+                        pMax.X = mesh.BoundingBox.PMax.X;
+                    if (mesh.BoundingBox.PMax.Y > pMax.Y)
+                        pMax.Y = mesh.BoundingBox.PMax.Y;
+                    if (mesh.BoundingBox.PMax.Z > pMax.Z)
+                        pMax.Z = mesh.BoundingBox.PMax.Z;
                 }
             }
             return new TgcBoundingBox(pMin, pMax);
