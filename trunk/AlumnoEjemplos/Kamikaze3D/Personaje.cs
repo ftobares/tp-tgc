@@ -26,6 +26,7 @@ namespace AlumnoEjemplos.Kamikaze3D
         List<Vector3> personajesColisionables = new List<Vector3>();
         Camara camara;
         Explosion explosion;
+        public bool canExplode = false;
 
         //variables de pruebas
         bool renderDirectionArrow = false;
@@ -180,7 +181,7 @@ namespace AlumnoEjemplos.Kamikaze3D
             float velocidadRotacion = (float)GuiController.Instance.Modifiers.getValue("VelocidadRotacion");
 
             //Detonar
-            if (d3dInput.keyDown(Key.Return))
+            if (this.canExplode && d3dInput.keyDown(Key.K))
                 this.explosion.detonar();
 
             //Adelante

@@ -35,7 +35,7 @@ namespace AlumnoEjemplos.Kamikaze3D
                 instance.move((i % 20) * offset, 3.5f, (i / 20) * offset);
                 instance.Scale = original.Scale;
 
-                if (TgcCollisionUtils.classifyBoxBox(instance.BoundingBox, scene) == TgcCollisionUtils.BoxBoxResult.Adentro)
+                if (TgcCollisionUtils.classifyBoxBox(instance.BoundingBox, scene) != TgcCollisionUtils.BoxBoxResult.Encerrando)
                     continue; //si esta afuera del escenario lo descarto
 
                 bool colisionando = false;
@@ -53,10 +53,10 @@ namespace AlumnoEjemplos.Kamikaze3D
 
             //Especificar la animación actual para todos los modelos
             original.playAnimation("Disparar");
-            foreach (TgcSkeletalMesh instance in instances)
-            {
-                instance.playAnimation("Disparar");
-            }         
+            //foreach (TgcSkeletalMesh instance in instances)
+            //{
+            //    instance.playAnimation("Disparar");
+            //}         
 
         }
 
