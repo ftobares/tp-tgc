@@ -101,7 +101,7 @@ namespace AlumnoEjemplos.Kamikaze3D
             this.escenario.init();
             this.personaje.init();
             this.personaje.setObjetosColisionables(this.escenario.getObjetosColisionables());            
-            this.explosion.init(this.camara);          
+            this.explosion.init(this.camara, this.personaje);          
             this.police = new Police(300/*300*/, this.escenario.getObjetosColisionables(), escenario.getBoundingBox());
             List<Vector3> personajesColisionables = new List<Vector3>();
             foreach (TgcSkeletalMesh skm in this.police.getInstances())

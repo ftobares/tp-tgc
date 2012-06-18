@@ -25,35 +25,21 @@ namespace AlumnoEjemplos.Kamikaze3D
         private float cameraSpeed = 0.1F;
         private float cameraAcceleration = 0.5F;
         private Camara camara;
-
-        private Effect effect;
+        private Personaje personaje;
 
         private bool detonada = false;
 
-        public void init(Camara camara)
+        public void init(Camara camara, Personaje personaje)
         {
             this.camara = camara;
+            this.personaje = personaje;
             
             //Crear loader
             TgcSceneLoader loader = new TgcSceneLoader();
-            //Configurar MeshFactory customizado
-            loader.MeshFactory = new MyCustomMeshFactory();
             this.scene = loader.loadSceneFromFile(GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\Explosion\\Explosion-TgcScene.xml");
 
-            //Cargar shader
-            Device d3dDevice = GuiController.Instance.D3dDevice;
-            string compilationErrors;
-            this.effect = Effect.FromFile(d3dDevice, GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\Shaders\\Explosion.fx", null, null, ShaderFlags.None, null, out compilationErrors);
-            if (this.effect == null)
-                throw new Exception("Error al cargar shader. Errores: " + compilationErrors);
-           
-            this.effect.Technique = "DefaultTechnique";
-
-            foreach (MyMesh mesh in this.scene.Meshes)
-            {
+            foreach (TgcMesh mesh in this.scene.Meshes)
                 mesh.Scale = new Vector3(0, 0, 0);
-                mesh.effect = this.effect;
-            }
         }
 
         public void render(float elapsedTime)
@@ -79,12 +65,14 @@ namespace AlumnoEjemplos.Kamikaze3D
                 //Generar explosión escalando scene
                 float scale = (float)(0.1 * (this.expTime * this.speed + Math.Pow(this.expTime, 2) * this.acceleration));
 
-                Vector3 position = this.camara.getPosition();
+                //Vector3 position = this.camara.getPosition();
+                Vector3 position = new Vector3();
+                this.personaje.getPersonaje().getPosition(position);
 
                 if (scale <= this.maxScale)
                 {
 
-                    position = position - new Vector3(0, position.Y, -100);
+                    position = position - new Vector3(-1770, position.Y, -1720);
 
                     foreach (TgcMesh mesh in this.scene.Meshes)
                     {
@@ -94,22 +82,8 @@ namespace AlumnoEjemplos.Kamikaze3D
 
                 }
 
-                //Configurar shader
-                this.effect.Technique = "DefaultTechnique";
-                this.effect.SetValue("fvLightPosition", TgcParserUtils.vector3ToFloat3Array(position));
-                this.effect.SetValue("fvEyePosition", TgcParserUtils.vector3ToFloat3Array(position));
-                this.effect.SetValue("k_la", 0.5f);
-                this.effect.SetValue("k_ld", 0.6f);
-                this.effect.SetValue("k_ls", 0.5f);
-                this.effect.SetValue("fSpecularPower", 16f);
-
-                Device device = GuiController.Instance.D3dDevice;
-                //device.Clear(ClearFlags.Target | ClearFlags.ZBuffer, Color.Black, 1.0f, 0);
-                foreach (MyMesh m in this.scene.Meshes)
-                {
-                    m.effect = effect;
+                foreach (TgcMesh m in this.scene.Meshes)
                     m.render();
-                }
 
             }
 
@@ -124,7 +98,6 @@ namespace AlumnoEjemplos.Kamikaze3D
         public void close()
         {
             this.scene.disposeAll();
-            this.effect.Dispose();
         }
 
         public bool estaEjecutandose()
