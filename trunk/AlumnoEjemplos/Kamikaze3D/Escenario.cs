@@ -47,7 +47,7 @@ namespace AlumnoEjemplos.Kamikaze3D
             GuiController.Instance.Modifiers.addFloat("startDistance", 1, 2000, 700);
             GuiController.Instance.Modifiers.addFloat("endDistance", 1, 4000, 1200);
             GuiController.Instance.Modifiers.addFloat("density", 0, 10, 1);
-            GuiController.Instance.Modifiers.addColor("color", Color.Gray);
+            GuiController.Instance.Modifiers.addColor("color", Color.Gray);            
 
             this.crearCuadras();
 
