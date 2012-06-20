@@ -10,7 +10,7 @@ using System.Drawing;
 using TgcViewer.Utils.TgcGeometry;
 using AlumnoEjemplos.Kamikaze3D;
 
-namespace Examples.Shaders
+namespace AlumnoEjemplos.Kamikaze3D
 {
     /// <summary>
     /// Ejemplo EjemploPhongShading:
@@ -25,7 +25,7 @@ namespace Examples.Shaders
     /// Autor: Matías Leone, Leandro Barbagallo
     /// 
     /// </summary>
-    public class EjemploPhongShading: TgcExample
+    public class ShaderPatrulla: TgcExample
     {
 
         TgcMeshShader mesh;
@@ -34,17 +34,17 @@ namespace Examples.Shaders
 
         public override string getCategory()
         {
-            return "Shaders";
+            return "AlumnoEjemplos";
         }
 
         public override string getName()
         {
-            return "PhongShading";
+            return "ShaderPatrulla";
         }
 
         public override string getDescription()
         {
-            return "PhongShading";
+            return "ShaderPatrulla";
         }
 
         public override void init()
