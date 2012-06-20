@@ -6,8 +6,9 @@ using Microsoft.DirectX.Direct3D;
 using Microsoft.DirectX;
 using TgcViewer;
 using TgcViewer.Utils;
+using AlumnoEjemplos.Kamikaze3D;
 
-namespace Examples.Shaders
+namespace AlumnoEjemplos.Kamikaze3D
 {
     /// <summary>
     /// Extendemos de TgcMesh para poder redefinir el método executeRender() y agregar renderizado de Shaders. 
