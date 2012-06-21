@@ -74,6 +74,7 @@
     <Compile Include="Kamikaze3D\Explosion.cs" />
     <Compile Include="Kamikaze3D\Fireball.cs" />
     <Compile Include="Kamikaze3D\MyMesh.cs" />
+    <Compile Include="Kamikaze3D\ShadowMap.cs" />
     <Compile Include="Kamikaze3D\SirenaPatrulla.cs" />
     <Compile Include="Kamikaze3D\Police.cs" />
     <Compile Include="Kamikaze3D\Quadtree.cs" />
