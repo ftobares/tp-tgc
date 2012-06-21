@@ -67,6 +67,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="AlumnoMedia\Kamikaze3D\Shaders\Efecto.fx" />
     <Compile Include="Kamikaze3D\Camara.cs" />
     <Compile Include="Kamikaze3D\Cuadra.cs" />
     <Compile Include="Kamikaze3D\EjemploAlumno.cs" />
@@ -74,7 +75,7 @@
     <Compile Include="Kamikaze3D\Explosion.cs" />
     <Compile Include="Kamikaze3D\Fireball.cs" />
     <Compile Include="Kamikaze3D\MyMesh.cs" />
-    <Compile Include="Kamikaze3D\ShadowMap.cs" />
+    <Compile Include="Kamikaze3D\SirenaPatrulla%28Phong%29.cs" />
     <Compile Include="Kamikaze3D\SirenaPatrulla.cs" />
     <Compile Include="Kamikaze3D\Police.cs" />
     <Compile Include="Kamikaze3D\Quadtree.cs" />
@@ -130,6 +131,7 @@
   <ItemGroup>
     <None Include="AlumnoMedia\Kamikaze3D\Shaders\Explosion.fx" />
     <None Include="AlumnoMedia\Kamikaze3D\Shaders\PhongShading.fx" />
+    <None Include="AlumnoMedia\Kamikaze3D\Shaders\ShadowMap.fx" />
     <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
