@@ -60,6 +60,7 @@ namespace AlumnoEjemplos.Kamikaze3D
         private Police police;
         private TgcText2d distanceTargetText;
         private TgcText2d onTargetPosition;
+        private TgcText2d lifeText;
         private Quadtree quadtree;
         private const int MIN_DISTANCE_TO_EXPLODE = 100;
 
@@ -78,6 +79,16 @@ namespace AlumnoEjemplos.Kamikaze3D
             onTargetPosition.Position = new Point(0, 60);
             onTargetPosition.Color = Color.Red;
             onTargetPosition.Text = "Presione la tecla K";
+            lifeText = new TgcText2d();
+            lifeText.Position = new Point(-400, 400);
+            try
+            {
+                lifeText.changeFont(new System.Drawing.Font(new FontFamily("Asrock7Segment"), 25));
+            }
+            catch (Exception e) {
+                lifeText.changeFont(new System.Drawing.Font(lifeText.D3dFont.Description.FaceName, 25));
+            }
+            lifeText.Color = Color.Yellow;
         }
 
         private void optimizar()
@@ -144,6 +155,8 @@ namespace AlumnoEjemplos.Kamikaze3D
             }
             distanceTargetText.Text = "Distancia a objetivo: " + Convert.ToString(distance);
             distanceTargetText.render();
+            lifeText.Text = "+" + Convert.ToString(this.personaje.getLife());
+            lifeText.render();
         }
 
         /// <summary>
