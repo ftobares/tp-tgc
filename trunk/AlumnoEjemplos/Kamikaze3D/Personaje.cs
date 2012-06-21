@@ -26,6 +26,7 @@ namespace AlumnoEjemplos.Kamikaze3D
         List<Vector3> personajesColisionables = new List<Vector3>();
         Camara camara;
         Explosion explosion;
+        int life = 100;
         public bool canExplode = false;
 
         //variables de pruebas
@@ -182,7 +183,10 @@ namespace AlumnoEjemplos.Kamikaze3D
 
             //Detonar
             if (this.canExplode && d3dInput.keyDown(Key.K))
+            {
+                animationAction = "Talk";
                 this.explosion.detonar();
+            }
 
             //Adelante
             if (d3dInput.keyDown(Key.W))
@@ -411,6 +415,16 @@ namespace AlumnoEjemplos.Kamikaze3D
                     < collisionDistance)
                     return true;
             return false;
+        }
+
+        public bool kill(TgcSkeletalMesh enemy)
+        {
+            return false;
+        }
+
+        public int getLife()
+        {
+            return life;
         }
 
         public void close()

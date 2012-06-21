@@ -77,6 +77,8 @@ namespace AlumnoEjemplos.Kamikaze3D
                     mesh.rotateY((float)anguloFinal);
                     mesh.render();
                     mesh.Enabled = false;
+                    if (mainPJ.kill(mesh))
+                        modelos.Remove(mesh);
                 }
             }
 
