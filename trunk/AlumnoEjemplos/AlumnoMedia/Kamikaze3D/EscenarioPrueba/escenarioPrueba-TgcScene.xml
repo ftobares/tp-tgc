@@ -1,0 +1,59 @@
+<tgcScene>
+  <name>escenarioPrueba</name>
+  <texturesExport enabled="True" dir="Textures" />
+  <lightmapExport enabled="False" dir="LightMaps" />
+  <sceneBoundingBox min="[-102.1848,0,-100.6346]" max="[-102.1848,0,-100.6346]" />
+  <materials count="1">
+    <m name="Multimaterial" type="Multimaterial">
+      <subM name="Standardmaterial" type="Standardmaterial">
+        <ambient>[0,0,0,0]</ambient>
+        <diffuse>[0,0,0,0]</diffuse>
+        <specular>[0,0,0,0]</specular>
+        <opacity>1</opacity>
+        <alphaBlendEnable>False</alphaBlendEnable>
+        <bitmap uvTiling="[1,1]" uvOffset="[1,1]">granito.jpg</bitmap>
+      </subM>
+      <subM name="Standardmaterial" type="Standardmaterial">
+        <ambient>[0,0,0,0]</ambient>
+        <diffuse>[0,0,0,0]</diffuse>
+        <specular>[0,0,0,0]</specular>
+        <opacity>1</opacity>
+        <alphaBlendEnable>False</alphaBlendEnable>
+        <bitmap uvTiling="[1,1]" uvOffset="[1,1]">concrete1_4b.jpg</bitmap>
+      </subM>
+      <subM name="Standardmaterial" type="Standardmaterial">
+        <ambient>[0,0,0,0]</ambient>
+        <diffuse>[0,0,0,0]</diffuse>
+        <specular>[0,0,0,0]</specular>
+        <opacity>1</opacity>
+        <alphaBlendEnable>False</alphaBlendEnable>
+        <bitmap uvTiling="[1,1]" uvOffset="[1,1]">concrete1_4.jpg</bitmap>
+      </subM>
+      <subM name="Standardmaterial" type="Standardmaterial">
+        <ambient>[0,0,0,0]</ambient>
+        <diffuse>[0,0,0,0]</diffuse>
+        <specular>[0,0,0,0]</specular>
+        <opacity>1</opacity>
+        <alphaBlendEnable>False</alphaBlendEnable>
+        <bitmap uvTiling="[1,1]" uvOffset="[1,1]">concrete1_3.jpg</bitmap>
+      </subM>
+    </m>
+  </materials>
+  <meshes count="1">
+    <mesh name="escenarioPrueba" layer="" type="Original" matId="0" color="[1,1,1]" visibility="1.0" lightmap="">
+      <boundingBox min="[-102.1848,0,-100.6346]" max="[101.7684,129.731,101.4518]" />
+      <coordinatesIdx count="24">0 1 2 0 2 3 4 5 6 4 6 7 8 9 10 8 10 11 12 13 14 12 14 15 </coordinatesIdx>
+      <textCoordsIdx count="24">0 1 2 0 2 3 4 5 6 4 6 7 8 9 10 8 10 11 12 13 14 12 14 15 </textCoordsIdx>
+      <colorsIdx count="24">0 0 0 0 0 0 1 1 1 1 1 1 2 2 2 2 2 2 3 3 3 3 3 3 </colorsIdx>
+      <matIds count="8">0 0 1 1 2 2 3 3 </matIds>
+      <textCoordsLightMapIdx count="0">
+      </textCoordsLightMapIdx>
+      <vertices count="48">-100.3418 0 -100.6346 101.1942 0 -100.6346 101.1942 0 100.168 -100.3418 0 100.168 -102.1848 0 -100.6346 101.1943 0 -100.6346 101.1943 116.9888 -100.6346 -102.1848 116.9888 -100.6346 -100.4434 0 100.1681 100.3419 0 100.1681 100.3419 127.0864 100.1681 -100.4434 127.0864 100.1681 101.7684 0 -100.1679 101.7684 0 101.4518 101.7684 129.731 101.4518 101.7684 129.731 -100.1679 </vertices>
+      <normals count="48">0 -1 0 0 -1 0 0 -1 0 0 -1 0 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 -1 0 0 -1 0 0 -1 0 0 -1 0 0 </normals>
+      <texCoords count="32">1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 1 1 0 1 0 0 1 0 </texCoords>
+      <colors count="12">255 255 255 255 255 255 255 255 255 255 255 255 </colors>
+      <texCoordsLightMap count="0">
+      </texCoordsLightMap>
+    </mesh>
+  </meshes>
+</tgcScene>
