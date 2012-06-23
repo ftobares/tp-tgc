@@ -19,15 +19,17 @@ namespace AlumnoEjemplos.Kamikaze3D
     {
         string MyMediaDir;
         string MyShaderDir;
-        TgcScene scene;
+        string MyObjectsDir;
+        TgcScene scene, scene2;
+        MyMesh patrulla;
         TgcArrow arrow;
         Effect effect;        
 
         // Shadow map
         readonly int SHADOWMAP_SIZE = 1024; 
-        Texture g_pShadowMap;    // Texture to which the shadow map is rendered
-        Surface g_pDSShadow;     // Depth-stencil buffer for rendering to shadow map
-        Matrix g_mShadowProj;    // Projection matrix for shadow map
+        Texture g_pShadowMap;    // Textura para la cual el shadowmap es renderizado
+        Surface g_pDSShadow;     // Depth-stencil buffer para renderizar shadowmap
+        Matrix g_mShadowProj;    // Proyeccion de la matriz
         Vector3 g_LightPos;						// posicion de la luz actual (la que estoy analizando)
         Vector3 g_LightDir;						// direccion de la luz actual
         Matrix g_LightView;						// matriz de view del light
@@ -57,6 +59,7 @@ namespace AlumnoEjemplos.Kamikaze3D
         {
             Device d3dDevice = GuiController.Instance.D3dDevice;
             MyMediaDir = GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\EscenarioPrueba\\";
+            MyObjectsDir = GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\Patrulla\\";
             MyShaderDir = GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\Shaders\\";
 
             //Crear loader
@@ -71,21 +74,29 @@ namespace AlumnoEjemplos.Kamikaze3D
                     + "escenarioPrueba-TgcScene.xml");            
 
             GuiController.Instance.RotCamera.CameraDistance = 600;
-            
+
+            //Carga la patrulla
+            scene2 = loader.loadSceneFromFile(MyObjectsDir + "autoPolicia-TgcScene.xml");
+            patrulla = (MyMesh)scene2.Meshes[0];
+
+            patrulla.Scale = new Vector3(2f, 2f, 2f);
+            patrulla.Position = new Vector3(0f, 1f, 0f);
+                        
             //Cargar Shader
             string compilationErrors; //PhongShading.fx --> ShadowMap.fx 
             effect = Effect.FromFile(d3dDevice, MyShaderDir + "ShadowMap.fx", null, null, ShaderFlags.None, null, out compilationErrors);
             if (effect == null)
             {
                 throw new Exception("Error al cargar shader. Errores: " + compilationErrors);
-            }
-            //effect.Technique = "RenderScene";
+            }            
+            
             // le asigno el efecto a las mallas 
             foreach (MyMesh T in scene.Meshes)
             {
                 T.Scale = new Vector3(2f, 2f, 2f);
                 T.effect = effect;
             }
+            patrulla.effect = effect;
             
             //--------------------------------------------------------------------------------------
             // Format.R32F
@@ -116,16 +127,17 @@ namespace AlumnoEjemplos.Kamikaze3D
                 Matrix.PerspectiveFovLH(Geometry.DegreeToRadian(45.0f),
                 aspectRatio, near_plane, far_plane);
 
-            arrow = new TgcArrow();
-            arrow.Thickness = 1f;
-            arrow.HeadSize = new Vector2(2f, 2f);
-            arrow.BodyColor = Color.Blue;
+            //Aca se agrega la flecha que facilita ver la direccion de la luz
+            //arrow = new TgcArrow();
+            //arrow.Thickness = 1f;
+            //arrow.HeadSize = new Vector2(2f, 2f);
+            //arrow.BodyColor = Color.Blue;
             cont = 0;            
 
             GuiController.Instance.RotCamera.targetObject(scene.Meshes[0].BoundingBox);
             float K = 100;
-            GuiController.Instance.Modifiers.addVertex3f("LightLookFrom", new Vector3(-K, -K, -K), new Vector3(K, K, K), new Vector3(0, 100, 0));
-            GuiController.Instance.Modifiers.addVertex3f("LightLookAt", new Vector3(-K, -K, -K), new Vector3(K, K, K), new Vector3(0, 100, 0));
+            GuiController.Instance.Modifiers.addVertex3f("LightLookFrom", new Vector3(-K, -K, -K), new Vector3(K, K, K), new Vector3(0, 95, 0));
+            GuiController.Instance.Modifiers.addVertex3f("LightLookAt", new Vector3(-K, -K, -K), new Vector3(K, K, K), new Vector3(0, 95, 0));
             //GuiController.Instance.Modifiers.addFloat("Ambient", 0, 1, 0.5f);
             //GuiController.Instance.Modifiers.addFloat("Diffuse", 0, 1, 0.6f);
             //GuiController.Instance.Modifiers.addFloat("Specular", 0, 1, 0.5f);
@@ -140,8 +152,10 @@ namespace AlumnoEjemplos.Kamikaze3D
             float aspectRatio = (float)panel3d.Width / (float)panel3d.Height;
             time += elapsedTime;
             
+            //Inicializo la posicion de la luz
             g_LightPos = (Vector3)GuiController.Instance.Modifiers["LightLookFrom"];
 
+            //modifico la posicion de la luz, para que gire en circulos
             cont = cont + elapsedTime * Geometry.DegreeToRadian(100.0f);            
             g_LightPos.X = g_LightPos.X + (5f * (float)Math.Cos(cont));
             g_LightPos.Y = g_LightPos.Y + (1f * (float)Math.Sin(cont));
@@ -150,8 +164,8 @@ namespace AlumnoEjemplos.Kamikaze3D
             g_LightDir = (Vector3)GuiController.Instance.Modifiers["LightLookAt"] - g_LightPos;
             g_LightDir.Normalize();
 
-            arrow.PStart = g_LightPos;
-            arrow.PEnd = g_LightPos + g_LightDir * 20;
+            //arrow.PStart = g_LightPos;
+            //arrow.PEnd = g_LightPos + g_LightDir * 20;
 
             // Shadow maps:
             device.EndScene();      // termino el thread anterior
@@ -171,7 +185,7 @@ namespace AlumnoEjemplos.Kamikaze3D
             RenderScene(false);
 
             //Cargar valores de la flecha
-            arrow.render();
+            //arrow.render();
 
 
         }
@@ -185,14 +199,15 @@ namespace AlumnoEjemplos.Kamikaze3D
             //effect.SetValue("k_ls", (float)GuiController.Instance.Modifiers["Specular"]);
             //effect.SetValue("fSpecularPower", (float)GuiController.Instance.Modifiers["SpecularPower"]);
             //effect.SetValue("PixScene",
+            
             // Calculo la matriz de view de la luz
             effect.SetValue("g_vLightPos", new Vector4(g_LightPos.X, g_LightPos.Y, g_LightPos.Z, 1));
             effect.SetValue("g_vLightDir", new Vector4(g_LightDir.X, g_LightDir.Y, g_LightDir.Z, 1));
             g_LightView = Matrix.LookAtLH(g_LightPos, g_LightPos + g_LightDir, new Vector3(0, 0, 1));
 
-            arrow.PStart = g_LightPos;
-            arrow.PEnd = g_LightPos + g_LightDir * 20f;
-            arrow.updateValues();
+            //arrow.PStart = g_LightPos;
+            //arrow.PEnd = g_LightPos + g_LightDir * 20f;
+            //arrow.updateValues();
   
             // inicializacion standard: 
             effect.SetValue("g_mProjLight", g_mShadowProj);
@@ -226,13 +241,15 @@ namespace AlumnoEjemplos.Kamikaze3D
         public void RenderScene(bool shadow)
         {
             foreach (MyMesh T in scene.Meshes)
-                T.render();            
+                T.render();
+            patrulla.render();
         }        
 
         public override void close()
         {
             effect.Dispose();
-            scene.disposeAll();            
+            scene.disposeAll();
+            scene2.disposeAll();
             g_pShadowMap.Dispose();
             g_pDSShadow.Dispose();
         }            
