@@ -44,7 +44,7 @@ namespace AlumnoEjemplos.Kamikaze3D
         /// </summary>
         public override string getDescription()
         {
-            return "MiIdea - Descripcion de la idea";
+            return "WASD - Movimiento\r\nMouse - Camara\r\nClick derecho - Apuntar\r\nL - mostrar/ocultar cursor";
         }
 
         #endregion
@@ -63,6 +63,7 @@ namespace AlumnoEjemplos.Kamikaze3D
         private TgcText2d lifeText;
         private Quadtree quadtree;
         private const int MIN_DISTANCE_TO_EXPLODE = 100;
+        private bool showingCursor = true;
 
         public EjemploAlumno()
         {
@@ -157,6 +158,14 @@ namespace AlumnoEjemplos.Kamikaze3D
             distanceTargetText.render();
             lifeText.Text = "+" + Convert.ToString(this.personaje.getLife());
             lifeText.render();
+            if (GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.L))
+            {
+                if (showingCursor)
+                    System.Windows.Forms.Cursor.Hide();
+                else
+                    System.Windows.Forms.Cursor.Show();
+                showingCursor = !showingCursor;
+            }
         }
 
         /// <summary>
@@ -168,6 +177,7 @@ namespace AlumnoEjemplos.Kamikaze3D
             this.escenario.close();
             this.personaje.close();
             this.explosion.close();
+            System.Windows.Forms.Cursor.Show(); 
         }
 
     }
