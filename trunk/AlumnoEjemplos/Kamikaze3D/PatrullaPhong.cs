@@ -16,21 +16,21 @@ using AlumnoEjemplos.Kamikaze3D;
 namespace AlumnoEjemplos.Kamikaze3D
 {
 
-    public class SirenaShadingPhong: TgcExample
+    public class PatrullaPhong
     {
-        string MyMediaDir;
+        //string MyMediaDir;
         string MyShaderDir;
         string MyObjectsDir;
         TgcScene scene,scene2;
-        MyMesh mesh;
+        //MyMesh mesh;
         MyMesh patrulla;
         Effect effect;
         TgcBox lightBox;
-        Viewport View1,View2,View3,ViewF;
-        bool vista_unica = true;
-        float cont;
+        Viewport ViewF;
+        //bool vista_unica = true;
+        //float cont;
         int r, t;
-
+        /*
         #region Configuracion
         public override string getCategory()
         {
@@ -39,39 +39,39 @@ namespace AlumnoEjemplos.Kamikaze3D
 
         public override string getName()
         {
-            return "SirenaShadingPhong";
+            return "PatrullaPhong";
         }
 
         public override string getDescription()
         {
-            return "SirenaShadingPhong";
+            return "PatrullaPhong";
         }
         #endregion
-
-        public override void init()
+        */
+        public /*override*/ void init()
         {
             Device d3dDevice = GuiController.Instance.D3dDevice;
-            MyMediaDir = GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\EscenarioPrueba\\";
+            //MyMediaDir = GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\EscenarioPrueba\\";            
             MyObjectsDir = GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\Patrulla\\";
             MyShaderDir = GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\Shaders\\";
             
             //Crear loader
-            TgcSceneLoader loader = new TgcSceneLoader();
+            TgcSceneLoader loader = new TgcSceneLoader();            
 
             //Configurar MeshFactory customizado
             loader.MeshFactory = new MyCustomMeshFactory();
-
+            
             // Cargo la escena del cornell box.            
-            scene = loader.loadSceneFromFile(MyMediaDir + "escenarioPrueba-TgcScene.xml");
+            //scene = loader.loadSceneFromFile(MyMediaDir + "escenarioPrueba-TgcScene.xml");            
 
             //Carga la patrulla
             scene2 = loader.loadSceneFromFile(MyObjectsDir + "autoPolicia-TgcScene.xml");
             patrulla = (MyMesh)scene2.Meshes[0];
 
-            patrulla.Scale = new Vector3(1f, 1f, 1f);
-            patrulla.Position = new Vector3(0f, 1f, 0f);
+            patrulla.Scale = new Vector3(0.9f, 0.9f, 0.9f);
+            patrulla.Position = new Vector3(1000f, 1f, 1000f);  
 
-            mesh = (MyMesh)scene.Meshes[0];
+            //mesh = (MyMesh)scene.Meshes[0];
 
             //Cargar Shader
             string compilationErrors;
@@ -83,26 +83,25 @@ namespace AlumnoEjemplos.Kamikaze3D
             // configurar la tecnica 
             effect.Technique = "DefaultTechnique";
             // le asigno el efecto a las mallas 
-            mesh.effect = effect;
+            //mesh.effect = effect;
             patrulla.effect = effect;
 
-            GuiController.Instance.Modifiers.addVertex3f("LightPosition", new Vector3(-100f, -100f, -100f), new Vector3(100f, 100f, 100f), new Vector3(0f, 40f, -10f));
+            GuiController.Instance.Modifiers.addVertex3f("LightPosition", new Vector3(-2000f, -2000f, -2000f), new Vector3(2000f, 2000f, 2000f), new Vector3(0f, 40f, -10f));
             GuiController.Instance.Modifiers.addFloat("Ambient", 0, 1, 0.5f);
             GuiController.Instance.Modifiers.addFloat("Diffuse", 0, 1, 0.6f);
             GuiController.Instance.Modifiers.addFloat("Specular", 0, 1, 0.5f);            
             //GuiController.Instance.Modifiers.addColor("AmbientColor", Color.Gray);
             //GuiController.Instance.Modifiers.addColor("DiffuseColor", Color.Gray);
             //GuiController.Instance.Modifiers.addColor("SpecularColor", Color.Blue);
-            GuiController.Instance.Modifiers.addFloat("SpecularPower", 1, 100, 16);
+            GuiController.Instance.Modifiers.addFloat("SpecularPower", 1, 100, 16);            
 
             t = 0;
 
             //Crear caja para indicar ubicacion de la luz
             lightBox = TgcBox.fromSize(new Vector3(5, 5, 5), Color.Yellow);
-
-
+            
             // Creo el viewport, para la iluminacion dinamica            
-            GuiController.Instance.RotCamera.setCamera(new Vector3(-10f, 40f, -10f), 300);
+            //GuiController.Instance.RotCamera.setCamera(new Vector3(-10f, 40f, -10f), 300);
             ViewF = d3dDevice.Viewport;
 
             // Creo la luz para el fixed pipeline
@@ -117,14 +116,14 @@ namespace AlumnoEjemplos.Kamikaze3D
             //d3dDevice.Lights[0].SpecularColor = ColorValue.FromColor((Color)GuiController.Instance.Modifiers["SpecularColor"]);
         }
         
-        public override void render(float elapsedTime)
+        public /*override*/ void render(float elapsedTime)
         {
             Device device = GuiController.Instance.D3dDevice;
             Control panel3d = GuiController.Instance.Panel3d;
             float aspectRatio = (float)panel3d.Width / (float)panel3d.Height;
 
-            if (GuiController.Instance.D3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.Space ))
-                vista_unica = !vista_unica;
+           // if (GuiController.Instance.D3dInput.keyPressed(Microsoft.DirectX.DirectInput.Key.Space ))
+            //    vista_unica = !vista_unica;
 
             Vector3 lightPosition = (Vector3)GuiController.Instance.Modifiers["LightPosition"];
             
@@ -138,7 +137,7 @@ namespace AlumnoEjemplos.Kamikaze3D
             
             //Cargar variables de shader
             effect.SetValue("fvLightPosition", TgcParserUtils.vector3ToFloat3Array(lightPosition));
-            effect.SetValue("fvEyePosition", TgcParserUtils.vector3ToFloat3Array(GuiController.Instance.RotCamera.getPosition()));
+            //effect.SetValue("fvEyePosition", TgcParserUtils.vector3ToFloat3Array(GuiController.Instance.RotCamera.getPosition()));
             effect.SetValue("k_la", (float)GuiController.Instance.Modifiers["Ambient"]);
             effect.SetValue("k_ld", (float)GuiController.Instance.Modifiers["Diffuse"]);
             effect.SetValue("k_ls", (float)GuiController.Instance.Modifiers["Specular"]);
@@ -155,7 +154,7 @@ namespace AlumnoEjemplos.Kamikaze3D
             else {
                 effect.SetValue("fSpecularPower", (float)90);
             }
-            if (t == 2147483647)
+            if (t == 1000)
             {
                 t = 0;
             }
@@ -168,25 +167,25 @@ namespace AlumnoEjemplos.Kamikaze3D
             lightBox.Position = lightPosition;
                        
             // solo una vista
-            device.Clear(ClearFlags.Target | ClearFlags.ZBuffer, Color.Black, 1.0f, 0);
+            //device.Clear(ClearFlags.Target | ClearFlags.ZBuffer, Color.Black, 1.0f, 0);
             device.Viewport = ViewF;
-            foreach (MyMesh m in scene.Meshes)
+            /*foreach (MyMesh m in scene.Meshes)
             {
                 if (m.Name != "escenarioPrueba")
                 {
                         m.effect = effect;
                 }
-            m.render();
+            m.render();*/
             patrulla.render();
             lightBox.render();            
-            }                 
+            //}                 
             
         }
 
-        public override void close()
+        public /*override*/ void close()
         {
             effect.Dispose();
-            scene.disposeAll();
+            //scene.disposeAll();
             scene2.disposeAll();
             lightBox.dispose();
         }
