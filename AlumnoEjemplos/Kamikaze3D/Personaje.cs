@@ -28,6 +28,8 @@ namespace AlumnoEjemplos.Kamikaze3D
         Explosion explosion;
         int life = 100;
         public bool canExplode = false;
+        bool destroy = false;
+        TgcSprite mira;
 
         //variables de pruebas
         bool renderDirectionArrow = false;
@@ -105,8 +107,13 @@ namespace AlumnoEjemplos.Kamikaze3D
             //GuiController.Instance.Modifiers.addVertex3f("Gravedad", new Vector3(-50, -50, -50), new Vector3(50, 50, 50), new Vector3(0, -10, 0));
             GuiController.Instance.Modifiers.addFloat("SlideFactor", 0f, 2f, 0.5f);
 
-            GuiController.Instance.UserVars.addVar("Movement"); 
-          
+            GuiController.Instance.UserVars.addVar("Movement");
+            
+            //Crear Sprite de mira
+            mira = new TgcSprite();
+            mira.Texture = TgcTexture.createTexture(GuiController.Instance.AlumnoEjemplosMediaDir + "\\Kamikaze3D\\mira2.png");
+            Control focusWindows = GuiController.Instance.D3dDevice.CreationParameters.FocusWindow;
+            mira.Position = new Vector2(focusWindows.Width * 0.4f, focusWindows.Height * 0.2f);
         }
 
         public TgcSkeletalMesh getPersonaje()
@@ -156,18 +163,14 @@ namespace AlumnoEjemplos.Kamikaze3D
             bool rotatingY = false;
             bool rotatingX = false;
             bool running = false;
-            bool jumping = false;
+            bool jumping = false;            
             string animationAction = "StandBy";
-            TgcSprite mira;
-
-            //Crear Sprite de mira
-            mira = new TgcSprite();
-            mira.Texture = TgcTexture.createTexture(GuiController.Instance.AlumnoEjemplosMediaDir + "\\Kamikaze3D\\mira.png");
 
             //Ubicarlo centrado en la pantalla
             Size screenSize = GuiController.Instance.Panel3d.Size;
             Size textureSize = mira.Texture.Size;
-            mira.Position = new Vector2(screenSize.Width / 2 - textureSize.Width / 2, screenSize.Height / 2 - textureSize.Height / 2);
+
+            mira.Enabled = false;
             
             TgcText2d hitCantTextY = new TgcText2d();
             hitCantTextY.Position = new Point(0, 0);
@@ -176,6 +179,9 @@ namespace AlumnoEjemplos.Kamikaze3D
             TgcText2d hitCantTextX = new TgcText2d();
             hitCantTextX.Position = new Point(0, 20);
             hitCantTextX.Color = Color.White;
+
+            if(destroy)
+                goto Rendering;
 
             //obtener velocidades de Modifiers
             float velocidadCaminar = (float)GuiController.Instance.Modifiers["VelocidadCaminar"];
@@ -186,6 +192,7 @@ namespace AlumnoEjemplos.Kamikaze3D
             {
                 animationAction = "Talk";
                 this.explosion.detonar();
+                destroy = true;
             }
 
             //Adelante
@@ -218,9 +225,9 @@ namespace AlumnoEjemplos.Kamikaze3D
             }
 
             //Derecha
-            if (d3dInput.buttonDown(TgcD3dInput.MouseButtons.BUTTON_LEFT) && d3dInput.XposRelative > 0)
+            if (d3dInput.XposRelative > 0)
             {
-                if (camara.RotationY < (Math.PI))
+                if (true || camara.RotationY < (Math.PI))
                 {
                     rotateY = velocidadRotacion;
                     rotating = true;
@@ -242,9 +249,9 @@ namespace AlumnoEjemplos.Kamikaze3D
             }
             
             //Izquierda
-            if (d3dInput.buttonDown(TgcD3dInput.MouseButtons.BUTTON_LEFT) && d3dInput.XposRelative < 0)
+            if (d3dInput.XposRelative < 0)
             {
-                if (camara.RotationY > -(Math.PI))
+                if (true || camara.RotationY > -(Math.PI))
                 {
                     rotateY = -velocidadRotacion;
                     rotating = true;
@@ -267,7 +274,7 @@ namespace AlumnoEjemplos.Kamikaze3D
             }
 
             //Arriba
-            if (d3dInput.buttonDown(TgcD3dInput.MouseButtons.BUTTON_LEFT) && d3dInput.YposRelative < 0)
+            if (d3dInput.YposRelative < 0)
             {
                 //if (camara.RotationX > -(Math.PI / 3))
                 //{
@@ -278,7 +285,7 @@ namespace AlumnoEjemplos.Kamikaze3D
             }
 
             //Abajo
-            if (d3dInput.buttonDown(TgcD3dInput.MouseButtons.BUTTON_LEFT) && d3dInput.YposRelative > 0)
+            if (d3dInput.YposRelative > 0)
             {
                 //if (camara.RotationX < (Math.PI / 3))
                 //{
@@ -304,6 +311,7 @@ namespace AlumnoEjemplos.Kamikaze3D
 
             if (/*d3dInput.keyDown(Key.E)*/d3dInput.buttonDown(TgcD3dInput.MouseButtons.BUTTON_RIGHT))
             {
+                mira.Enabled = true;
                 animationAction = "WeaponPos";
             }
 
@@ -378,7 +386,9 @@ namespace AlumnoEjemplos.Kamikaze3D
 
             //Caargar desplazamiento realizar en UserVar
             GuiController.Instance.UserVars.setValue("Movement", TgcParserUtils.printVector3(realMovement));
-            
+
+        Rendering:
+
             //Render linea
             if (renderDirectionArrow)
                 this.directionArrow.render();
@@ -387,14 +397,14 @@ namespace AlumnoEjemplos.Kamikaze3D
             //Render personaje
             this.personaje.animateAndRender();
 
-           /* //Iniciar dibujado de todos los Sprites de la escena (en este caso es solo uno)
+            //Iniciar dibujado de todos los Sprites de la escena (en este caso es solo uno)
             GuiController.Instance.Drawer2D.beginDrawSprite();
 
             //Dibujar sprite (si hubiese mas, deberian ir todos aquí)
             mira.render();
 
             //Finalizar el dibujado de Sprites
-            GuiController.Instance.Drawer2D.endDrawSprite();*/
+            GuiController.Instance.Drawer2D.endDrawSprite();
 
             hitCantTextY.Text = "Y: " + camara.RotationY;
             hitCantTextX.Text = "X: " + camara.RotationX;
