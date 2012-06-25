@@ -59,7 +59,7 @@ namespace AlumnoEjemplos.Kamikaze3D
         {
             Device d3dDevice = GuiController.Instance.D3dDevice;
             MyMediaDir = GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\EscenarioPrueba\\";
-            MyObjectsDir = GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\Patrulla\\";
+            MyObjectsDir = GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\Patrulla2\\";
             MyShaderDir = GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\Shaders\\";
 
             //Crear loader
@@ -76,7 +76,7 @@ namespace AlumnoEjemplos.Kamikaze3D
             GuiController.Instance.RotCamera.CameraDistance = 600;
 
             //Carga la patrulla
-            scene2 = loader.loadSceneFromFile(MyObjectsDir + "autoPolicia-TgcScene.xml");
+            scene2 = loader.loadSceneFromFile(MyObjectsDir + "autoPolicia2-TgcScene.xml");
             patrulla = (MyMesh)scene2.Meshes[0];
 
             patrulla.Scale = new Vector3(2f, 2f, 2f);

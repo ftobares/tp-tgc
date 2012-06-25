@@ -64,6 +64,7 @@ namespace AlumnoEjemplos.Kamikaze3D
         private Quadtree quadtree;
         private const int MIN_DISTANCE_TO_EXPLODE = 100;
         private bool showingCursor = true;
+        private PatrullaPhong patrulla;
 
         public EjemploAlumno()
         {
@@ -72,6 +73,7 @@ namespace AlumnoEjemplos.Kamikaze3D
             this.llegada = new Vector3(1800,0,1700);
             this.explosion = new Explosion();
             this.personaje = new Personaje(this.camara, this.explosion);
+            this.patrulla = new PatrullaPhong();
 
             distanceTargetText = new TgcText2d();            
             distanceTargetText.Position = new Point(0, 40);
@@ -112,7 +114,8 @@ namespace AlumnoEjemplos.Kamikaze3D
 
             this.escenario.init();
             this.personaje.init();
-            this.personaje.setObjetosColisionables(this.escenario.getObjetosColisionables());            
+            this.personaje.setObjetosColisionables(this.escenario.getObjetosColisionables());
+            this.patrulla.init();
             this.explosion.init(this.camara, this.personaje);          
             this.police = new Police(300/*300*/, this.escenario.getObjetosColisionables(), escenario.getBoundingBox());
             List<Vector3> personajesColisionables = new List<Vector3>();
@@ -147,6 +150,7 @@ namespace AlumnoEjemplos.Kamikaze3D
             this.escenario.render(elapsedTime, this.camara, this.explosion);
             this.personaje.render(elapsedTime);
             this.explosion.render(elapsedTime);
+            this.patrulla.render(elapsedTime);
             this.quadtree.render(GuiController.Instance.Frustum, this.personaje, false);
             int distance = getDistanceToTarget();
             this.personaje.canExplode = false;
@@ -177,6 +181,7 @@ namespace AlumnoEjemplos.Kamikaze3D
             this.escenario.close();
             this.personaje.close();
             this.explosion.close();
+            this.patrulla.close();
             System.Windows.Forms.Cursor.Show(); 
         }
 
