@@ -150,7 +150,7 @@ namespace AlumnoEjemplos.Kamikaze3D
             this.escenario.render(elapsedTime, this.camara, this.explosion);
             this.personaje.render(elapsedTime);
             this.explosion.render(elapsedTime);
-            this.patrulla.render(elapsedTime);
+            this.patrulla.render(elapsedTime,this.personaje,this.llegada);
             this.quadtree.render(GuiController.Instance.Frustum, this.personaje, false);
             int distance = getDistanceToTarget();
             this.personaje.canExplode = false;

@@ -26,10 +26,11 @@ namespace AlumnoEjemplos.Kamikaze3D
         MyMesh patrulla;
         Effect effect;
         TgcBox lightBox;
-        Viewport ViewF;
+        Viewport ViewF;        
         //bool vista_unica = true;
         //float cont;
         int r, t;
+        private const int DISNTANCIA_SIRENA = 500;
         /*
         #region Configuracion
         public override string getCategory()
@@ -96,7 +97,7 @@ namespace AlumnoEjemplos.Kamikaze3D
             GuiController.Instance.Modifiers.addFloat("SpecularPower", 1, 100, 16);
 
             //Agregar Valores para la Niebla
-            GuiController.Instance.Modifiers.addBoolean("Enabled", "Enabled", false);
+            GuiController.Instance.Modifiers.addBoolean("Enabled", "Enabled", true);
             GuiController.Instance.Modifiers.addFloat("startDistance", 1, 2000, 700);
             GuiController.Instance.Modifiers.addFloat("endDistance", 1, 4000, 1200);
             GuiController.Instance.Modifiers.addFloat("density", 0, 10, 1);
@@ -123,7 +124,7 @@ namespace AlumnoEjemplos.Kamikaze3D
             //d3dDevice.Lights[0].SpecularColor = ColorValue.FromColor((Color)GuiController.Instance.Modifiers["SpecularColor"]);
         }
         
-        public /*override*/ void render(float elapsedTime)
+        public /*override*/ void render(float elapsedTime, Personaje personaje, Vector3 llegada)
         {
             Device device = GuiController.Instance.D3dDevice;
             Control panel3d = GuiController.Instance.Panel3d;
@@ -152,7 +153,16 @@ namespace AlumnoEjemplos.Kamikaze3D
             //effect.SetValue("fvDiffuse", ColorValue.FromColor((Color)GuiController.Instance.Modifiers["DiffuseColor"]));
             //effect.SetValue("fvSpecular", ColorValue.FromColor((Color)GuiController.Instance.Modifiers["SpecularColor"]));
 
-            GuiController.Instance.Fog.Enabled = (bool)GuiController.Instance.Modifiers["Enabled"];
+            float distancia = FastMath.Pow2(personaje.getPersonaje().Position.X - llegada.X) +
+                             FastMath.Pow2(personaje.getPersonaje().Position.Z - llegada.Z);
+            distancia = FastMath.Sqrt(distancia);
+            distancia = Convert.ToInt32(distancia);
+            if (distancia < DISNTANCIA_SIRENA)
+            {
+                GuiController.Instance.Fog.Enabled = false;                
+            }else{
+                GuiController.Instance.Fog.Enabled = (bool)GuiController.Instance.Modifiers["Enabled"];
+            }            
             GuiController.Instance.Fog.StartDistance = (float)GuiController.Instance.Modifiers["startDistance"];
             GuiController.Instance.Fog.EndDistance = (float)GuiController.Instance.Modifiers["endDistance"];
             GuiController.Instance.Fog.Density = (float)GuiController.Instance.Modifiers["density"];
