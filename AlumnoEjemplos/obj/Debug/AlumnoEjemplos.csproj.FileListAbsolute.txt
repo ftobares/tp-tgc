@@ -1,11 +1,3 @@
-D:\TgcViewer\AlumnoEjemplos\obj\Debug\ResolveAssemblyReference.cache
-D:\TgcViewer\AlumnoEjemplos\obj\Debug\AlumnoEjemplos.dll
-D:\TgcViewer\AlumnoEjemplos\obj\Debug\AlumnoEjemplos.pdb
-D:\TgcViewer\AlumnoEjemplos\AlumnoEjemplos.dll
-D:\TgcViewer\AlumnoEjemplos\AlumnoEjemplos.pdb
-D:\TgcViewer\AlumnoEjemplos\TgcViewer.exe
-D:\TgcViewer\AlumnoEjemplos\Ionic.Zip.dll
-D:\TgcViewer\AlumnoEjemplos\TgcViewer.pdb
 H:\Users\federico\Desktop\UTN\TGC\TP\TgcViewer-2012-1C\TgcViewer\AlumnoEjemplos\obj\Debug\ResolveAssemblyReference.cache
 H:\Users\federico\Desktop\UTN\TGC\TP\TgcViewer-2012-1C\TgcViewer\AlumnoEjemplos\obj\Debug\AlumnoEjemplos.dll
 H:\Users\federico\Desktop\UTN\TGC\TP\TgcViewer-2012-1C\TgcViewer\AlumnoEjemplos\obj\Debug\AlumnoEjemplos.pdb
@@ -22,3 +14,11 @@ C:\Users\VanFer\Desktop\Facu\TGC\TgcViewer-2012-1C\TgcViewer\AlumnoEjemplos\Alum
 C:\Users\VanFer\Desktop\Facu\TGC\TgcViewer-2012-1C\TgcViewer\AlumnoEjemplos\TgcViewer.exe
 C:\Users\VanFer\Desktop\Facu\TGC\TgcViewer-2012-1C\TgcViewer\AlumnoEjemplos\Ionic.Zip.dll
 C:\Users\VanFer\Desktop\Facu\TGC\TgcViewer-2012-1C\TgcViewer\AlumnoEjemplos\TgcViewer.pdb
+D:\TgcViewer\AlumnoEjemplos\obj\Debug\ResolveAssemblyReference.cache
+D:\TgcViewer\AlumnoEjemplos\obj\Debug\AlumnoEjemplos.dll
+D:\TgcViewer\AlumnoEjemplos\obj\Debug\AlumnoEjemplos.pdb
+D:\TgcViewer\AlumnoEjemplos\AlumnoEjemplos.dll
+D:\TgcViewer\AlumnoEjemplos\AlumnoEjemplos.pdb
+D:\TgcViewer\AlumnoEjemplos\TgcViewer.exe
+D:\TgcViewer\AlumnoEjemplos\Ionic.Zip.dll
+D:\TgcViewer\AlumnoEjemplos\TgcViewer.pdb

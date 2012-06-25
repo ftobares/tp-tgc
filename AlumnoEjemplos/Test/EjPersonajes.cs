@@ -11,6 +11,7 @@ using TgcViewer.Utils.TgcSkeletalAnimation;
 using TgcViewer.Utils.TgcGeometry;
 using TgcViewer.Utils.TgcSceneLoader;
 using AlumnoEjemplos.Kamikaze3D;
+using TgcViewer.Utils.Input;
 
 namespace Examples.SkeletalAnimation
 {
@@ -36,7 +37,7 @@ namespace Examples.SkeletalAnimation
         TgcBox box3;
         TgcSkeletalMesh original;
         List<TgcSkeletalMesh> instances;
-        Camara camara;
+        TgcThirdPersonCamera camara;
         Personaje personaje;
         Quadtree quadtree; 
 
@@ -57,7 +58,7 @@ namespace Examples.SkeletalAnimation
 
         public override void init()
         {
-            camara = new Camara();
+            camara = new TgcThirdPersonCamera();
             personaje = new Personaje(camara, new Explosion());
 
             this.camara.Enable = true;

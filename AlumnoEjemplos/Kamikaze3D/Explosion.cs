@@ -8,6 +8,7 @@ using TgcViewer;
 using TgcViewer.Utils.Modifiers;
 using TgcViewer.Utils.TgcGeometry;
 using TgcViewer.Utils.TgcSceneLoader;
+using TgcViewer.Utils.Input;
 
 namespace AlumnoEjemplos.Kamikaze3D
 {
@@ -24,12 +25,12 @@ namespace AlumnoEjemplos.Kamikaze3D
         private int cameraDistance = 2000;
         private float cameraSpeed = 0.1F;
         private float cameraAcceleration = 0.5F;
-        private Camara camara;
+        private TgcThirdPersonCamera camara;
         private Personaje personaje;
 
         private bool detonada = false;
 
-        public void init(Camara camara, Personaje personaje)
+        public void init(TgcThirdPersonCamera camara, Personaje personaje)
         {
             this.camara = camara;
             this.personaje = personaje;
