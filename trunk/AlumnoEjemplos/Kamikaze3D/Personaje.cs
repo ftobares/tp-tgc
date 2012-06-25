@@ -13,6 +13,7 @@ using TgcViewer.Utils.TgcSceneLoader;
 using System.Windows.Forms;
 using TgcViewer.Utils._2D;
 
+
 namespace AlumnoEjemplos.Kamikaze3D
 {
     public class Personaje
@@ -24,7 +25,7 @@ namespace AlumnoEjemplos.Kamikaze3D
         TgcArrow directionArrow;
         List<TgcBoundingBox> objetosColisionables = new List<TgcBoundingBox>();
         List<Vector3> personajesColisionables = new List<Vector3>();
-        Camara camara;
+        TgcThirdPersonCamera camara;
         Explosion explosion;
         int life = 100;
         public bool canExplode = false;
@@ -43,7 +44,7 @@ namespace AlumnoEjemplos.Kamikaze3D
             this.personajesColisionables = aList;
         }
 
-        public Personaje(Camara camaraParametro, Explosion explosion)
+        public Personaje(TgcThirdPersonCamera camaraParametro, Explosion explosion)
         {
 
             //Crear personaje
@@ -156,12 +157,12 @@ namespace AlumnoEjemplos.Kamikaze3D
             float moveForward = 0f;
             float moveSide = 0f;
             float rotateY = 0;
-            float rotateX = 0;
+            //float rotateX = 0;
             float jump = 0;
             bool moving = false;
             bool rotating = false;
             bool rotatingY = false;
-            bool rotatingX = false;
+           // bool rotatingX = false;
             bool running = false;
             bool jumping = false;            
             string animationAction = "StandBy";
@@ -176,10 +177,10 @@ namespace AlumnoEjemplos.Kamikaze3D
             hitCantTextY.Position = new Point(0, 0);
             hitCantTextY.Color = Color.White;
 
-            TgcText2d hitCantTextX = new TgcText2d();
+          /*  TgcText2d hitCantTextX = new TgcText2d();
             hitCantTextX.Position = new Point(0, 20);
             hitCantTextX.Color = Color.White;
-
+            */
             if(destroy)
                 goto Rendering;
 
@@ -225,14 +226,13 @@ namespace AlumnoEjemplos.Kamikaze3D
             }
 
             //Derecha
-            if (d3dInput.XposRelative > 0)
+            if (d3dInput.XposRelative > 0 || d3dInput.keyDown(Key.RightArrow))
             {
-                if (true || camara.RotationY < (Math.PI))
-                {
-                    rotateY = velocidadRotacion;
-                    rotating = true;
-                    rotatingY = true;
-                }
+                if (d3dInput.XposRelative > 0){ rotateY = velocidadRotacion / 2; }
+                else { rotateY = velocidadRotacion; }
+               
+                rotating = true;
+                rotatingY = true;
             }
             //Mover Derecha
             if (d3dInput.keyDown(Key.D))
@@ -249,14 +249,14 @@ namespace AlumnoEjemplos.Kamikaze3D
             }
             
             //Izquierda
-            if (d3dInput.XposRelative < 0)
+            if (d3dInput.XposRelative < 0 || d3dInput.keyDown(Key.LeftArrow))
             {
-                if (true || camara.RotationY > -(Math.PI))
-                {
-                    rotateY = -velocidadRotacion;
-                    rotating = true;
-                    rotatingY = true;
-                }
+
+                if (d3dInput.XposRelative > 0) { rotateY = - (velocidadRotacion / 2); }
+                else { rotateY = -velocidadRotacion; }
+
+                rotating = true;
+                rotatingY = true;
             }
 
             //Mover Izquierda
@@ -273,7 +273,7 @@ namespace AlumnoEjemplos.Kamikaze3D
                 moving = true;
             }
 
-            //Arriba
+/*            //Arriba
             if (d3dInput.YposRelative < 0)
             {
                 //if (camara.RotationX > -(Math.PI / 3))
@@ -294,7 +294,7 @@ namespace AlumnoEjemplos.Kamikaze3D
                     rotatingX = true;
                 //}
             }
-
+            */
             //Jump
             /*if (d3dInput.keyDown(Key.Space))
             {
@@ -326,13 +326,13 @@ namespace AlumnoEjemplos.Kamikaze3D
                     this.personaje.rotateY(rotAngleY);
                     this.camara.rotateY(rotAngleY);
                 }
-                  if (rotatingX)
+                /*  if (rotatingX)
                 {
                     //Rotar personaje y la camara, hay que multiplicarlo por el tiempo transcurrido para no atarse a la velocidad el hardware
                     float rotAngleX = Geometry.DegreeToRadian(rotateX * elapsedTime);
                     this.camara.rotateX(rotAngleX);
                     
-                }
+                }*/
                 
             }
 
@@ -407,9 +407,9 @@ namespace AlumnoEjemplos.Kamikaze3D
             GuiController.Instance.Drawer2D.endDrawSprite();
 
             hitCantTextY.Text = "Y: " + camara.RotationY;
-            hitCantTextX.Text = "X: " + camara.RotationX;
+            //hitCantTextX.Text = "X: " + camara.RotationX;
             hitCantTextY.render();
-            hitCantTextX.render();
+            //hitCantTextX.render();
 
         }
 

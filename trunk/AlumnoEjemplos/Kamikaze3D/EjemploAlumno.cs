@@ -52,7 +52,7 @@ namespace AlumnoEjemplos.Kamikaze3D
         #region Variables Globales
         Escenario escenario;
         Personaje personaje;
-        Camara camara;
+        TgcThirdPersonCamera camara;
         Vector3 llegada;
         Explosion explosion;
         #endregion
@@ -68,7 +68,7 @@ namespace AlumnoEjemplos.Kamikaze3D
         public EjemploAlumno()
         {
             this.escenario = new Escenario();
-            this.camara = new Camara();
+            this.camara = new TgcThirdPersonCamera();
             this.llegada = new Vector3(1800,0,1700);
             this.explosion = new Explosion();
             this.personaje = new Personaje(this.camara, this.explosion);
@@ -108,7 +108,7 @@ namespace AlumnoEjemplos.Kamikaze3D
         public override void init()
         {
             this.camara.Enable = true;
-            this.camara.setCamera(this.personaje.getPersonaje().Position, 50, -100);
+            this.camara.setCamera(this.personaje.getPersonaje().Position, 25, -100);
 
             this.escenario.init();
             this.personaje.init();

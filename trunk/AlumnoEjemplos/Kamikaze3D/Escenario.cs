@@ -9,6 +9,7 @@ using Microsoft.DirectX;
 using TgcViewer.Utils.Modifiers;
 using TgcViewer.Utils.TgcGeometry;
 using TgcViewer.Utils.TgcSceneLoader;
+using TgcViewer.Utils.Input;
 
 namespace AlumnoEjemplos.Kamikaze3D
 {
@@ -91,7 +92,7 @@ namespace AlumnoEjemplos.Kamikaze3D
         /// Escribir aquí todo el código referido al renderizado.
         /// </summary>
         /// <param name="elapsedTime">Tiempo en segundos transcurridos desde el último frame</param>
-        public void render(float elapsedTime, Camara camara, Explosion explosion)
+        public void render(float elapsedTime, TgcThirdPersonCamera camara, Explosion explosion)
         {
             for (int i = 0; i < this.cuadras.Length; i++)
             {
