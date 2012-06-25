@@ -48,7 +48,7 @@ namespace AlumnoEjemplos.Kamikaze3D
             GuiController.Instance.Modifiers.addFloat("startDistance", 1, 2000, 700);
             GuiController.Instance.Modifiers.addFloat("endDistance", 1, 4000, 1200);
             GuiController.Instance.Modifiers.addFloat("density", 0, 10, 1);
-            GuiController.Instance.Modifiers.addColor("color", Color.Gray);*/       
+            GuiController.Instance.Modifiers.addColor("color", Color.Gray);    */  
 
             this.crearCuadras();
 
@@ -104,13 +104,13 @@ namespace AlumnoEjemplos.Kamikaze3D
                 GuiController.Instance.Fog.Enabled = false;
             else
                 GuiController.Instance.Fog.Enabled = (bool)GuiController.Instance.Modifiers["Enabled"];
-            GuiController.Instance.Fog.StartDistance = (float)GuiController.Instance.Modifiers["startDistance"];
-            GuiController.Instance.Fog.EndDistance = (float)GuiController.Instance.Modifiers["endDistance"];
-            GuiController.Instance.Fog.Density = (float)GuiController.Instance.Modifiers["density"];
-            GuiController.Instance.Fog.Color = (Color)GuiController.Instance.Modifiers["color"];*/
+                GuiController.Instance.Fog.StartDistance = (float)GuiController.Instance.Modifiers["startDistance"];
+                GuiController.Instance.Fog.EndDistance = (float)GuiController.Instance.Modifiers["endDistance"];
+                GuiController.Instance.Fog.Density = (float)GuiController.Instance.Modifiers["density"];
+                GuiController.Instance.Fog.Color = (Color)GuiController.Instance.Modifiers["color"];*/
 
             //Actualizar valores de la Niebla
-            //GuiController.Instance.Fog.updateValues();
+            /*GuiController.Instance.Fog.updateValues();*/
         }
 
         /// <summary>
