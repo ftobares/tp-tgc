@@ -75,8 +75,8 @@
     <Compile Include="Kamikaze3D\Explosion.cs" />
     <Compile Include="Kamikaze3D\Fireball.cs" />
     <Compile Include="Kamikaze3D\MyMesh.cs" />
-    <Compile Include="Kamikaze3D\SirenaPatrulla%28Phong%29.cs" />
-    <Compile Include="Kamikaze3D\SirenaPatrulla.cs" />
+    <Compile Include="Kamikaze3D\PatrullaPhong.cs" />
+    <Compile Include="Kamikaze3D\PatrullaShadow.cs" />
     <Compile Include="Kamikaze3D\Police.cs" />
     <Compile Include="Kamikaze3D\Quadtree.cs" />
     <Compile Include="Kamikaze3D\QuadtreeBuilder.cs" />
@@ -122,17 +122,13 @@
     <Content Include="AlumnoMedia\Kamikaze3D\Block\Textures\White Wall.JPG" />
     <Content Include="AlumnoMedia\Kamikaze3D\Block\Textures\Yellow Painted.jpg" />
     <Content Include="AlumnoMedia\Kamikaze3D\mira.png" />
-    <Content Include="AlumnoMedia\Kamikaze3D\Patrulla\autoPoliciaEnEscenario-TgcScene.xml" />
-    <Content Include="AlumnoMedia\Kamikaze3D\Patrulla\Textures\concrete2_4.jpg" />
-    <Content Include="AlumnoMedia\Kamikaze3D\Patrulla\Textures\floor1.jpg" />
+    <Content Include="AlumnoMedia\Kamikaze3D\Patrulla\autoPolicia-TgcScene.xml" />
     <Content Include="AlumnoMedia\Kamikaze3D\Patrulla\Textures\policecar.jpg" />
-    <Content Include="AlumnoMedia\Kamikaze3D\Patrulla\Textures\WOOD_P.jpg" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AlumnoMedia\Kamikaze3D\Shaders\Explosion.fx" />
     <None Include="AlumnoMedia\Kamikaze3D\Shaders\PhongShading.fx" />
     <None Include="AlumnoMedia\Kamikaze3D\Shaders\ShadowMap.fx" />
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
