@@ -21,7 +21,7 @@ namespace AlumnoEjemplos.Kamikaze3D
         //string MyMediaDir;
         string MyShaderDir;
         string MyObjectsDir;
-        TgcScene scene,scene2;
+        TgcScene scene2;
         //MyMesh mesh;
         MyMesh patrulla;
         Effect effect;
@@ -52,7 +52,7 @@ namespace AlumnoEjemplos.Kamikaze3D
         {
             Device d3dDevice = GuiController.Instance.D3dDevice;
             //MyMediaDir = GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\EscenarioPrueba\\";            
-            MyObjectsDir = GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\Patrulla\\";
+            MyObjectsDir = GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\Patrulla2\\";
             MyShaderDir = GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\Shaders\\";
             
             //Crear loader
@@ -65,11 +65,11 @@ namespace AlumnoEjemplos.Kamikaze3D
             //scene = loader.loadSceneFromFile(MyMediaDir + "escenarioPrueba-TgcScene.xml");            
 
             //Carga la patrulla
-            scene2 = loader.loadSceneFromFile(MyObjectsDir + "autoPolicia-TgcScene.xml");
+            scene2 = loader.loadSceneFromFile(MyObjectsDir + "autoPolicia2-TgcScene.xml");
             patrulla = (MyMesh)scene2.Meshes[0];
 
             patrulla.Scale = new Vector3(0.9f, 0.9f, 0.9f);
-            patrulla.Position = new Vector3(1000f, 1f, 1000f);  
+            patrulla.Position = new Vector3(1920f, 3f, 1800f);  
 
             //mesh = (MyMesh)scene.Meshes[0];
 
@@ -93,12 +93,19 @@ namespace AlumnoEjemplos.Kamikaze3D
             //GuiController.Instance.Modifiers.addColor("AmbientColor", Color.Gray);
             //GuiController.Instance.Modifiers.addColor("DiffuseColor", Color.Gray);
             //GuiController.Instance.Modifiers.addColor("SpecularColor", Color.Blue);
-            GuiController.Instance.Modifiers.addFloat("SpecularPower", 1, 100, 16);            
+            GuiController.Instance.Modifiers.addFloat("SpecularPower", 1, 100, 16);
+
+            //Agregar Valores para la Niebla
+            GuiController.Instance.Modifiers.addBoolean("Enabled", "Enabled", false);
+            GuiController.Instance.Modifiers.addFloat("startDistance", 1, 2000, 700);
+            GuiController.Instance.Modifiers.addFloat("endDistance", 1, 4000, 1200);
+            GuiController.Instance.Modifiers.addFloat("density", 0, 10, 1);
+            GuiController.Instance.Modifiers.addColor("color", Color.Gray);
 
             t = 0;
 
             //Crear caja para indicar ubicacion de la luz
-            lightBox = TgcBox.fromSize(new Vector3(5, 5, 5), Color.Yellow);
+            //lightBox = TgcBox.fromSize(new Vector3(5, 5, 5), Color.Yellow);
             
             // Creo el viewport, para la iluminacion dinamica            
             //GuiController.Instance.RotCamera.setCamera(new Vector3(-10f, 40f, -10f), 300);
@@ -144,15 +151,23 @@ namespace AlumnoEjemplos.Kamikaze3D
             //effect.SetValue("fvAmbient", ColorValue.FromColor((Color)GuiController.Instance.Modifiers["AmbientColor"]));
             //effect.SetValue("fvDiffuse", ColorValue.FromColor((Color)GuiController.Instance.Modifiers["DiffuseColor"]));
             //effect.SetValue("fvSpecular", ColorValue.FromColor((Color)GuiController.Instance.Modifiers["SpecularColor"]));
-            
+
+            GuiController.Instance.Fog.Enabled = (bool)GuiController.Instance.Modifiers["Enabled"];
+            GuiController.Instance.Fog.StartDistance = (float)GuiController.Instance.Modifiers["startDistance"];
+            GuiController.Instance.Fog.EndDistance = (float)GuiController.Instance.Modifiers["endDistance"];
+            GuiController.Instance.Fog.Density = (float)GuiController.Instance.Modifiers["density"];
+            GuiController.Instance.Fog.Color = (Color)GuiController.Instance.Modifiers["color"];
+            //Actualizar valores de la Niebla
+            GuiController.Instance.Fog.updateValues();
+
             //Cambio los valores del Specular Power de la luz, para simular el parpadeo de la sirena
             r = t % 10;
             if (r == 0)
             {
-                effect.SetValue("fSpecularPower", (float)20);
+                effect.SetValue("fSpecularPower", (float)10);
             }
             else {
-                effect.SetValue("fSpecularPower", (float)90);
+                effect.SetValue("fSpecularPower", (float)200);
             }
             if (t == 1000)
             {
@@ -164,7 +179,7 @@ namespace AlumnoEjemplos.Kamikaze3D
             }
              
             //Mover mesh que representa la luz
-            lightBox.Position = lightPosition;
+            //lightBox.Position = lightPosition;
                        
             // solo una vista
             //device.Clear(ClearFlags.Target | ClearFlags.ZBuffer, Color.Black, 1.0f, 0);
@@ -177,9 +192,42 @@ namespace AlumnoEjemplos.Kamikaze3D
                 }
             m.render();*/
             patrulla.render();
-            lightBox.render();            
+            //lightBox.render();            
             //}                 
             
+        }
+
+        /// <summary>
+        /// Devuelve un listado de BoundingBox de los objetos del escenario
+        /// </summary>
+        public List<TgcBoundingBox> getObjetosColisionables()
+        {
+            List<TgcBoundingBox> lista = new List<TgcBoundingBox> { };                
+            if (String.Compare(patrulla.Name, 0, "autoPolicia2", 0, 3) == 0)
+                lista.Add(patrulla.BoundingBox);
+            return lista;
+        }
+
+        public TgcBoundingBox getBoundingBox()
+        {
+            Vector3 pMin = patrulla.BoundingBox.PMin;
+            Vector3 pMax = patrulla.BoundingBox.PMax;
+
+                    if (patrulla.BoundingBox.PMin.X < pMin.X)
+                        pMin.X = patrulla.BoundingBox.PMin.X;
+                    if (patrulla.BoundingBox.PMin.Y < pMin.Y)
+                        pMin.Y = patrulla.BoundingBox.PMin.Y;
+                    if (patrulla.BoundingBox.PMin.Z < pMin.Z)
+                        pMin.Z = patrulla.BoundingBox.PMin.Z;
+
+                    if (patrulla.BoundingBox.PMax.X > pMax.X)
+                        pMax.X = patrulla.BoundingBox.PMax.X;
+                    if (patrulla.BoundingBox.PMax.Y > pMax.Y)
+                        pMax.Y = patrulla.BoundingBox.PMax.Y;
+                    if (patrulla.BoundingBox.PMax.Z > pMax.Z)
+                        pMax.Z = patrulla.BoundingBox.PMax.Z;                
+            
+            return new TgcBoundingBox(pMin, pMax);
         }
 
         public /*override*/ void close()
@@ -187,7 +235,7 @@ namespace AlumnoEjemplos.Kamikaze3D
             effect.Dispose();
             //scene.disposeAll();
             scene2.disposeAll();
-            lightBox.dispose();
+            //lightBox.dispose();
         }
     }
 
