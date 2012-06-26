@@ -92,7 +92,7 @@ namespace AlumnoEjemplos.Kamikaze3D
         /// Escribir aquí todo el código referido al renderizado.
         /// </summary>
         /// <param name="elapsedTime">Tiempo en segundos transcurridos desde el último frame</param>
-        public void render(float elapsedTime, TgcThirdPersonCamera camara, Explosion explosion)
+        public void render(float elapsedTime, TgcThirdPersonCamera camara)
         {
             for (int i = 0; i < this.cuadras.Length; i++)
             {
@@ -125,8 +125,8 @@ namespace AlumnoEjemplos.Kamikaze3D
                 {
                     if (
                             //String.Compare(mesh.Name, 0, "Estructura", 0, 9) == 0 ||
-                            //String.Compare(mesh.Name, 0, "Semaforo", 0, 8) == 0 ||
-                            //String.Compare(mesh.Name, 0, "fuente", 0, 6) == 0
+                            String.Compare(mesh.Name, 0, "Semaforo", 0, 8) == 0 ||
+                            String.Compare(mesh.Name, 0, "fuente", 0, 6) == 0 ||
                             String.Compare(mesh.Name, 0, "Box", 0, 3) == 0
                         )
                     lista.Add(mesh.BoundingBox);

@@ -114,8 +114,8 @@ namespace AlumnoEjemplos.Kamikaze3D
 
             this.escenario.init();
             this.personaje.init();
-            this.personaje.setObjetosColisionables(this.escenario.getObjetosColisionables());
             this.patrulla.init();
+            this.personaje.setObjetosColisionables(this.escenario.getObjetosColisionables(),this.patrulla.getObjetosColisionables());            
             this.explosion.init(this.camara, this.personaje);          
             this.police = new Police(300/*300*/, this.escenario.getObjetosColisionables(), escenario.getBoundingBox());
             List<Vector3> personajesColisionables = new List<Vector3>();
@@ -147,10 +147,10 @@ namespace AlumnoEjemplos.Kamikaze3D
         public override void render(float elapsedTime)
         {
             this.camara.Target = this.personaje.getPersonaje().Position;
-            this.escenario.render(elapsedTime, this.camara, this.explosion);
+            this.escenario.render(elapsedTime, this.camara);
             this.personaje.render(elapsedTime);
             this.explosion.render(elapsedTime);
-            this.patrulla.render(elapsedTime,this.personaje,this.llegada);
+            this.patrulla.render(elapsedTime,this.personaje,this.llegada,this.explosion);
             this.quadtree.render(GuiController.Instance.Frustum, this.personaje, false);
             int distance = getDistanceToTarget();
             this.personaje.canExplode = false;

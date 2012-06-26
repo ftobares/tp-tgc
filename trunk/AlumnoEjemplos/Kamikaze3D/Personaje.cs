@@ -35,8 +35,9 @@ namespace AlumnoEjemplos.Kamikaze3D
         //variables de pruebas
         bool renderDirectionArrow = false;
 
-        public void setObjetosColisionables(List<TgcBoundingBox> aList) {
-            this.objetosColisionables = aList;
+        public void setObjetosColisionables(List<TgcBoundingBox> cList,List<TgcBoundingBox> bList) {            
+            cList.AddRange(bList);
+            this.objetosColisionables = cList;            
         }
 
         public void setPersonajesColisionables(List<Vector3> aList)
