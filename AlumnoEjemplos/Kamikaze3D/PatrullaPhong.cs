@@ -98,7 +98,7 @@ namespace AlumnoEjemplos.Kamikaze3D
 
             //Agregar Valores para la Niebla
             GuiController.Instance.Modifiers.addBoolean("Enabled", "Enabled", true);
-            GuiController.Instance.Modifiers.addFloat("startDistance", 1, 2000, 700);
+            GuiController.Instance.Modifiers.addFloat("startDistance", 1, 2000, 300);
             GuiController.Instance.Modifiers.addFloat("endDistance", 1, 4000, 1200);
             GuiController.Instance.Modifiers.addFloat("density", 0, 10, 1);
             GuiController.Instance.Modifiers.addColor("color", Color.Gray);
@@ -124,7 +124,7 @@ namespace AlumnoEjemplos.Kamikaze3D
             //d3dDevice.Lights[0].SpecularColor = ColorValue.FromColor((Color)GuiController.Instance.Modifiers["SpecularColor"]);
         }
         
-        public /*override*/ void render(float elapsedTime, Personaje personaje, Vector3 llegada)
+        public /*override*/ void render(float elapsedTime, Personaje personaje, Vector3 llegada, Explosion explosion)
         {
             Device device = GuiController.Instance.D3dDevice;
             Control panel3d = GuiController.Instance.Panel3d;
@@ -157,12 +157,18 @@ namespace AlumnoEjemplos.Kamikaze3D
                              FastMath.Pow2(personaje.getPersonaje().Position.Z - llegada.Z);
             distancia = FastMath.Sqrt(distancia);
             distancia = Convert.ToInt32(distancia);
-            if (distancia < DISNTANCIA_SIRENA)
+            if (explosion.estaEjecutandose())
             {
-                GuiController.Instance.Fog.Enabled = false;                
-            }else{
-                GuiController.Instance.Fog.Enabled = (bool)GuiController.Instance.Modifiers["Enabled"];
-            }            
+                GuiController.Instance.Fog.Enabled = false;
+            }
+            else { 
+                if (distancia < DISNTANCIA_SIRENA )
+                {
+                    GuiController.Instance.Fog.Enabled = false;                
+                }else{
+                    GuiController.Instance.Fog.Enabled = (bool)GuiController.Instance.Modifiers["Enabled"];
+                }
+            }
             GuiController.Instance.Fog.StartDistance = (float)GuiController.Instance.Modifiers["startDistance"];
             GuiController.Instance.Fog.EndDistance = (float)GuiController.Instance.Modifiers["endDistance"];
             GuiController.Instance.Fog.Density = (float)GuiController.Instance.Modifiers["density"];
@@ -213,7 +219,7 @@ namespace AlumnoEjemplos.Kamikaze3D
         public List<TgcBoundingBox> getObjetosColisionables()
         {
             List<TgcBoundingBox> lista = new List<TgcBoundingBox> { };                
-            if (String.Compare(patrulla.Name, 0, "autoPolicia2", 0, 3) == 0)
+            if (String.Compare(patrulla.Name, 0, "autoPolicia2", 0, 1) == 0)
                 lista.Add(patrulla.BoundingBox);
             return lista;
         }
