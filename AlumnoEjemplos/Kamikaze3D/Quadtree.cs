@@ -5,6 +5,7 @@ using TgcViewer.Utils.TgcSceneLoader;
 using TgcViewer.Utils.TgcGeometry;
 using Microsoft.DirectX;
 using TgcViewer.Utils.TgcSkeletalAnimation;
+using TgcViewer;
 
 namespace AlumnoEjemplos.Kamikaze3D
 {
@@ -86,6 +87,10 @@ namespace AlumnoEjemplos.Kamikaze3D
                     mainPJ.damage(1);
                     if (mainPJ.kill(mesh))
                     {
+                        GuiController.Instance.Mp3Player.closeFile();
+                        GuiController.Instance.Mp3Player.FileName = GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\AK47\\pain.mp3";
+                        GuiController.Instance.Mp3Player.play(false);
+
                         deads.Add(mesh);
                         break;
                     }

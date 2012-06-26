@@ -92,6 +92,7 @@ namespace AlumnoEjemplos.Kamikaze3D
 
         public void loadMP3()
         {
+            GuiController.Instance.Mp3Player.closeFile();
             GuiController.Instance.Mp3Player.FileName = GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\Explosion\\fx.mp3";
             GuiController.Instance.Mp3Player.play(false);
         }

@@ -117,7 +117,7 @@ namespace AlumnoEjemplos.Kamikaze3D
             this.patrulla.init();
             this.personaje.setObjetosColisionables(this.escenario.getObjetosColisionables(),this.patrulla.getObjetosColisionables());            
             this.explosion.init(this.camara, this.personaje);          
-            this.police = new Police(300/*300*/, this.escenario.getObjetosColisionables(), escenario.getBoundingBox());
+            this.police = new Police(300, this.escenario.getObjetosColisionables(), escenario.getBoundingBox());
             List<Vector3> personajesColisionables = new List<Vector3>();
             foreach (TgcSkeletalMesh skm in this.police.getInstances())
             {
@@ -148,7 +148,16 @@ namespace AlumnoEjemplos.Kamikaze3D
         {
             this.camara.Target = this.personaje.getPersonaje().Position;
             this.escenario.render(elapsedTime, this.camara);
-            this.personaje.render(elapsedTime);
+
+            if (this.personaje.alive())
+            {
+                this.personaje.render(elapsedTime);
+                lifeText.Text = "+" + Convert.ToString(this.personaje.getLife());
+                if (this.personaje.getLife() < 30)
+                    lifeText.Color = Color.Red;
+                lifeText.render();
+            }
+
             this.explosion.render(elapsedTime);
             this.patrulla.render(elapsedTime,this.personaje,this.llegada,this.explosion);
             this.quadtree.render(GuiController.Instance.Frustum, this.personaje, false);
@@ -160,10 +169,7 @@ namespace AlumnoEjemplos.Kamikaze3D
             }
             distanceTargetText.Text = "Distancia a objetivo: " + Convert.ToString(distance);
             distanceTargetText.render();
-            lifeText.Text = "+" + Convert.ToString(this.personaje.getLife());
-            if (this.personaje.getLife() < 30)
-                lifeText.Color = Color.Red;
-            lifeText.render();
+            
             if (GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.L))
             {
                 if (showingCursor)
