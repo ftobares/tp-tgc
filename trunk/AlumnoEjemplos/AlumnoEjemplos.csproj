@@ -78,6 +78,7 @@
     <Compile Include="Kamikaze3D\PatrullaPhong.cs" />
     <Compile Include="Kamikaze3D\PatrullaShadow.cs" />
     <Compile Include="Kamikaze3D\Police.cs" />
+    <Compile Include="Kamikaze3D\Proyectil.cs" />
     <Compile Include="Kamikaze3D\Quadtree.cs" />
     <Compile Include="Kamikaze3D\QuadtreeBuilder.cs" />
     <Compile Include="Kamikaze3D\QuadtreeNode.cs" />
