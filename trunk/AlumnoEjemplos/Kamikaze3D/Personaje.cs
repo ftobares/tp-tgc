@@ -28,6 +28,7 @@ namespace AlumnoEjemplos.Kamikaze3D
         TgcThirdPersonCamera camara;
         Explosion explosion;
         int life = 100;
+        bool dead = false;
         public bool canExplode = false;
         bool destroy = false;
         TgcSprite mira;
@@ -313,7 +314,7 @@ namespace AlumnoEjemplos.Kamikaze3D
                 moveForward *= 1.5f;
             }
 
-            if (/*d3dInput.keyDown(Key.E)*/d3dInput.buttonDown(TgcD3dInput.MouseButtons.BUTTON_RIGHT))
+            if (d3dInput.keyDown(Key.E)|| d3dInput.buttonDown(TgcD3dInput.MouseButtons.BUTTON_RIGHT))
             {
                 mira.Enabled = true;
                 animationAction = "WeaponPos";
@@ -478,7 +479,23 @@ namespace AlumnoEjemplos.Kamikaze3D
             {
                 life -= damage;
                 countDamage = 0;
+
+                if (life == 0)
+                    this.die();
             }
+        }
+
+        public void die() 
+        {
+            GuiController.Instance.Mp3Player.closeFile();
+            GuiController.Instance.Mp3Player.FileName = GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\AK47\\death.mp3";
+            GuiController.Instance.Mp3Player.play(false);
+            this.dead = true;
+        }
+
+        public bool alive()
+        {
+            return !this.dead;
         }
 
         public Vector3 getPosicionBala()
@@ -499,6 +516,10 @@ namespace AlumnoEjemplos.Kamikaze3D
             Proyectil bala = new Proyectil(this);
             bala.inicializar();
             balas.Add(bala);
+
+            GuiController.Instance.Mp3Player.closeFile();
+            GuiController.Instance.Mp3Player.FileName = GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\AK47\\gunshot.mp3";
+            GuiController.Instance.Mp3Player.play(false);
         }
 
         private void renderBullets()
