@@ -48,6 +48,7 @@ namespace AlumnoEjemplos.Kamikaze3D
                     }
                 }
                 if (colisionando) continue;//Si colisiona con algo no se debe agregar
+                loader.loadAnimationFromFile(instance, GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\Animations\\Muerte-TgcSkeletalAnim.xml");
                 instances.Add(instance);
             }
 

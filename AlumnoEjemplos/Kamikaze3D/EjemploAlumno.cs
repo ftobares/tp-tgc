@@ -161,6 +161,8 @@ namespace AlumnoEjemplos.Kamikaze3D
             distanceTargetText.Text = "Distancia a objetivo: " + Convert.ToString(distance);
             distanceTargetText.render();
             lifeText.Text = "+" + Convert.ToString(this.personaje.getLife());
+            if (this.personaje.getLife() < 30)
+                lifeText.Color = Color.Red;
             lifeText.render();
             if (GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.L))
             {

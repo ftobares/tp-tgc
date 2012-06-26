@@ -31,6 +31,8 @@ namespace AlumnoEjemplos.Kamikaze3D
         public bool canExplode = false;
         bool destroy = false;
         TgcSprite mira;
+        List<Proyectil>  balas = new List<Proyectil>();
+        int countDeads = 0;
 
         //variables de pruebas
         bool renderDirectionArrow = false;
@@ -115,7 +117,8 @@ namespace AlumnoEjemplos.Kamikaze3D
             mira = new TgcSprite();
             mira.Texture = TgcTexture.createTexture(GuiController.Instance.AlumnoEjemplosMediaDir + "\\Kamikaze3D\\mira2.png");
             Control focusWindows = GuiController.Instance.D3dDevice.CreationParameters.FocusWindow;
-            mira.Position = new Vector2(focusWindows.Width * 0.4f, focusWindows.Height * 0.2f);
+            mira.Position = new Vector2(focusWindows.Width * 0.4f, focusWindows.Height * 0.18f);
+            
         }
 
         public TgcSkeletalMesh getPersonaje()
@@ -314,6 +317,10 @@ namespace AlumnoEjemplos.Kamikaze3D
             {
                 mira.Enabled = true;
                 animationAction = "WeaponPos";
+                if (d3dInput.buttonPressed(TgcD3dInput.MouseButtons.BUTTON_LEFT))
+                {
+                    this.fire();
+                }
             }
 
             //Si hubo rotacion
@@ -394,7 +401,7 @@ namespace AlumnoEjemplos.Kamikaze3D
             if (renderDirectionArrow)
                 this.directionArrow.render();
 
-
+            this.renderBullets();
             //Render personaje
             this.personaje.animateAndRender();
 
@@ -430,6 +437,31 @@ namespace AlumnoEjemplos.Kamikaze3D
 
         public bool kill(TgcSkeletalMesh enemy)
         {
+            bool result = false;
+            if (mira.Enabled)
+            {
+                foreach (Proyectil p in balas)
+                {
+                    if (TgcCollisionUtils.testAABBAABB(p.getBoundingBox(), enemy.BoundingBox))
+                    {
+                        result = true;
+                        break;
+                    }
+                }
+            }
+            if (result)
+            {
+                balas.RemoveAll(x => true);
+                countDeads++;
+            }
+            return result;
+
+            if (mira.Enabled)
+            {         
+                if (FastMath.Abs(enemy.Position.X - this.personaje.Position.X) < 3 &&
+                    FastMath.Abs(enemy.Position.Y - this.personaje.Position.Y) < 3)
+                    return true;
+            }
             return false;
         }
 
@@ -438,6 +470,62 @@ namespace AlumnoEjemplos.Kamikaze3D
             return life;
         }
 
+        int countDamage = 0;
+        public void damage(int damage)
+        {
+            countDamage++;
+            if (countDamage == 500)
+            {
+                life -= damage;
+                countDamage = 0;
+            }
+        }
+
+        public Vector3 getPosicionBala()
+        {
+            Vector3 lastPosition = this.personaje.Position;
+            Vector3 Ans;
+
+            this.personaje.moveOrientedY(1f);
+            Ans = this.personaje.Position;
+            this.personaje.Position = lastPosition;
+
+            return Ans;
+        }
+
+        private void fire()
+        {
+            //Codigo de disparar
+            Proyectil bala = new Proyectil(this);
+            bala.inicializar();
+            balas.Add(bala);
+        }
+
+        private void renderBullets()
+        {
+            foreach (Proyectil p in balas) //saco las balas que no estan mas
+                if (p == null)
+                    balas.Remove(p);
+
+            /*Entes.renderizarElConjuntoDe(balas, elapsedTime);*/
+
+            List<Proyectil> elementosBuffer = new List<Proyectil>();
+            elementosBuffer.Clear();
+
+            foreach (Proyectil elemento in balas)
+            {
+                if (elemento.renderizar())
+                    elementosBuffer.Add(elemento);
+                else
+                    elemento.dispose();
+            }
+            balas.Clear();
+            foreach (Proyectil elemento in elementosBuffer)
+            {
+                balas.Add(elemento);
+            }
+        }
+        
         public void close()
         {
             this.personaje.dispose();

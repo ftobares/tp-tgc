@@ -16,6 +16,8 @@ namespace AlumnoEjemplos.Kamikaze3D
 
         QuadtreeNode quadtreeRootNode;
         List<TgcSkeletalMesh> modelos;
+        List<TgcSkeletalMesh> deads = new List<TgcSkeletalMesh>();
+        Dictionary<int, int> controllerDeads = new Dictionary<int, int>();
         TgcBoundingBox sceneBounds;
         QuadtreeBuilder builder;
         List<TgcDebugBox> debugQuadtreeBoxes;
@@ -23,6 +25,10 @@ namespace AlumnoEjemplos.Kamikaze3D
         public Quadtree()
         {
             builder = new QuadtreeBuilder();
+        }
+
+        public List<TgcSkeletalMesh> getModelos() {
+            return modelos;
         }
 
         /// <summary>
@@ -77,9 +83,28 @@ namespace AlumnoEjemplos.Kamikaze3D
                     mesh.rotateY((float)anguloFinal);
                     mesh.render();
                     mesh.Enabled = false;
+                    mainPJ.damage(1);
                     if (mainPJ.kill(mesh))
-                        modelos.Remove(mesh);
+                    {
+                        deads.Add(mesh);
+                        break;
+                    }
                 }
+            }
+            
+            if (deads.Count > 0)
+            {
+                List<TgcSkeletalMesh> auxList = new List<TgcSkeletalMesh>();
+                foreach (TgcSkeletalMesh mesh in deads)
+                {
+                    modelos.Remove(mesh);
+                    //mesh.playAnimation("Muerte", false);
+                    //mesh.animateAndRender();
+                    //if (mesh.CurrentAnimation.Name.Contains("Muerte") && !mesh.IsAnimating)
+                        auxList.Add(mesh);
+                }
+                foreach (TgcSkeletalMesh m in auxList)
+                    deads.Remove(m);
             }
 
             if (debugEnabled)
