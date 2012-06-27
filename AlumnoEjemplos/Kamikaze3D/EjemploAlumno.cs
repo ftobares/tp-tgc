@@ -65,6 +65,7 @@ namespace AlumnoEjemplos.Kamikaze3D
         private const int MIN_DISTANCE_TO_EXPLODE = 100;
         private bool showingCursor = true;
         private PatrullaPhong patrulla;
+        private Fin fin;
 
         public EjemploAlumno()
         {
@@ -74,6 +75,7 @@ namespace AlumnoEjemplos.Kamikaze3D
             this.explosion = new Explosion();
             this.personaje = new Personaje(this.camara, this.explosion);
             this.patrulla = new PatrullaPhong();
+            this.fin = new Fin();
 
             distanceTargetText = new TgcText2d();            
             distanceTargetText.Position = new Point(0, 40);
@@ -88,7 +90,7 @@ namespace AlumnoEjemplos.Kamikaze3D
             {
                 lifeText.changeFont(new System.Drawing.Font(new FontFamily("Asrock7Segment"), 25));
             }
-            catch (Exception e) {
+            catch  {
                 lifeText.changeFont(new System.Drawing.Font(lifeText.D3dFont.Description.FaceName, 25));
             }
             lifeText.Color = Color.Yellow;
@@ -128,6 +130,8 @@ namespace AlumnoEjemplos.Kamikaze3D
             GuiController.Instance.Mp3Player.closeFile();
             GuiController.Instance.Mp3Player.FileName = GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\musica\\Mission Impossible.mp3";
             GuiController.Instance.Mp3Player.play(true);
+
+            this.fin.init();
         }
 
         public int getDistanceToTarget()
@@ -149,39 +153,49 @@ namespace AlumnoEjemplos.Kamikaze3D
         /// <param name="elapsedTime">Tiempo en segundos transcurridos desde el último frame</param>
         public override void render(float elapsedTime)
         {
-            this.camara.Target = this.personaje.getPersonaje().Position;
-            this.escenario.render(elapsedTime, this.camara);
-
-            if (this.personaje.alive())
+            if (!this.explosion.finalizada())
             {
-                this.personaje.render(elapsedTime);
-                lifeText.Text = "+" + Convert.ToString(this.personaje.getLife());
-                if (this.personaje.getLife() < 30)
-                    lifeText.Color = Color.Red;
-                lifeText.render();
+
+                this.camara.Target = this.personaje.getPersonaje().Position;
+                this.escenario.render(elapsedTime, this.camara);
+
+                if (this.personaje.alive())
+                {
+                    this.personaje.render(elapsedTime);
+                    lifeText.Text = "+" + Convert.ToString(this.personaje.getLife());
+                    if (this.personaje.getLife() < 30)
+                        lifeText.Color = Color.Red;
+                    lifeText.render();
+                }
+                else
+                    this.personaje.renderDeading();
+
+                this.explosion.render(elapsedTime);
+                this.patrulla.render(elapsedTime, this.personaje, this.llegada, this.explosion);
+                this.quadtree.render(GuiController.Instance.Frustum, this.personaje, false);
+                int distance = getDistanceToTarget();
+                this.personaje.canExplode = false;
+                if (distance < MIN_DISTANCE_TO_EXPLODE)
+                {
+                    onTargetPosition.render();
+                    this.personaje.canExplode = true;
+                }
+                distanceTargetText.Text = "Distancia a objetivo: " + Convert.ToString(distance);
+                distanceTargetText.render();
+
+                if (GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.L))
+                {
+                    if (showingCursor)
+                        System.Windows.Forms.Cursor.Hide();
+                    else
+                        System.Windows.Forms.Cursor.Show();
+                    showingCursor = !showingCursor;
+                }
+
             }
             else
-                this.personaje.renderDeading();
-
-            this.explosion.render(elapsedTime);
-            this.patrulla.render(elapsedTime,this.personaje,this.llegada,this.explosion);
-            this.quadtree.render(GuiController.Instance.Frustum, this.personaje, false);
-            int distance = getDistanceToTarget();
-            this.personaje.canExplode = false;
-            if(distance < MIN_DISTANCE_TO_EXPLODE) {
-                onTargetPosition.render();
-                this.personaje.canExplode = true;
-            }
-            distanceTargetText.Text = "Distancia a objetivo: " + Convert.ToString(distance);
-            distanceTargetText.render();
-            
-            if (GuiController.Instance.D3dInput.keyDown(Microsoft.DirectX.DirectInput.Key.L))
             {
-                if (showingCursor)
-                    System.Windows.Forms.Cursor.Hide();
-                else
-                    System.Windows.Forms.Cursor.Show();
-                showingCursor = !showingCursor;
+                this.fin.render();
             }
         }
 
@@ -195,6 +209,7 @@ namespace AlumnoEjemplos.Kamikaze3D
             this.personaje.close();
             this.explosion.close();
             this.patrulla.close();
+            this.fin.close();
             System.Windows.Forms.Cursor.Show(); 
         }
 

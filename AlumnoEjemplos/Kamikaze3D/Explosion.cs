@@ -30,8 +30,7 @@ namespace AlumnoEjemplos.Kamikaze3D
         private float cameraAcceleration = 0.5F;
         private TgcThirdPersonCamera camara;
         private Personaje personaje;
-        TgcSprite sangre;
-        TgcSprite texto;
+        private bool fin = false;
 
         private bool detonada = false;
 
@@ -46,15 +45,6 @@ namespace AlumnoEjemplos.Kamikaze3D
 
             foreach (TgcMesh mesh in this.scene.Meshes)
                 mesh.Scale = new Vector3(0, 0, 0);
-
-            //Crear Sprite de sangre y texto
-            sangre = new TgcSprite();
-            sangre.Texture = TgcTexture.createTexture(GuiController.Instance.AlumnoEjemplosMediaDir + "\\Kamikaze3D\\sangre.png");
-            texto = new TgcSprite();
-            texto.Texture = TgcTexture.createTexture(GuiController.Instance.AlumnoEjemplosMediaDir + "\\Kamikaze3D\\objetivoCumplido.png");
-            Control focusWindows = GuiController.Instance.D3dDevice.CreationParameters.FocusWindow;
-            sangre.Position = new Vector2(focusWindows.Width * 0.05f, focusWindows.Height * 0.5f);
-            texto.Position = new Vector2(focusWindows.Width * 0.05f, focusWindows.Height * 0.5f);
 
         }
 
@@ -100,18 +90,11 @@ namespace AlumnoEjemplos.Kamikaze3D
                     }
 
                 } 
-               /* else
+                else
                 {
-                    TgcStaticSound tiro = new TgcStaticSound();
-                    tiro.loadSound(GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\AK47\\gunshot.wav");
-                    tiro.play();
-                    sangre.render();
+                    this.fin = true;             
 
-                    System.Threading.Thread.Sleep(1000);
-
-                    tiro.play();
-                    texto.render();
-                }*/
+                }
 
                 foreach (TgcMesh m in this.scene.Meshes)
                     m.render();
@@ -119,6 +102,11 @@ namespace AlumnoEjemplos.Kamikaze3D
 
             }
 
+        }
+
+        public bool finalizada()
+        {
+            return this.fin;
         }
 
         public void loadMP3()

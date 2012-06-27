@@ -430,9 +430,9 @@ namespace AlumnoEjemplos.Kamikaze3D
             //Finalizar el dibujado de Sprites
             GuiController.Instance.Drawer2D.endDrawSprite();
 
-            hitCantTextY.Text = "Y: " + camara.RotationY;
+            //hitCantTextY.Text = "Y: " + camara.RotationY;
             //hitCantTextX.Text = "X: " + camara.RotationX;
-            hitCantTextY.render();
+            //hitCantTextY.render();
             //hitCantTextX.render();
 
         }

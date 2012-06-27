@@ -29,7 +29,7 @@ namespace AlumnoEjemplos.Kamikaze3D
         {
         }
 
-        public MyMesh createMeshInstance(string name, Vector3 translation, Vector3 rotation, Vector3 scale)
+        public new MyMesh createMeshInstance(string name, Vector3 translation, Vector3 rotation, Vector3 scale)
         {
             if (this.parentInstance != null)
             {
@@ -48,7 +48,7 @@ namespace AlumnoEjemplos.Kamikaze3D
             return instance;
         }
 
-        public MyMesh createMeshInstance(string name)
+        public new MyMesh createMeshInstance(string name)
         {
             return createMeshInstance(name, Vector3.Empty, Vector3.Empty, new Vector3(1, 1, 1));
         }
