@@ -73,6 +73,7 @@
     <Compile Include="Kamikaze3D\EjemploAlumno.cs" />
     <Compile Include="Kamikaze3D\Escenario.cs" />
     <Compile Include="Kamikaze3D\Explosion.cs" />
+    <Compile Include="Kamikaze3D\Fin.cs" />
     <Compile Include="Kamikaze3D\MyMesh.cs" />
     <Compile Include="Kamikaze3D\PatrullaPhong.cs" />
     <Compile Include="Kamikaze3D\PatrullaShadow.cs" />

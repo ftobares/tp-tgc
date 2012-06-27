@@ -76,15 +76,23 @@ namespace AlumnoEjemplos.Kamikaze3D
             float pjX = mainPJ.getPersonaje().Position.X;
             float pjZ = mainPJ.getPersonaje().Position.Z;
             mainPJ.clearPersonajesColisionables();
+
+            //Valor aleatorio para decidir si golpea o no
+            Random rand = new Random(DateTime.Now.Millisecond);
+
             foreach (TgcSkeletalMesh mesh in modelos)
             {
+
                 if (mesh.Enabled && FastMath.Abs(mesh.Position.X - pjX) < 1000 && FastMath.Abs(mesh.Position.Z - pjZ) < 1000)
                 {
                     Vector3 vec = mesh.Position - mainPJ.getPersonaje().Position;
                     double anguloFinal = Math.Atan2(vec.X, vec.Z);
                     mesh.rotateY(-mesh.Rotation.Y);
                     mesh.rotateY((float)anguloFinal);
-                    mainPJ.damage(1);
+
+                    if(rand.Next(0, 100) >= 50)
+                        mainPJ.damage(1);
+
                     mainPJ.addObjetosColisionables(mesh.Position);
                     if (mesh.CurrentAnimation.Name.Contains("Muerte") )//&& !mesh.IsAnimating)
                     {
