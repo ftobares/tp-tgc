@@ -74,6 +74,7 @@ namespace AlumnoEjemplos.Kamikaze3D
             //Renderizar
             float pjX = mainPJ.getPersonaje().Position.X;
             float pjZ = mainPJ.getPersonaje().Position.Z;
+            mainPJ.clearPersonajesColisionables();
             foreach (TgcSkeletalMesh mesh in modelos)
             {
                 if (mesh.Enabled && FastMath.Abs(mesh.Position.X - pjX) < 1000 && FastMath.Abs(mesh.Position.Z - pjZ) < 1000)
@@ -82,34 +83,44 @@ namespace AlumnoEjemplos.Kamikaze3D
                     double anguloFinal = Math.Atan2(vec.X, vec.Z);
                     mesh.rotateY(-mesh.Rotation.Y);
                     mesh.rotateY((float)anguloFinal);
-                    mesh.render();
-                    mesh.Enabled = false;
                     mainPJ.damage(1);
+                    mainPJ.addObjetosColisionables(mesh.Position);
+                    if (mesh.CurrentAnimation.Name.Contains("Muerte") )//&& !mesh.IsAnimating)
+                    {
+                        mesh.animateAndRender();
+                        mesh.Enabled = false;
+                        if (!mesh.IsAnimating)
+                        {
+                            deads.Add(mesh);
+                        }
+                        continue;
+                    }
+                    mesh.stopAnimation(); //esta linea tira abajo la performance, pero si no se hace cuando se le da la animacion de muerte a uno se les da a todos
                     if (mainPJ.kill(mesh))
                     {
                         GuiController.Instance.Mp3Player.closeFile();
                         GuiController.Instance.Mp3Player.FileName = GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\AK47\\pain.mp3";
                         GuiController.Instance.Mp3Player.play(false);
-
-                        deads.Add(mesh);
-                        break;
+                        mesh.playAnimation("Muerte", false);
+                        mesh.animateAndRender();                   
                     }
+                    else
+                    {
+                        mesh.playAnimation("Disparar", true);
+                        mesh.render();
+                    }    
+                    mesh.Enabled = false;
                 }
             }
             
             if (deads.Count > 0)
             {
-                List<TgcSkeletalMesh> auxList = new List<TgcSkeletalMesh>();
                 foreach (TgcSkeletalMesh mesh in deads)
-                {
+                {   
                     modelos.Remove(mesh);
-                    //mesh.playAnimation("Muerte", false);
-                    //mesh.animateAndRender();
-                    //if (mesh.CurrentAnimation.Name.Contains("Muerte") && !mesh.IsAnimating)
-                        auxList.Add(mesh);
+                    mesh.dispose();
                 }
-                foreach (TgcSkeletalMesh m in auxList)
-                    deads.Remove(m);
+                deads.Clear();
             }
 
             if (debugEnabled)

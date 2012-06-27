@@ -19,7 +19,7 @@ namespace AlumnoEjemplos.Kamikaze3D
     public class Proyectil
     {
         TgcMesh bala;
-        private int alcance = 30;
+        private int alcance = 50;
         private bool impacto = false;
         private Personaje personaje;
         private static float VELOCIDAD_BALA = 6f;
@@ -111,7 +111,7 @@ namespace AlumnoEjemplos.Kamikaze3D
                 Vector3 v = new Vector3(0.05f, 0.05f, 0.05f);
                 bala.Scale = v;
                 mover(0f);
-                bala.render();
+                //bala.render();
                 this.alcance--;
                 return true;
             }
