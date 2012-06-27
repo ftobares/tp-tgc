@@ -9,6 +9,9 @@ using TgcViewer.Utils.Modifiers;
 using TgcViewer.Utils.TgcGeometry;
 using TgcViewer.Utils.TgcSceneLoader;
 using TgcViewer.Utils.Input;
+using TgcViewer.Utils.Sound;
+using TgcViewer.Utils._2D;
+using System.Windows.Forms;
 
 namespace AlumnoEjemplos.Kamikaze3D
 {
@@ -27,6 +30,8 @@ namespace AlumnoEjemplos.Kamikaze3D
         private float cameraAcceleration = 0.5F;
         private TgcThirdPersonCamera camara;
         private Personaje personaje;
+        TgcSprite sangre;
+        TgcSprite texto;
 
         private bool detonada = false;
 
@@ -41,6 +46,16 @@ namespace AlumnoEjemplos.Kamikaze3D
 
             foreach (TgcMesh mesh in this.scene.Meshes)
                 mesh.Scale = new Vector3(0, 0, 0);
+
+            //Crear Sprite de sangre y texto
+            sangre = new TgcSprite();
+            sangre.Texture = TgcTexture.createTexture(GuiController.Instance.AlumnoEjemplosMediaDir + "\\Kamikaze3D\\sangre.png");
+            texto = new TgcSprite();
+            texto.Texture = TgcTexture.createTexture(GuiController.Instance.AlumnoEjemplosMediaDir + "\\Kamikaze3D\\objetivoCumplido.png");
+            Control focusWindows = GuiController.Instance.D3dDevice.CreationParameters.FocusWindow;
+            sangre.Position = new Vector2(focusWindows.Width * 0.05f, focusWindows.Height * 0.5f);
+            texto.Position = new Vector2(focusWindows.Width * 0.05f, focusWindows.Height * 0.5f);
+
         }
 
         public void render(float elapsedTime)
@@ -59,7 +74,10 @@ namespace AlumnoEjemplos.Kamikaze3D
             {
 
                 if (this.expTime == 0)
+                {
+                    GuiController.Instance.Mp3Player.stop();
                     this.loadMP3();
+                } 
 
                 this.expTime += elapsedTime;
 
@@ -81,10 +99,23 @@ namespace AlumnoEjemplos.Kamikaze3D
                         mesh.Position = position;
                     }
 
-                }
+                } 
+               /* else
+                {
+                    TgcStaticSound tiro = new TgcStaticSound();
+                    tiro.loadSound(GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\AK47\\gunshot.wav");
+                    tiro.play();
+                    sangre.render();
+
+                    System.Threading.Thread.Sleep(1000);
+
+                    tiro.play();
+                    texto.render();
+                }*/
 
                 foreach (TgcMesh m in this.scene.Meshes)
                     m.render();
+
 
             }
 
@@ -92,9 +123,14 @@ namespace AlumnoEjemplos.Kamikaze3D
 
         public void loadMP3()
         {
-            GuiController.Instance.Mp3Player.closeFile();
-            GuiController.Instance.Mp3Player.FileName = GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\Explosion\\fx.mp3";
-            GuiController.Instance.Mp3Player.play(false);
+            //GuiController.Instance.Mp3Player.closeFile();
+            //GuiController.Instance.Mp3Player.FileName = GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\Explosion\\fx.mp3";
+            //GuiController.Instance.Mp3Player.play(false);
+
+            TgcStaticSound sonidoBomba = new TgcStaticSound();
+            sonidoBomba.loadSound(GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\Explosion\\fx.wav");
+            sonidoBomba.play();
+
         }
 
         public void close()

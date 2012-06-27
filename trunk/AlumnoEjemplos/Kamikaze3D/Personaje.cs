@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
-using TgcViewer.Utils.TgcSkeletalAnimation;
-using TgcViewer;
+using System.Windows.Forms;
 using Microsoft.DirectX;
 using Microsoft.DirectX.Direct3D;
-using TgcViewer.Utils.Input;
 using Microsoft.DirectX.DirectInput;
-using TgcViewer.Utils.TgcGeometry;
-using System.Drawing;
-using TgcViewer.Utils.TgcSceneLoader;
-using System.Windows.Forms;
+using TgcViewer;
 using TgcViewer.Utils._2D;
+using TgcViewer.Utils.Input;
+using TgcViewer.Utils.Sound;
+using TgcViewer.Utils.TgcGeometry;
+using TgcViewer.Utils.TgcSceneLoader;
+using TgcViewer.Utils.TgcSkeletalAnimation;
 
 
 namespace AlumnoEjemplos.Kamikaze3D
@@ -243,12 +244,24 @@ namespace AlumnoEjemplos.Kamikaze3D
             //Derecha
             if (d3dInput.XposRelative > 0 || d3dInput.keyDown(Key.RightArrow))
             {
-                if (d3dInput.XposRelative > 0){ rotateY = velocidadRotacion / 2; }
+                if (d3dInput.XposRelative > 0){ rotateY = (velocidadRotacion / 2); }
                 else { rotateY = velocidadRotacion; }
                
                 rotating = true;
                 rotatingY = true;
             }
+
+            //Izquierda
+            if (d3dInput.XposRelative < 0 || d3dInput.keyDown(Key.LeftArrow))
+            {
+
+                if (d3dInput.XposRelative < 0) { rotateY = -(velocidadRotacion / 2); }
+                else { rotateY = -velocidadRotacion; }
+
+                rotating = true;
+                rotatingY = true;
+            }
+
             //Mover Derecha
             if (d3dInput.keyDown(Key.D))
             {
@@ -263,16 +276,6 @@ namespace AlumnoEjemplos.Kamikaze3D
                 moving = true;
             }
             
-            //Izquierda
-            if (d3dInput.XposRelative < 0 || d3dInput.keyDown(Key.LeftArrow))
-            {
-
-                if (d3dInput.XposRelative > 0) { rotateY = - (velocidadRotacion / 2); }
-                else { rotateY = -velocidadRotacion; }
-
-                rotating = true;
-                rotatingY = true;
-            }
 
             //Mover Izquierda
             if (d3dInput.keyDown(Key.A))
@@ -491,9 +494,14 @@ namespace AlumnoEjemplos.Kamikaze3D
 
         public void die() 
         {
-            GuiController.Instance.Mp3Player.closeFile();
-            GuiController.Instance.Mp3Player.FileName = GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\AK47\\death.mp3";
-            GuiController.Instance.Mp3Player.play(false);
+           // GuiController.Instance.Mp3Player.closeFile();
+           // GuiController.Instance.Mp3Player.FileName = GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\AK47\\death.mp3";
+           // GuiController.Instance.Mp3Player.play(false);
+
+            TgcStaticSound morir = new TgcStaticSound();
+            morir.loadSound(GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\AK47\\death.wav");
+            morir.play();
+
             this.dead = true;
         }
 
@@ -521,9 +529,14 @@ namespace AlumnoEjemplos.Kamikaze3D
             bala.inicializar();
             balas.Add(bala);
 
-            GuiController.Instance.Mp3Player.closeFile();
-            GuiController.Instance.Mp3Player.FileName = GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\AK47\\gunshot.mp3";
-            GuiController.Instance.Mp3Player.play(false);
+            //GuiController.Instance.Mp3Player.closeFile();
+           // GuiController.Instance.Mp3Player.FileName = GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\AK47\\gunshot.mp3";
+            //GuiController.Instance.Mp3Player.play(false);
+
+            TgcStaticSound sonidoTiro = new TgcStaticSound();
+            sonidoTiro.loadSound(GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\AK47\\gunshot.wav");
+            sonidoTiro.play();
+
         }
 
         private void renderBullets()

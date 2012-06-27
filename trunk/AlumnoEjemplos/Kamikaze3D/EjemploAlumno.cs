@@ -125,6 +125,9 @@ namespace AlumnoEjemplos.Kamikaze3D
             }
             this.personaje.setPersonajesColisionables(personajesColisionables);
             this.optimizar();
+            GuiController.Instance.Mp3Player.closeFile();
+            GuiController.Instance.Mp3Player.FileName = GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\musica\\Mission Impossible.mp3";
+            GuiController.Instance.Mp3Player.play(true);
         }
 
         public int getDistanceToTarget()

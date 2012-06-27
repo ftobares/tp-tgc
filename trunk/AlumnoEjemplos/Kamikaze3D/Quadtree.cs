@@ -6,6 +6,7 @@ using TgcViewer.Utils.TgcGeometry;
 using Microsoft.DirectX;
 using TgcViewer.Utils.TgcSkeletalAnimation;
 using TgcViewer;
+using TgcViewer.Utils.Sound;
 
 namespace AlumnoEjemplos.Kamikaze3D
 {
@@ -98,9 +99,14 @@ namespace AlumnoEjemplos.Kamikaze3D
                     mesh.stopAnimation(); //esta linea tira abajo la performance, pero si no se hace cuando se le da la animacion de muerte a uno se les da a todos
                     if (mainPJ.kill(mesh))
                     {
-                        GuiController.Instance.Mp3Player.closeFile();
-                        GuiController.Instance.Mp3Player.FileName = GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\AK47\\pain.mp3";
-                        GuiController.Instance.Mp3Player.play(false);
+                        //GuiController.Instance.Mp3Player.closeFile();
+                        //GuiController.Instance.Mp3Player.FileName = GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\AK47\\pain.mp3";
+                        //GuiController.Instance.Mp3Player.play(false);
+
+                        TgcStaticSound dolor = new TgcStaticSound();
+                        dolor.loadSound(GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\AK47\\pain.wav");
+                        dolor.play();
+
                         mesh.playAnimation("Muerte", false);
                         mesh.animateAndRender();                   
                     }

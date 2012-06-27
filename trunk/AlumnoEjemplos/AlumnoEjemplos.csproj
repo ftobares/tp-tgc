@@ -122,11 +122,13 @@
     <Content Include="AlumnoMedia\Kamikaze3D\Block\Textures\White Wall.JPG" />
     <Content Include="AlumnoMedia\Kamikaze3D\Block\Textures\Yellow Painted.jpg" />
     <Content Include="AlumnoMedia\Kamikaze3D\mira.png" />
+    <Content Include="AlumnoMedia\Kamikaze3D\objetivoCumplido.png" />
     <Content Include="AlumnoMedia\Kamikaze3D\Patrulla\autoPolicia-TgcScene.xml" />
     <Content Include="AlumnoMedia\Kamikaze3D\Patrulla\Textures\ammobox.bmp" />
     <Content Include="AlumnoMedia\Kamikaze3D\Patrulla\Textures\blusser.png" />
     <Content Include="AlumnoMedia\Kamikaze3D\Patrulla\Textures\policecar.jpg" />
     <Content Include="AlumnoMedia\Kamikaze3D\Patrulla\Textures\weapon1.jpg" />
+    <Content Include="AlumnoMedia\Kamikaze3D\sangre.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AlumnoMedia\Kamikaze3D\Shaders\Explosion.fx" />
