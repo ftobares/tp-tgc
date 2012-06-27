@@ -48,6 +48,16 @@ namespace AlumnoEjemplos.Kamikaze3D
             this.personajesColisionables = aList;
         }
 
+        public void clearPersonajesColisionables()
+        {
+            this.personajesColisionables.Clear();
+        }
+        
+        public void addObjetosColisionables(Vector3 position)
+        {
+            this.personajesColisionables.Add(position);
+        }
+
         public Personaje(TgcThirdPersonCamera camaraParametro, Explosion explosion)
         {
 
@@ -364,6 +374,8 @@ namespace AlumnoEjemplos.Kamikaze3D
                 this.personaje.playAnimation(animationAction, true);
             }
 
+            if(life <= 0)
+                this.personaje.playAnimation("Muerte", true);
 
 
             //Vector de movimiento
@@ -456,14 +468,6 @@ namespace AlumnoEjemplos.Kamikaze3D
                 countDeads++;
             }
             return result;
-
-            if (mira.Enabled)
-            {         
-                if (FastMath.Abs(enemy.Position.X - this.personaje.Position.X) < 3 &&
-                    FastMath.Abs(enemy.Position.Y - this.personaje.Position.Y) < 3)
-                    return true;
-            }
-            return false;
         }
 
         public int getLife()
@@ -545,6 +549,16 @@ namespace AlumnoEjemplos.Kamikaze3D
             {
                 balas.Add(elemento);
             }
+        }
+
+        private bool finishAnimationDead = false;
+        public void renderDeading()
+        {
+            if (finishAnimationDead) return;
+            this.personaje.playAnimation("Muerte", false);
+            this.personaje.animateAndRender();
+            if (!this.personaje.IsAnimating)
+                finishAnimationDead = true;
         }
         
         public void close()

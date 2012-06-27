@@ -22,6 +22,7 @@ namespace AlumnoEjemplos.Kamikaze3D
             string mediaPath = GuiController.Instance.ExamplesMediaDir + "SkeletalAnimations\\BasicHuman\\";
             original = loader.loadMeshFromFile(pathMesh, mediaPath);
             loader.loadAnimationFromFile(original, GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\Animations\\Disparar-TgcSkeletalAnim.xml");
+            loader.loadAnimationFromFile(original, GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\Animations\\Muerte-TgcSkeletalAnim.xml");
             original.Scale = new Vector3(0.7f, 0.7f, 0.7f);
             addWeapon();
 
@@ -47,13 +48,18 @@ namespace AlumnoEjemplos.Kamikaze3D
                         break;
                     }
                 }
-                if (colisionando) continue;//Si colisiona con algo no se debe agregar
-                loader.loadAnimationFromFile(instance, GuiController.Instance.AlumnoEjemplosMediaDir + "Kamikaze3D\\Animations\\Muerte-TgcSkeletalAnim.xml");
+                if (colisionando) continue;//Si colisiona con algo no se debe agregar                
                 instances.Add(instance);
             }
 
             //Especificar la animación actual para todos los modelos
             original.playAnimation("Disparar");
+            foreach (TgcSkeletalMesh instance in instances)
+            {
+                TgcBoundingBox bb = instance.BoundingBox;
+                instance.playAnimation("Disparar");
+                instance.BoundingBox = bb;
+            }
             //foreach (TgcSkeletalMesh instance in instances)
             //{
             //    instance.playAnimation("Disparar");

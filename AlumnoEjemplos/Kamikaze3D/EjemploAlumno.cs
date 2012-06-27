@@ -157,6 +157,8 @@ namespace AlumnoEjemplos.Kamikaze3D
                     lifeText.Color = Color.Red;
                 lifeText.render();
             }
+            else
+                this.personaje.renderDeading();
 
             this.explosion.render(elapsedTime);
             this.patrulla.render(elapsedTime,this.personaje,this.llegada,this.explosion);
